@@ -1,45 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Live Results — Scoreboard</title>
 <style>
+  /* ---------- THEME / LAYOUT ---------- */
   :root{
-    --bg:#f5f7fa; --card:#fff; --muted:#666; --accent:#2b7cff;
-    --good:#1fa654; --bad:#e04b4b; --zebra: #f8fafc;
-    --glass: rgba(255,255,255,0.6);
+    --bg:#f5f7fa; --card:#fff; --muted:#333; --accent:#2b7cff;
+    --good:#1fa654; --bad:#e04b4b; --zebra:#f8fafc; --glass:rgba(255,255,255,0.6);
   }
   [data-theme="dark"]{
-    --bg:#0f1724; --card:#0b1220; --muted:#9aa6bd; --accent:#58a6ff;
-    --good:#20c997; --bad:#ff6b6b; --zebra: #071226; --glass: rgba(255,255,255,0.03);
+    --bg:#071022; --card:#071426; --muted:#cbd5e1; --accent:#58a6ff;
+    --good:#20c997; --bad:#ff6b6b; --zebra:#061226; --glass:rgba(255,255,255,0.02);
   }
 
-  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;}
   body{background:var(--bg); color:var(--muted); padding:18px; transition:background .3s,color .3s;}
-  .wrap{max-width:1100px;margin:0 auto;}
-  header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
-  h1{margin:0;font-size:20px;color:var(--muted)}
-  .controls{display:flex;gap:8px;align-items:center}
-  .btn{background:var(--card);border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--muted);box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:transform .12s}
-  .btn:active{transform:translateY(1px)}
-  .small{padding:6px 8px;font-size:13px}
-  .search{padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);width:240px;background:var(--card);color:var(--muted)}
+  .wrap{max-width:1200px;margin:0 auto;}
 
-  main{display:grid;grid-template-columns:1fr 320px;gap:18px}
-  @media(max-width:880px){ main{grid-template-columns:1fr} }
+  /* header */
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7ac7ff);display:grid;place-items:center;font-weight:700;color:white}
+  h1{margin:0;font-size:20px}
+  .subtitle{font-size:13px;color:var(--muted);opacity:.85}
+
+  .controls{display:flex;gap:8px;align-items:center}
+  .btn{background:var(--card);border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--muted);box-shadow:0 1px 6px rgba(2,6,23,0.04)}
+  .small{padding:6px 8px;font-size:13px}
+  .search{padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);width:220px;background:var(--card);color:var(--muted)}
+
+  main{display:grid;grid-template-columns:1fr 360px;gap:18px}
+  @media(max-width:920px){ main{grid-template-columns:1fr} }
+
+  /* hero */
+  .hero{display:flex;gap:20px;align-items:center;background:linear-gradient(90deg, rgba(255,255,255,0.03), transparent);padding:16px;border-radius:12px}
+  .hero .title{font-size:18px;font-weight:800}
+  .hero .desc{font-size:14px;color:var(--muted)}
 
   /* Results card/table */
   .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.06);overflow:hidden}
   #resultsTable{width:100%;border-collapse:collapse}
   th,td{padding:10px 12px;text-align:left}
-  th{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em; border-bottom:1px solid rgba(0,0,0,0.06)}
+  th{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid rgba(0,0,0,0.06)}
   tr{background:transparent}
   tr:nth-child(even) td{background:var(--zebra)}
   td.name{font-weight:700;color:var(--muted)}
   td.score{font-weight:800;font-size:16px;color:var(--muted);width:110px}
 
-  .rank{display:flex;align-items:center;gap:8px}
   .medal{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:white}
   .medal.gold{background:linear-gradient(180deg,#ffd700,#e5b000);color:#1a1200}
   .medal.silver{background:linear-gradient(180deg,#dfe7ee,#bfc9d8);color:#0b2438}
@@ -47,45 +56,79 @@
   .progressWrap{height:12px;background:rgba(0,0,0,0.06);border-radius:999px;overflow:hidden;position:relative}
   .progress{height:100%;width:0;transition:width .8s ease-in-out}
 
-  /* Responsive card list */
-  .cardsList{display:grid;gap:10px}
+  /* responsive cards */
+  .cardsList{display:grid;gap:10px;margin-top:8px}
   @media(min-width:560px){ .cardsList{grid-template-columns:repeat(2,1fr)} }
   @media(max-width:560px){ .tableView{display:none} .cardItem{display:block} }
   @media(min-width:560px){ .cardItem{display:none} }
 
-  .cardItem{background:var(--card);padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 4px 10px rgba(2,6,23,0.03);transition:transform .18s,box-shadow .18s}
+  .cardItem{background:var(--card);padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 4px 10px rgba(2,6,23,0.03);transition:transform .18s}
   .cardItem:hover{transform:translateY(-4px)}
 
   footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
 
-  /* Admin panel */
+  /* admin panel */
   #adminPanel{display:none;position:sticky;top:18px}
   .adminField{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
   input[type="file"]{padding:6px}
   label{font-size:13px;color:var(--muted)}
 
-  /* subtle animations */
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;padding:20px}
+  .modal .box{background:var(--card);padding:16px;border-radius:10px;max-width:720px;width:100%}
+
+  /* animations */
   .fadeIn{animation:fadeIn .45s ease both}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-  /* countdown */
-  .count{font-size:14px;font-weight:700;color:var(--accent)}
-  .mutedSmall{font-size:13px;color:var(--muted)}
-
-  /* highlight top/bottom */
+  /* highlights */
   tr.top{background:linear-gradient(90deg, rgba(40,167,69,0.06), transparent)}
   tr.low{background:linear-gradient(90deg, rgba(224,75,75,0.06), transparent)}
+
+  /* small helpers */
+  .mutedSmall{font-size:13px;color:var(--muted);opacity:.9}
+  .pill{padding:6px 8px;border-radius:999px;background:var(--card);border:1px solid rgba(0,0,0,0.04)}
+  .sponsor img{max-width:100%;height:40px;object-fit:contain}
+  .editable{outline:1px dashed transparent;padding:4px;border-radius:4px}
+  .editable:focus{outline:1px dashed rgba(43,124,255,0.4);background:var(--glass)}
 </style>
 </head>
 <body>
 <div class="wrap" id="app">
+  <!-- HEADER -->
   <header>
-    <h1>📊 Live Results — Scoreboard</h1>
+    <div class="brand">
+      <div class="logo" id="logo">R</div>
+      <div>
+        <h1 id="siteTitle">Live Results — Scoreboard</h1>
+        <div class="subtitle" id="siteDesc">See live voting results. Admin can update via CSV or the admin panel.</div>
+      </div>
+    </div>
+
     <div class="controls">
-      <input id="search" class="search" placeholder="Search name..." />
-      <button id="themeBtn" class="btn small">Toggle Dark</button>
+      <input id="search" class="search" placeholder="Search name (press /)" aria-label="Search contestants" />
+      <button id="themeBtn" class="btn small" title="Toggle dark mode">Toggle Dark</button>
+      <button id="adminToggle" class="btn small" title="Admin access">Admin</button>
     </div>
   </header>
+
+  <!-- HERO -->
+  <div class="hero card fadeIn" style="margin-bottom:12px">
+    <div style="flex:1">
+      <div class="title">Welcome to the live voting results</div>
+      <div class="desc" id="heroText">This page shows current standings. Results auto-refresh and you can view details by tapping a row. Voting closes at <span id="closeDisplay">—</span>.</div>
+    </div>
+    <div style="width:220px;text-align:right">
+      <div class="mutedSmall">Auto-refresh</div>
+      <div class="pill" id="autoStatus">On</div>
+      <div style="height:10px"></div>
+      <div class="mutedSmall">Share</div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
+        <button class="btn small" id="shareBtn">Share</button>
+        <button class="btn small" id="downloadBtn">Download CSV</button>
+      </div>
+    </div>
+  </div>
 
   <main>
     <!-- Left: results -->
@@ -94,11 +137,10 @@
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
           <div>
             <div class="mutedSmall">Results updated: <span id="updatedAt">—</span></div>
-            <div class="count" id="countdownText">Loading countdown...</div>
+            <div class="mutedSmall">Countdown: <span id="countdownText">No close time set</span></div>
           </div>
           <div style="text-align:right">
-            <div class="mutedSmall">Auto-refresh:</div>
-            <div><label id="autoLabel">On</label></div>
+            <div class="mutedSmall">Total items: <span id="totalCount">—</span></div>
           </div>
         </div>
 
@@ -108,9 +150,29 @@
         </div>
 
         <!-- Cards (mobile) -->
-        <div class="cardsList" id="cardsList" style="margin-top:12px"></div>
+        <div class="cardsList" id="cardsList"></div>
+
+        <div id="profileModal" class="modal" aria-hidden="true">
+          <div class="box">
+            <button id="closeProfile" class="btn small" style="float:right">Close</button>
+            <div id="profileContent" style="margin-top:6px"></div>
+          </div>
+        </div>
 
         <footer id="summary" class="mutedSmall" style="margin-top:12px"></footer>
+      </div>
+
+      <!-- Sponsors -->
+      <div class="card fadeIn" style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-weight:700">Sponsors</div>
+          <div class="mutedSmall">Supporters of this contest</div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
+          <div class="sponsor"><img src="" alt="Sponsor A (placeholder)" id="sponsorA"></div>
+          <div class="sponsor"><img src="" alt="Sponsor B (placeholder)" id="sponsorB"></div>
+          <div class="sponsor"><img src="" alt="Sponsor C (placeholder)" id="sponsorC"></div>
+        </div>
       </div>
     </section>
 
@@ -120,14 +182,20 @@
         <h3 style="margin:0 0 8px 0">Admin Panel</h3>
 
         <div class="adminField">
-          <label>Upload CSV (will preview & save to browser)</label>
+          <label>Upload CSV (Preview & save to browser)</label>
           <input type="file" id="csvUpload" accept=".csv" />
           <button class="btn small" id="uploadBtn">Upload & Preview</button>
-          <small class="mutedSmall">You can also download the new CSV ready to replace the server file.</small>
         </div>
 
         <div class="adminField">
-          <label>Countdown (voting close) — ISO datetime</label>
+          <label>Edit title / description</label>
+          <input id="titleInput" placeholder="Site title" />
+          <input id="descInput" placeholder="Short description" />
+          <button class="btn small" id="applyTitle">Apply</button>
+        </div>
+
+        <div class="adminField">
+          <label>Countdown (voting close)</label>
           <input id="closeAt" type="datetime-local" />
           <div style="display:flex;gap:8px">
             <button class="btn small" id="setClose">Set</button>
@@ -142,57 +210,159 @@
         </div>
 
         <div class="adminField">
-          <label>Download new CSV (to replace server file)</label>
-          <button class="btn small" id="downloadCSV">Prepare CSV for Download</button>
+          <label>Edit rows inline</label>
+          <div class="mutedSmall">Double-click a table cell to edit; press Enter to save. Click a row's "Remove" to delete.</div>
         </div>
 
         <div class="adminField">
-          <label>Reset saved preview</label>
+          <button class="btn small" id="downloadCSV">Prepare CSV for Download</button>
           <button class="btn small" id="resetLocal">Clear Local Preview</button>
         </div>
 
-        <div class="mutedSmall">CSV format: header row. Example: <code>Name,Score</code></div>
+        <div style="margin-top:8px" class="mutedSmall">CSV format: header row like <code>ID,Name,Votes</code>. You may include extra columns (Category, Region, ImageURL).</div>
       </div>
 
       <!-- quick tips card -->
-      <!-- <div class="card" style="margin-top:12px">
+      <div class="card" style="margin-top:12px">
         <div style="font-weight:700;margin-bottom:6px">How to publish changes</div>
         <ol style="margin:0 0 0 18px;padding:0;color:var(--muted)">
           <li>Admin: Upload CSV, click "Prepare CSV for Download".</li>
           <li>Replace `results.csv` on your server with the downloaded file.</li>
-          <li>Public page will auto-refresh and show new data.</li>
+          <li>Public page auto-refreshes to show new results.</li>
         </ol>
-      </div> -->
+      </div>
     </aside>
   </main>
+
+  <!-- FOOTER -->
+  <footer style="margin-top:18px;text-align:center;color:var(--muted)">
+    <div>Built with ♥ — make sure to protect your admin area when you host this.</div>
+  </footer>
+</div>
+
+<!-- Admin password modal (client-side) -->
+<div id="authModal" class="modal" aria-hidden="true">
+  <div class="box">
+    <h3>Admin Login</h3>
+    <p class="mutedSmall">Enter admin password to access admin features. (Client-side protection only.)</p>
+    <input id="adminPass" type="password" placeholder="Admin password" style="width:100%;padding:8px;margin-top:8px" />
+    <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">
+      <button id="authCancel" class="btn small">Cancel</button>
+      <button id="authOk" class="btn small">Login</button>
+    </div>
+    <p class="mutedSmall" style="margin-top:10px">Default password: <strong>admin123</strong>. Change it in the code before publishing.</p>
+  </div>
 </div>
 
 <script>
-/* ====== Config & state ====== */
-const CSV_PATH = 'results.csv';        // server file
-let refreshSeconds = 10;
+/* ================== CONFIG & STATE ================== */
+const CSV_PATH = 'results.csv';
+let refreshSeconds = Number(localStorage.getItem('refreshSeconds')) || 10;
 let autoRefresh = true;
 let csvTextCache = null;
 let lastUpdated = null;
 let countdownAt = localStorage.getItem('countdownAt') || null;
-const adminMode = window.location.search.includes('admin=true');
 
-/* ====== Utility: simple CSV parser (handles quoted fields) ====== */
+/* ---------- Admin auth (client-side) ---------- */
+/*
+  SECURITY DETAILS:
+  - This is only client-side protection. Anyone can view/modify files on hosting or open devtools to change localStorage.
+  - For real security, protect the admin URL via server-side auth (HTTP Basic, authentication on server).
+  - Default password is "admin123". Change DEFAULT_ADMIN_PASSWORD below before publishing.
+  - The code stores a SHA-256 hash of the password and compares the hash of input. The hash is visible in JS (client-side).
+*/
+const DEFAULT_ADMIN_PASSWORD = 'admin123'; // CHANGE THIS when you publish!
+let ADMIN_HASH = localStorage.getItem('adminHash') || null;
+
+/* helper to compute sha256 hex */
+async function sha256Hex(str){
+  const enc = new TextEncoder();
+  const data = enc.encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  const bytes = new Uint8Array(hash);
+  return Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* If no admin hash saved, generate one from default and save (you should replace) */
+(async ()=>{
+  if(!ADMIN_HASH){
+    const h = await sha256Hex(DEFAULT_ADMIN_PASSWORD);
+    ADMIN_HASH = h;
+    // Save the default to localStorage so admin can change later.
+    localStorage.setItem('adminHash', ADMIN_HASH);
+  }
+})();
+
+/* check admin session */
+function isAdminSession(){
+  return sessionStorage.getItem('isAdmin') === '1';
+}
+function setAdminSession(val){
+  if(val) sessionStorage.setItem('isAdmin','1'); else sessionStorage.removeItem('isAdmin');
+}
+
+/* show/hide auth modal */
+const authModal = document.getElementById('authModal');
+function openAuth(){
+  authModal.style.display = 'flex';
+  authModal.setAttribute('aria-hidden','false');
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminPass').focus();
+}
+function closeAuth(){ authModal.style.display='none'; authModal.setAttribute('aria-hidden','true'); }
+
+/* hook auth buttons */
+document.getElementById('adminToggle').addEventListener('click', ()=>{
+  if(!window.location.search.includes('admin=true')){
+    // encourage using ?admin=true to make it obvious
+    alert('Admin mode: open page with ?admin=true — you will be prompted for a password.');
+    return;
+  }
+  if(isAdminSession()){
+    // toggle admin panel visible/hidden
+    const ap = document.getElementById('adminPanel');
+    ap.style.display = ap.style.display === 'block' ? 'none' : 'block';
+    return;
+  }
+  openAuth();
+});
+
+document.getElementById('authCancel').addEventListener('click', ()=>{
+  closeAuth();
+});
+
+document.getElementById('authOk').addEventListener('click', async ()=>{
+  const val = document.getElementById('adminPass').value || '';
+  const hash = await sha256Hex(val);
+  const saved = localStorage.getItem('adminHash') || ADMIN_HASH;
+  if(hash === saved){
+    setAdminSession(true);
+    closeAuth();
+    document.getElementById('adminPanel').style.display = 'block';
+    alert('Admin unlocked for this browser session.');
+  } else {
+    alert('Incorrect password.');
+  }
+});
+
+/* Provide a simple change-password function in admin (not UI) — devs can run this in console:
+   localStorage.setItem('adminHash','<hex-hash>') — or keep DEFAULT_ADMIN_PASSWORD changed in code.
+*/
+
+/* ================== CSV parsing & rendering ================== */
 function parseCSV(text){
   const rows = [];
   let cur = ''; let row = []; let inQuotes=false;
   for(let i=0;i<text.length;i++){
-    const ch = text[i];
-    const nxt = text[i+1];
-    if(ch === '"' ){
-      if(inQuotes && nxt === '"'){ cur += '"'; i++; continue } // escaped quote
+    const ch = text[i]; const nxt = text[i+1];
+    if(ch === '"'){
+      if(inQuotes && nxt === '"'){ cur += '"'; i++; continue; }
       inQuotes = !inQuotes;
       continue;
     }
-    if(ch === ',' && !inQuotes){ row.push(cur); cur=''; continue }
+    if(ch === ',' && !inQuotes){ row.push(cur); cur=''; continue; }
     if((ch === '\n' || ch === '\r') && !inQuotes){
       if(cur !== '' || row.length>0){ row.push(cur); rows.push(row); row=[]; cur=''; }
-      // skip CRLF second char
       if(ch === '\r' && text[i+1] === '\n'){ i++; }
       continue;
     }
@@ -202,84 +372,72 @@ function parseCSV(text){
   return rows.filter(r => r.length>0);
 }
 
-/* ====== CSV loader ====== */
-async function loadCSVFromServer(){
-  try{
-    const res = await fetch(CSV_PATH + '?t=' + Date.now());
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const txt = await res.text();
-    csvTextCache = txt;
-    lastUpdated = new Date();
-    localStorage.setItem('lastServerCSV', txt);
-    renderFromCSV(txt);
-  }catch(err){
-    // if server fetch fails but local preview exists, use that
-    const local = localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
-    if(local){ renderFromCSV(local); }
-    else {
-      document.getElementById('resultsTable').innerHTML = '<tr><td style="padding:20px">Unable to load results.csv — check server or run via local server.</td></tr>';
-    }
-    console.error('CSV load failed', err);
-  }
-}
-
-/* ====== Render logic ====== */
 function inferScoreColumn(headers){
-  const lower = headers.map(h => h.trim().toLowerCase());
-  const candidates = ['score','votes','points','value','total'];
+  const lower = headers.map(h => (h||'').trim().toLowerCase());
+  const candidates = ['votes','score','points','total','value'];
   for(const c of candidates){
     const idx = lower.indexOf(c);
     if(idx !== -1) return idx;
   }
-  // fallback: second column if exists
   return headers.length>1 ? 1 : 0;
 }
 
+function formatNumber(n){ return Number.isInteger(n) ? n : (Math.round(n*100)/100); }
+
+function medalHtml(i){
+  if(i===0) return `<div class="medal gold">🥇</div>`;
+  if(i===1) return `<div class="medal silver">🥈</div>`;
+  if(i===2) return `<div class="medal bronze">🥉</div>`;
+  return `<div style="width:36px;text-align:center;color:var(--muted);font-weight:700">${i+1}</div>`;
+}
+
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
 function renderFromCSV(text){
+  if(!text || !text.trim()) return;
   const rows = parseCSV(text.trim());
-  if(!rows || rows.length === 0) return;
-  const headers = rows[0].map(h=>h.trim());
-  const data = rows.slice(1).map(r => {
+  if(!rows || rows.length===0) return;
+  const headers = rows[0].map(h => h.trim());
+  const data = rows.slice(1).map((r,idx)=> {
     const obj = {};
-    headers.forEach((h,i)=> obj[h||('col'+i)] = (r[i] ?? '').trim());
+    headers.forEach((h,i)=> obj[h || 'col'+i] = (r[i] ?? '').trim());
+    obj._id = obj.ID ?? ('r' + idx);
     return obj;
   });
-
-  // find numeric column
   const scoreIdx = inferScoreColumn(headers);
   const scoreKey = headers[scoreIdx];
 
-  // normalize numeric value
   data.forEach(d=>{
     const raw = d[scoreKey] ?? '';
-    const num = parseFloat(String(raw).replace(/[^0-9.\-]/g,'')) || 0;
-    d.__score = num;
+    d.__score = parseFloat(String(raw).replace(/[^0-9.\-]/g,'')) || 0;
   });
 
-  // sort descending
   data.sort((a,b)=> b.__score - a.__score);
-
-  // totals / percentages
   const total = data.reduce((s,x)=> s + (x.__score||0), 0) || 1;
 
-  // build table HTML
+  // Build table
   const table = document.getElementById('resultsTable');
-  let html = '<thead><tr>';
-  html += '<th style="width:72px">Rank</th>';
+  let html = '<thead><tr><th style="width:72px">Rank</th>';
   html += headers.map(h=>`<th>${escapeHtml(h)}</th>`).join('');
-  html += '<th style="width:180px">Progress</th>';
-  html += '</tr></thead><tbody>';
+  html += '<th style="width:180px">Progress</th><th style="width:100px">Actions</th></tr></thead><tbody>';
 
   data.forEach((d,i)=>{
     const percent = Math.round((d.__score/total)*100);
     const rankClass = i===0 ? 'top' : (i===data.length-1 ? 'low' : '');
-    html += `<tr class="${rankClass} fadeIn">`;
-    html += `<td><div class="rank">${medalHtml(i)}<div style="min-width:24px">${i+1}</div></div></td>`;
-    html += headers.map(h=>`<td class="${h===headers[0]?'name':''}">${escapeHtml(d[h] ?? '')}</td>`).join('');
+    html += `<tr class="${rankClass} fadeIn" data-rowid="${d._id}">`;
+    html += `<td><div style="display:flex;gap:8px;align-items:center">${medalHtml(i)}<div style="min-width:24px">${i+1}</div></div></td>`;
+    html += headers.map(h=>{
+      // Make first column visually labeled as name
+      const cls = (h === headers[0]) ? 'name' : '';
+      html += `<td class="${cls} editable-cell" data-col="${h}" tabindex="0">${escapeHtml(d[h] ?? '')}</td>`;
+      return '';
+    }).join('');
+    html = html.replace('</td></td>','</td>'); // ensure not double
     html += `<td style="min-width:180px">
                <div class="mutedSmall" style="margin-bottom:6px">${percent}% — ${formatNumber(d.__score)}</div>
                <div class="progressWrap"><div class="progress" data-percent="${percent}" style="background:linear-gradient(90deg,var(--accent),rgba(0,0,0,0.08));width:0%"></div></div>
              </td>`;
+    html += `<td><button class="btn small removeRow">Remove</button></td>`;
     html += '</tr>';
   });
 
@@ -304,6 +462,7 @@ function renderFromCSV(text){
                         <div class="mutedSmall" style="text-align:right;margin-bottom:6px">${percent}%</div>
                         <div class="progressWrap"><div class="progress" data-percent="${percent}" style="width:0%"></div></div>
                       </div>`;
+    card.dataset.rowid = d._id;
     cards.appendChild(card);
   });
 
@@ -315,34 +474,143 @@ function renderFromCSV(text){
     });
   },50);
 
-  // update summary
   document.getElementById('summary').innerText = `${data.length} items • Total: ${formatNumber(total)}`;
   document.getElementById('updatedAt').innerText = lastUpdated ? lastUpdated.toLocaleString() : '—';
-  applyFilter(); // apply any active search filter
+  document.getElementById('totalCount').innerText = data.length;
+
+  // attach row actions (remove)
+  document.querySelectorAll('.removeRow').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      if(!isAdminSession()){ alert('You must be admin to remove rows.'); return; }
+      const row = e.target.closest('tr');
+      const id = row.dataset.rowid;
+      if(confirm('Remove this row?')){
+        // remove from local preview
+        removeRowById(id);
+      }
+    });
+  });
+
+  // make editable cells interactive for admin
+  document.querySelectorAll('.editable-cell').forEach(cell=>{
+    cell.setAttribute('contenteditable', 'false');
+    cell.classList.add('editable');
+    cell.addEventListener('dblclick', (e)=>{
+      if(!isAdminSession()){ alert('You must be admin to edit.'); return; }
+      cell.contentEditable = 'true';
+      cell.classList.add('editing');
+      cell.focus();
+    });
+    cell.addEventListener('keydown', (ev)=>{
+      if(ev.key === 'Enter'){
+        ev.preventDefault();
+        cell.contentEditable = 'false';
+        saveTableEdits();
+      } else if(ev.key === 'Escape'){
+        cell.contentEditable = 'false';
+      }
+    });
+    cell.addEventListener('blur', ()=> { cell.contentEditable = 'false'; saveTableEdits(); });
+  });
+
+  // row click to open profile modal
+  document.querySelectorAll('#resultsTable tbody tr').forEach(row=>{
+    row.addEventListener('click', (e)=>{
+      // avoid clicks on Remove button
+      if(e.target.closest('.removeRow')) return;
+      const id = row.dataset.rowid;
+      showProfileById(id, rows[0], data);
+    });
+  });
+
+  applyFilter(); // filter by search
 }
 
-/* ====== helpers ====== */
-function medalHtml(i){
-  if(i===0) return `<div class="medal gold">🥇</div>`;
-  if(i===1) return `<div class="medal silver">🥈</div>`;
-  if(i===2) return `<div class="medal bronze">🥉</div>`;
-  return `<div style="width:36px;text-align:center;color:var(--muted);font-weight:700">${i+1}</div>`;
+/* ========== Data management: local preview and server load ========== */
+async function loadCSVFromServer(){
+  try{
+    const res = await fetch(CSV_PATH + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const txt = await res.text();
+    csvTextCache = txt;
+    lastUpdated = new Date();
+    localStorage.setItem('lastServerCSV', txt);
+    renderFromCSV(txt);
+  }catch(err){
+    // fallback to local preview
+    const local = localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
+    if(local){ csvTextCache = local; lastUpdated = new Date(); renderFromCSV(local); }
+    else {
+      document.getElementById('resultsTable').innerHTML = '<tr><td style="padding:20px">Unable to load results.csv — run via local server or place results.csv next to this file.</td></tr>';
+    }
+    console.error('CSV load failed', err);
+  }
 }
-function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
-function formatNumber(n){ return Number.isInteger(n) ? n : (Math.round(n*100)/100) }
 
-/* ====== Search/Filter ====== */
+function savePreviewCSV(text){
+  localStorage.setItem('previewCSV', text);
+  csvTextCache = text;
+  lastUpdated = new Date();
+  renderFromCSV(text);
+}
+
+/* remove row helper */
+function removeRowById(rowid){
+  const csv = csvTextCache || localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
+  if(!csv) return alert('No CSV loaded');
+  const rows = parseCSV(csv);
+  const headers = rows[0];
+  const filtered = rows.filter((r,idx)=> {
+    if(idx===0) return true;
+    const id = (r[0] ?? '') || ('r' + (idx-1));
+    return String(id) !== String(rowid);
+  });
+  const out = filtered.map(r=> r.join(',')).join('\n');
+  savePreviewCSV(out);
+}
+
+/* save table edits back to CSV */
+function saveTableEdits(){
+  if(!isAdminSession()){ return; }
+  const table = document.getElementById('resultsTable');
+  const headers = Array.from(table.querySelectorAll('thead th')).slice(1, -2).map(h => h.innerText.trim()); // crude
+  // Instead: parse existing csvTextCache and update rows based on data-rowid
+  const csv = csvTextCache || localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
+  if(!csv) return;
+  const rows = parseCSV(csv);
+  const headerRow = rows[0];
+  const dataRows = rows.slice(1);
+  // build mapping from rowid to row array index
+  const trList = Array.from(document.querySelectorAll('#resultsTable tbody tr'));
+  trList.forEach((tr, idx)=>{
+    const rowid = tr.dataset.rowid;
+    const cells = Array.from(tr.querySelectorAll('.editable-cell'));
+    // find the matching data row in rows by ID or by position
+    // We'll match by ID if present in first column
+    let matchIndex = -1;
+    for(let i=0;i<dataRows.length;i++){
+      const idVal = dataRows[i][0] ?? ('r' + i);
+      if(String(idVal) === String(rowid) || ('r'+i) === String(rowid)){ matchIndex = i; break; }
+    }
+    if(matchIndex === -1) matchIndex = idx; // fallback
+    cells.forEach((cell, ci)=>{
+      rows[matchIndex+1][ci] = cell.innerText.replace(/,/g, ''); // strip commas for CSV stability
+    });
+  });
+  const out = rows.map(r=> r.map(c=> c.includes(',') ? `"${c.replace(/"/g,'""')}"` : c).join(',')).join('\n');
+  savePreviewCSV(out);
+}
+
+/* ========== Search / Filter ========= */
 const searchEl = document.getElementById('search');
-searchEl.addEventListener('input',applyFilter);
-
+searchEl.addEventListener('input', applyFilter);
 function applyFilter(){
   const q = searchEl.value.trim().toLowerCase();
-  if(!q){ // show all
-    document.querySelectorAll('#resultsTable tbody tr').forEach(r=> r.style.display = '');
-    document.querySelectorAll('#cardsList .cardItem').forEach(c=> c.style.display = '');
+  if(!q){
+    document.querySelectorAll('#resultsTable tbody tr').forEach(r=> r.style.display='');
+    document.querySelectorAll('#cardsList .cardItem').forEach(c=> c.style.display='');
     return;
   }
-  // filter table rows by name column (first visible cell after rank)
   document.querySelectorAll('#resultsTable tbody tr').forEach(r=>{
     const nameCell = r.querySelector('td.name') || r.querySelectorAll('td')[1];
     const txt = (nameCell?.innerText || '').toLowerCase();
@@ -354,33 +622,46 @@ function applyFilter(){
   });
 }
 
-/* ====== Admin & Upload ====== */
-if(adminMode){
-  document.getElementById('adminPanel').style.display = 'block';
-  document.getElementById('adminToggle').innerText = 'Admin ✓';
-  document.getElementById('adminToggle').classList.add('btn');
-} else {
-  document.getElementById('adminToggle').addEventListener('click', ()=> {
-    alert('Admin mode is available at: index.html?admin=true');
+/* ========== Profile modal ========== */
+function showProfileById(id, headers, data){
+  // attempt to reconstruct from current DOM
+  const tableRows = document.querySelectorAll('#resultsTable tbody tr');
+  let found = null;
+  tableRows.forEach(tr=>{
+    if(tr.dataset.rowid === id) found = tr;
   });
+  if(!found) return;
+  const cells = found.querySelectorAll('td');
+  // build simple profile
+  let html = '<h3>Contestant</h3><div style="display:flex;gap:12px;align-items:center">';
+  html += `<div style="width:80px;height:80px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#7ac7ff);display:grid;place-items:center;color:white;font-weight:800">${escapeHtml(cells[1]?.innerText||'')}</div>`;
+  html += '<div>';
+  html += `<div style="font-weight:800">${escapeHtml(cells[1]?.innerText || '')}</div>`;
+  html += `<div class="mutedSmall">Score: ${escapeHtml(cells[2]?.innerText || '')}</div>`;
+  html += '</div></div><div style="margin-top:10px"><button class="btn small" id="closeProfileBtn">Close</button></div>`;
+  document.getElementById('profileContent').innerHTML = html;
+  document.getElementById('profileModal').style.display = 'flex';
+  document.getElementById('profileModal').setAttribute('aria-hidden','false');
+  document.getElementById('closeProfile').onclick = closeProfile;
+  document.getElementById('closeProfileBtn')?.addEventListener('click', closeProfile);
 }
+function closeProfile(){ document.getElementById('profileModal').style.display='none'; document.getElementById('profileModal').setAttribute('aria-hidden','true'); }
 
-document.getElementById('uploadBtn').addEventListener('click', ()=> {
+/* ========== Admin UI interactions ========== */
+document.getElementById('uploadBtn').addEventListener('click', ()=>{
+  if(!isAdminSession()){ alert('You must login as admin to upload.'); return; }
   const f = document.getElementById('csvUpload').files[0];
   if(!f) return alert('Choose a CSV file first');
   const reader = new FileReader();
   reader.onload = e=>{
     const txt = e.target.result;
-    localStorage.setItem('previewCSV', txt);
-    csvTextCache = txt;
-    lastUpdated = new Date();
-    renderFromCSV(txt);
+    savePreviewCSV(txt);
     alert('Preview saved locally. Use "Prepare CSV for Download" to replace server file.');
   };
   reader.readAsText(f);
 });
 
-document.getElementById('downloadCSV').addEventListener('click', ()=> {
+document.getElementById('downloadCSV').addEventListener('click', ()=>{
   const csv = csvTextCache || localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
   if(!csv) return alert('No CSV loaded yet');
   const blob = new Blob([csv],{type:'text/csv'});
@@ -391,76 +672,88 @@ document.getElementById('downloadCSV').addEventListener('click', ()=> {
 });
 
 document.getElementById('resetLocal').addEventListener('click', ()=> {
-  if(confirm('Clear local preview CSV and countdown?')) {
+  if(!isAdminSession()){ alert('You must be admin to reset local preview.'); return; }
+  if(confirm('Clear local preview CSV, countdown and custom title?')) {
     localStorage.removeItem('previewCSV');
     localStorage.removeItem('countdownAt');
     localStorage.removeItem('lastServerCSV');
-    countdownAt = null;
-    alert('Cleared.');
+    localStorage.removeItem('siteTitle');
+    localStorage.removeItem('siteDesc');
     location.reload();
   }
 });
 
-/* countdown set/clear */
-const closeAtEl = document.getElementById('closeAt');
-if(localStorage.getItem('countdownAt')){
-  closeAtEl.value = new Date(localStorage.getItem('countdownAt')).toISOString().slice(0,16);
-  countdownAt = localStorage.getItem('countdownAt');
-}
+document.getElementById('applyTitle').addEventListener('click', ()=>{
+  if(!isAdminSession()){ alert('You must be admin to change site text.'); return; }
+  const t = document.getElementById('titleInput').value.trim();
+  const d = document.getElementById('descInput').value.trim();
+  if(t) { document.getElementById('siteTitle').innerText = t; localStorage.setItem('siteTitle', t); }
+  if(d) { document.getElementById('siteDesc').innerText = d; localStorage.setItem('siteDesc', d); }
+});
+
 document.getElementById('setClose').addEventListener('click', ()=>{
-  const v = closeAtEl.value;
+  if(!isAdminSession()){ alert('You must be admin to set countdown.'); return; }
+  const v = document.getElementById('closeAt').value;
   if(!v) return alert('Choose a date & time');
   countdownAt = new Date(v).toISOString();
   localStorage.setItem('countdownAt', countdownAt);
   alert('Countdown saved.');
 });
+
 document.getElementById('clearClose').addEventListener('click', ()=>{
+  if(!isAdminSession()){ alert('You must be admin to clear countdown.'); return; }
   countdownAt = null;
   localStorage.removeItem('countdownAt');
-  closeAtEl.value = '';
+  document.getElementById('closeAt').value = '';
   alert('Cleared.');
 });
 
-/* refresh interval */
 document.getElementById('applyInterval').addEventListener('click', ()=>{
+  if(!isAdminSession()){ alert('You must be admin to change refresh interval.'); return; }
   const v = Number(document.getElementById('refreshInterval').value) || 10;
   refreshSeconds = Math.max(3, Math.floor(v));
   localStorage.setItem('refreshSeconds', refreshSeconds);
   alert('Interval set to ' + refreshSeconds + 's');
 });
 
-/* theme toggle */
-const themeBtn = document.getElementById('themeBtn');
-function applyTheme(t){
-  if(t==='dark'){ document.documentElement.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); }
-  else { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme','light'); }
-}
-themeBtn.addEventListener('click', ()=> {
-  const current = localStorage.getItem('theme') || 'light';
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-});
-if(localStorage.getItem('theme') === 'dark') applyTheme('dark');
-
-/* auto-refresh toggle label */
-document.getElementById('autoLabel').innerText = autoRefresh ? 'On' : 'Off';
-
-/* show admin panel open/close */
-document.getElementById('adminToggle').addEventListener('click', ()=>{
-  if(!adminMode) return;
-  const ap = document.getElementById('adminPanel');
-  ap.style.display = ap.style.display === 'block' ? 'none' : 'block';
+document.getElementById('downloadBtn').addEventListener('click', ()=>{
+  const csv = csvTextCache || localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
+  if(!csv) return alert('No CSV loaded yet');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'results.csv';
+  a.click();
 });
 
-/* ====== Countdown & periodic refresh ====== */
+document.getElementById('themeBtn').addEventListener('click', ()=>{
+  const cur = localStorage.getItem('theme') || 'light';
+  if(cur === 'dark'){ document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme','light'); }
+  else { document.documentElement.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); }
+});
+
+/* share */
+document.getElementById('shareBtn').addEventListener('click', async ()=>{
+  const shareData = { title: document.getElementById('siteTitle').innerText, text: document.getElementById('siteDesc').innerText, url: location.href };
+  if(navigator.share){ try{ await navigator.share(shareData); }catch(e){ alert('Share canceled') } }
+  else { navigator.clipboard.writeText(location.href).then(()=> alert('Link copied to clipboard')); }
+});
+
+/* keyboard: / to search */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === '/' && document.activeElement !== searchEl){ e.preventDefault(); searchEl.focus(); }
+});
+
+/* ========== Countdown & periodic refresh ========= */
 function updateCountdownAndMaybeLock(){
   const txtEl = document.getElementById('countdownText');
-  if(!countdownAt){ txtEl.innerText = 'No close time set'; return; }
+  if(!countdownAt){ txtEl.innerText = 'No close time set'; document.getElementById('closeDisplay').innerText = '—'; return; }
   const end = new Date(countdownAt);
+  document.getElementById('closeDisplay').innerText = end.toLocaleString();
   const now = new Date();
   const diff = end - now;
   if(diff <= 0){
     txtEl.innerText = 'Voting closed';
-    // optional: visually mark closed - we simply show closed text
     return;
   }
   const days = Math.floor(diff / (1000*60*60*24));
@@ -470,13 +763,7 @@ function updateCountdownAndMaybeLock(){
   txtEl.innerText = `${days}d ${hrs}h ${mins}m ${secs}s remaining`;
 }
 
-function tick(){
-  updateCountdownAndMaybeLock();
-  // refresh if allowed
-  if(autoRefresh) loadLatestAppropriate();
-}
-
-/* load strategy: if local preview exists, use it; else fetch server */
+/* load strategy */
 function loadLatestAppropriate(){
   const preview = localStorage.getItem('previewCSV');
   if(preview){
@@ -490,35 +777,25 @@ function loadLatestAppropriate(){
 
 /* initial load */
 (function init(){
-  // restore refreshSeconds
-  const saved = Number(localStorage.getItem('refreshSeconds'));
-  if(saved) refreshSeconds = saved;
+  // restore theme/title/desc
+  if(localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme','dark');
+  const st = localStorage.getItem('siteTitle'); if(st) document.getElementById('siteTitle').innerText = st;
+  const sd = localStorage.getItem('siteDesc'); if(sd) document.getElementById('siteDesc').innerText = sd;
+  if(localStorage.getItem('previewCSV')){ csvTextCache = localStorage.getItem('previewCSV'); lastUpdated = new Date(); renderFromCSV(csvTextCache); }
+  else loadCSVFromServer();
+
+  if(localStorage.getItem('countdownAt')){ countdownAt = localStorage.getItem('countdownAt'); document.getElementById('closeAt').value = new Date(countdownAt).toISOString().slice(0,16); }
   document.getElementById('refreshInterval').value = refreshSeconds;
 
-  // if there's a saved preview in localStorage, prefer it (admin uploaded)
-  const preview = localStorage.getItem('previewCSV');
-  if(preview){
-    csvTextCache = preview;
-    lastUpdated = new Date();
-    renderFromCSV(preview);
-  } else {
-    loadCSVFromServer();
-  }
-
-  // kickoff tick & interval
   updateCountdownAndMaybeLock();
-  setInterval(tick, 1000);
-  setInterval(()=> {
-    if(autoRefresh) loadLatestAppropriate();
-  }, Math.max(3000, refreshSeconds*1000));
+  setInterval(()=> { updateCountdownAndMaybeLock(); }, 1000);
+  setInterval(()=> { if(autoRefresh) loadLatestAppropriate(); }, Math.max(3000, refreshSeconds*1000));
 })();
 
-/* small accessibility */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === '/' && document.activeElement !== searchEl){ e.preventDefault(); searchEl.focus(); }
-});
+/* small accessibility: focus styles */
+document.addEventListener('focusin', (e) => { if(e.target.classList && e.target.classList.contains('editable')) e.target.style.boxShadow = '0 0 0 3px rgba(43,124,255,0.06)'; });
+document.addEventListener('focusout', (e) => { if(e.target.classList && e.target.classList.contains('editable')) e.target.style.boxShadow = 'none'; });
+
 </script>
 </body>
 </html>
-
-
