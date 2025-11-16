@@ -1,159 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contest Results</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Live Results — Scoreboard</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f1f1f1;
-        padding: 20px;
-    }
-    h1 {
-        text-align: center;
-        color: #222;
-    }
-    .position {
-        background: white;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .position h2 {
-        margin-bottom: 10px;
-        color: #444;
-    }
-    .candidate {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 10px;
-        background: #fafafa;
-        margin: 5px 0;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-    .candidate span {
-        font-weight: bold;
-    }
+  :root{
+    --bg:#f5f7fa; --card:#fff; --muted:#666; --accent:#2b7cff;
+    --good:#1fa654; --bad:#e04b4b; --zebra: #f8fafc;
+    --glass: rgba(255,255,255,0.6);
+  }
+  [data-theme="dark"]{
+    --bg:#0f1724; --card:#0b1220; --muted:#9aa6bd; --accent:#58a6ff;
+    --good:#20c997; --bad:#ff6b6b; --zebra: #071226; --glass: rgba(255,255,255,0.03);
+  }
 
-    /* ADMIN PANEL */
-    #adminPanel {
-        display: none;
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        margin-top: 20px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    textarea {
-        width: 100%;
-        height: 120px;
-        padding: 10px;
-        margin-top: 10px;
-    }
-    button {
-        padding: 10px 20px;
-        background: black;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  body{background:var(--bg); color:var(--muted); padding:18px; transition:background .3s,color .3s;}
+  .wrap{max-width:1100px;margin:0 auto;}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  h1{margin:0;font-size:20px;color:var(--muted)}
+  .controls{display:flex;gap:8px;align-items:center}
+  .btn{background:var(--card);border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--muted);box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:transform .12s}
+  .btn:active{transform:translateY(1px)}
+  .small{padding:6px 8px;font-size:13px}
+  .search{padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);width:240px;background:var(--card);color:var(--muted)}
+
+  main{display:grid;grid-template-columns:1fr 320px;gap:18px}
+  @media(max-width:880px){ main{grid-template-columns:1fr} }
+
+  /* Results card/table */
+  .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.06);overflow:hidden}
+  #resultsTable{width:100%;border-collapse:collapse}
+  th,td{padding:10px 12px;text-align:left}
+  th{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em; border-bottom:1px solid rgba(0,0,0,0.06)}
+  tr{background:transparent}
+  tr:nth-child(even) td{background:var(--zebra)}
+  td.name{font-weight:700;color:var(--muted)}
+  td.score{font-weight:800;font-size:16px;color:var(--muted);width:110px}
+
+  .rank{display:flex;align-items:center;gap:8px}
+  .medal{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:white}
+  .medal.gold{background:linear-gradient(180deg,#ffd700,#e5b000);color:#1a1200}
+  .medal.silver{background:linear-gradient(180deg,#dfe7ee,#bfc9d8);color:#0b2438}
+  .medal.bronze{background:linear-gradient(180deg,#d9a07a,#b66f3e);color:#2b1100}
+  .progressWrap{height:12px;background:rgba(0,0,0,0.06);border-radius:999px;overflow:hidden;position:relative}
+  .progress{height:100%;width:0;transition:width .8s ease-in-out}
+
+  /* Responsive card list */
+  .cardsList{display:grid;gap:10px}
+  @media(min-width:560px){ .cardsList{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:560px){ .tableView{display:none} .cardItem{display:block} }
+  @media(min-width:560px){ .cardItem{display:none} }
+
+  .cardItem{background:var(--card);padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 4px 10px rgba(2,6,23,0.03);transition:transform .18s,box-shadow .18s}
+  .cardItem:hover{transform:translateY(-4px)}
+
+  footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
+
+  /* Admin panel */
+  #adminPanel{display:none;position:sticky;top:18px}
+  .adminField{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+  input[type="file"]{padding:6px}
+  label{font-size:13px;color:var(--muted)}
+
+  /* subtle animations */
+  .fadeIn{animation:fadeIn .45s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* countdown */
+  .count{font-size:14px;font-weight:700;color:var(--accent)}
+  .mutedSmall{font-size:13px;color:var(--muted)}
+
+  /* highlight top/bottom */
+  tr.top{background:linear-gradient(90deg, rgba(40,167,69,0.06), transparent)}
+  tr.low{background:linear-gradient(90deg, rgba(224,75,75,0.06), transparent)}
 </style>
 </head>
 <body>
+<div class="wrap" id="app">
+  <header>
+    <h1>📊 Live Results — Scoreboard</h1>
+    <div class="controls">
+      <input id="search" class="search" placeholder="Search name..." />
+      <button id="themeBtn" class="btn small">Toggle Dark</button>
+      <button id="adminToggle" class="btn small">Admin</button>
+    </div>
+  </header>
 
-<h1>Contest Results</h1>
+  <main>
+    <!-- Left: results -->
+    <section>
+      <div class="card fadeIn">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <div class="mutedSmall">Results updated: <span id="updatedAt">—</span></div>
+            <div class="count" id="countdownText">Loading countdown...</div>
+          </div>
+          <div style="text-align:right">
+            <div class="mutedSmall">Auto-refresh:</div>
+            <div><label id="autoLabel">On</label></div>
+          </div>
+        </div>
 
-<div id="resultsContainer"></div>
+        <!-- Table view (desktop) -->
+        <div class="tableView" style="margin-top:14px;overflow:hidden">
+          <table id="resultsTable" role="table" aria-live="polite"></table>
+        </div>
 
-<!-- ADMIN UPDATE -->
-<div id="adminPanel">
-    <h2>Admin: Update Results</h2>
-    <textarea id="adminInput" placeholder="Use this format:
+        <!-- Cards (mobile) -->
+        <div class="cardsList" id="cardsList" style="margin-top:12px"></div>
 
-President:
-A=10
-B=6
-C=4
-D=2
-E=1
+        <footer id="summary" class="mutedSmall" style="margin-top:12px"></footer>
+      </div>
+    </section>
 
-Vice President:
-A=5
-B=3
-C=2
-D=1
-E=0
-"></textarea>
-    <button onclick="updateResults()">Update Results</button>
+    <!-- Right: admin & settings -->
+    <aside>
+      <div class="card" id="adminPanel">
+        <h3 style="margin:0 0 8px 0">Admin Panel</h3>
+
+        <div class="adminField">
+          <label>Upload CSV (will preview & save to browser)</label>
+          <input type="file" id="csvUpload" accept=".csv" />
+          <button class="btn small" id="uploadBtn">Upload & Preview</button>
+          <small class="mutedSmall">You can also download the new CSV ready to replace the server file.</small>
+        </div>
+
+        <div class="adminField">
+          <label>Countdown (voting close) — ISO datetime</label>
+          <input id="closeAt" type="datetime-local" />
+          <div style="display:flex;gap:8px">
+            <button class="btn small" id="setClose">Set</button>
+            <button class="btn small" id="clearClose">Clear</button>
+          </div>
+        </div>
+
+        <div class="adminField">
+          <label>Auto-refresh interval (seconds)</label>
+          <input id="refreshInterval" type="number" min="3" value="10" />
+          <button class="btn small" id="applyInterval">Apply</button>
+        </div>
+
+        <div class="adminField">
+          <label>Download new CSV (to replace server file)</label>
+          <button class="btn small" id="downloadCSV">Prepare CSV for Download</button>
+        </div>
+
+        <div class="adminField">
+          <label>Reset saved preview</label>
+          <button class="btn small" id="resetLocal">Clear Local Preview</button>
+        </div>
+
+        <div class="mutedSmall">CSV format: header row. Example: <code>Name,Score</code></div>
+      </div>
+
+      <!-- quick tips card -->
+      <div class="card" style="margin-top:12px">
+        <div style="font-weight:700;margin-bottom:6px">How to publish changes</div>
+        <ol style="margin:0 0 0 18px;padding:0;color:var(--muted)">
+          <li>Admin: Upload CSV, click "Prepare CSV for Download".</li>
+          <li>Replace `results.csv` on your server with the downloaded file.</li>
+          <li>Public page will auto-refresh and show new data.</li>
+        </ol>
+      </div>
+    </aside>
+  </main>
 </div>
 
 <script>
-    // Default structure for positions and contestants
-    let results = {
-        "President": { A: 0, B: 0, C: 0, D: 0, E: 0 },
-        "Vice President": { A: 0, B: 0, C: 0, D: 0, E: 0 },
-        "Secretary": { A: 0, B: 0, C: 0, D: 0, E: 0 },
-        "PRO": { A: 0, B: 0, C: 0, D: 0, E: 0 },
-        "Treasurer": { A: 0, B: 0, C: 0, D: 0, E: 0 }
-    };
+/* ====== Config & state ====== */
+const CSV_PATH = 'results.csv';        // server file
+let refreshSeconds = 10;
+let autoRefresh = true;
+let csvTextCache = null;
+let lastUpdated = null;
+let countdownAt = localStorage.getItem('countdownAt') || null;
+const adminMode = window.location.search.includes('admin=true');
 
-    function displayResults() {
-        const container = document.getElementById("resultsContainer");
-        container.innerHTML = "";
-
-        for (let position in results) {
-            const div = document.createElement("div");
-            div.className = "position";
-
-            let html = `<h2>${position}</h2>`;
-            for (let candidate in results[position]) {
-                html += `
-                    <div class="candidate">
-                        <span>${candidate}</span>
-                        <span>${results[position][candidate]} votes</span>
-                    </div>
-                `;
-            }
-            div.innerHTML = html;
-            container.appendChild(div);
-        }
+/* ====== Utility: simple CSV parser (handles quoted fields) ====== */
+function parseCSV(text){
+  const rows = [];
+  let cur = ''; let row = []; let inQuotes=false;
+  for(let i=0;i<text.length;i++){
+    const ch = text[i];
+    const nxt = text[i+1];
+    if(ch === '"' ){
+      if(inQuotes && nxt === '"'){ cur += '"'; i++; continue } // escaped quote
+      inQuotes = !inQuotes;
+      continue;
     }
-
-    function updateResults() {
-        let text = document.getElementById("adminInput").value;
-        let blocks = text.split("\n\n");
-
-        blocks.forEach(block => {
-            let lines = block.trim().split("\n");
-            let position = lines[0].replace(":", "").trim();
-
-            if (results[position]) {
-                for (let i = 1; i < lines.length; i++) {
-                    let [name, value] = lines[i].split("=");
-                    if (results[position][name.trim()] !== undefined) {
-                        results[position][name.trim()] = parseInt(value.trim());
-                    }
-                }
-            }
-        });
-
-        displayResults();
-        alert("Results updated!");
+    if(ch === ',' && !inQuotes){ row.push(cur); cur=''; continue }
+    if((ch === '\n' || ch === '\r') && !inQuotes){
+      if(cur !== '' || row.length>0){ row.push(cur); rows.push(row); row=[]; cur=''; }
+      // skip CRLF second char
+      if(ch === '\r' && text[i+1] === '\n'){ i++; }
+      continue;
     }
+    cur += ch;
+  }
+  if(cur !== '' || row.length>0){ row.push(cur); rows.push(row); }
+  return rows.filter(r => r.length>0);
+}
 
-    // Show admin panel when ?admin=true
-    if (window.location.search.includes("admin=true")) {
-        document.getElementById("adminPanel").style.display = "block";
+/* ====== CSV loader ====== */
+async function loadCSVFromServer(){
+  try{
+    const res = await fetch(CSV_PATH + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const txt = await res.text();
+    csvTextCache = txt;
+    lastUpdated = new Date();
+    localStorage.setItem('lastServerCSV', txt);
+    renderFromCSV(txt);
+  }catch(err){
+    // if server fetch fails but local preview exists, use that
+    const local = localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
+    if(local){ renderFromCSV(local); }
+    else {
+      document.getElementById('resultsTable').innerHTML = '<tr><td style="padding:20px">Unable to load results.csv — check server or run via local server.</td></tr>';
     }
+    console.error('CSV load failed', err);
+  }
+}
 
-    displayResults();
+/* ====== Render logic ====== */
+function inferScoreColumn(headers){
+  const lower = headers.map(h => h.trim().toLowerCase());
+  const candidates = ['score','votes','points','value','total'];
+  for(const c of candidates){
+    const idx = lower.indexOf(c);
+    if(idx !== -1) return idx;
+  }
+  // fallback: second column if exists
+  return headers.length>1 ? 1 : 0;
+}
+
+function renderFromCSV(text){
+  const rows = parseCSV(text.trim());
+  if(!rows || rows.length === 0) return;
+  const headers = rows[0].map(h=>h.trim());
+  const data = rows.slice(1).map(r => {
+    const obj = {};
+    headers.forEach((h,i)=> obj[h||('col'+i)] = (r[i] ?? '').trim());
+    return obj;
+  });
+
+  // find numeric column
+  const scoreIdx = inferScoreColumn(headers);
+  const scoreKey = headers[scoreIdx];
+
+  // normalize numeric value
+  data.forEach(d=>{
+    const raw = d[scoreKey] ?? '';
+    const num = parseFloat(String(raw).replace(/[^0-9.\-]/g,'')) || 0;
+    d.__score = num;
+  });
+
+  // sort descending
+  data.sort((a,b)=> b.__score - a.__score);
+
+  // totals / percentages
+  const total = data.reduce((s,x)=> s + (x.__score||0), 0) || 1;
+
+  // build table HTML
+  const table = document.getElementById('resultsTable');
+  let html = '<thead><tr>';
+  html += '<th style="width:72px">Rank</th>';
+  html += headers.map(h=>`<th>${escapeHtml(h)}</th>`).join('');
+  html += '<th style="width:180px">Progress</th>';
+  html += '</tr></thead><tbody>';
+
+  data.forEach((d,i)=>{
+    const percent = Math.round((d.__score/total)*100);
+    const rankClass = i===0 ? 'top' : (i===data.length-1 ? 'low' : '');
+    html += `<tr class="${rankClass} fadeIn">`;
+    html += `<td><div class="rank">${medalHtml(i)}<div style="min-width:24px">${i+1}</div></div></td>`;
+    html += headers.map(h=>`<td class="${h===headers[0]?'name':''}">${escapeHtml(d[h] ?? '')}</td>`).join('');
+    html += `<td style="min-width:180px">
+               <div class="mutedSmall" style="margin-bottom:6px">${percent}% — ${formatNumber(d.__score)}</div>
+               <div class="progressWrap"><div class="progress" data-percent="${percent}" style="background:linear-gradient(90deg,var(--accent),rgba(0,0,0,0.08));width:0%"></div></div>
+             </td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody>';
+  table.innerHTML = html;
+
+  // mobile cards
+  const cards = document.getElementById('cardsList');
+  cards.innerHTML = '';
+  data.forEach((d,i)=>{
+    const percent = Math.round((d.__score/total)*100);
+    const card = document.createElement('div');
+    card.className = 'cardItem fadeIn';
+    card.innerHTML = `<div>
+                        <div style="display:flex;gap:8px;align-items:center">
+                          ${medalHtml(i)}
+                          <div style="font-weight:800">${escapeHtml(d[headers[0]] ?? '')}</div>
+                        </div>
+                        <div class="mutedSmall">${headers[1] ?? 'Score'}: ${formatNumber(d.__score)}</div>
+                      </div>
+                      <div style="width:40%">
+                        <div class="mutedSmall" style="text-align:right;margin-bottom:6px">${percent}%</div>
+                        <div class="progressWrap"><div class="progress" data-percent="${percent}" style="width:0%"></div></div>
+                      </div>`;
+    cards.appendChild(card);
+  });
+
+  // animate progress bars
+  setTimeout(()=> {
+    document.querySelectorAll('.progress').forEach(el=>{
+      const p = el.getAttribute('data-percent') || '0';
+      el.style.width = Math.min(100, Math.max(0, Number(p))) + '%';
+    });
+  },50);
+
+  // update summary
+  document.getElementById('summary').innerText = `${data.length} items • Total: ${formatNumber(total)}`;
+  document.getElementById('updatedAt').innerText = lastUpdated ? lastUpdated.toLocaleString() : '—';
+  applyFilter(); // apply any active search filter
+}
+
+/* ====== helpers ====== */
+function medalHtml(i){
+  if(i===0) return `<div class="medal gold">🥇</div>`;
+  if(i===1) return `<div class="medal silver">🥈</div>`;
+  if(i===2) return `<div class="medal bronze">🥉</div>`;
+  return `<div style="width:36px;text-align:center;color:var(--muted);font-weight:700">${i+1}</div>`;
+}
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+function formatNumber(n){ return Number.isInteger(n) ? n : (Math.round(n*100)/100) }
+
+/* ====== Search/Filter ====== */
+const searchEl = document.getElementById('search');
+searchEl.addEventListener('input',applyFilter);
+
+function applyFilter(){
+  const q = searchEl.value.trim().toLowerCase();
+  if(!q){ // show all
+    document.querySelectorAll('#resultsTable tbody tr').forEach(r=> r.style.display = '');
+    document.querySelectorAll('#cardsList .cardItem').forEach(c=> c.style.display = '');
+    return;
+  }
+  // filter table rows by name column (first visible cell after rank)
+  document.querySelectorAll('#resultsTable tbody tr').forEach(r=>{
+    const nameCell = r.querySelector('td.name') || r.querySelectorAll('td')[1];
+    const txt = (nameCell?.innerText || '').toLowerCase();
+    r.style.display = txt.includes(q) ? '' : 'none';
+  });
+  document.querySelectorAll('#cardsList .cardItem').forEach(c=>{
+    const txt = c.innerText.toLowerCase();
+    c.style.display = txt.includes(q) ? '' : 'none';
+  });
+}
+
+/* ====== Admin & Upload ====== */
+if(adminMode){
+  document.getElementById('adminPanel').style.display = 'block';
+  document.getElementById('adminToggle').innerText = 'Admin ✓';
+  document.getElementById('adminToggle').classList.add('btn');
+} else {
+  document.getElementById('adminToggle').addEventListener('click', ()=> {
+    alert('Admin mode is available at: index.html?admin=true');
+  });
+}
+
+document.getElementById('uploadBtn').addEventListener('click', ()=> {
+  const f = document.getElementById('csvUpload').files[0];
+  if(!f) return alert('Choose a CSV file first');
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const txt = e.target.result;
+    localStorage.setItem('previewCSV', txt);
+    csvTextCache = txt;
+    lastUpdated = new Date();
+    renderFromCSV(txt);
+    alert('Preview saved locally. Use "Prepare CSV for Download" to replace server file.');
+  };
+  reader.readAsText(f);
+});
+
+document.getElementById('downloadCSV').addEventListener('click', ()=> {
+  const csv = csvTextCache || localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
+  if(!csv) return alert('No CSV loaded yet');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'results.csv';
+  a.click();
+});
+
+document.getElementById('resetLocal').addEventListener('click', ()=> {
+  if(confirm('Clear local preview CSV and countdown?')) {
+    localStorage.removeItem('previewCSV');
+    localStorage.removeItem('countdownAt');
+    localStorage.removeItem('lastServerCSV');
+    countdownAt = null;
+    alert('Cleared.');
+    location.reload();
+  }
+});
+
+/* countdown set/clear */
+const closeAtEl = document.getElementById('closeAt');
+if(localStorage.getItem('countdownAt')){
+  closeAtEl.value = new Date(localStorage.getItem('countdownAt')).toISOString().slice(0,16);
+  countdownAt = localStorage.getItem('countdownAt');
+}
+document.getElementById('setClose').addEventListener('click', ()=>{
+  const v = closeAtEl.value;
+  if(!v) return alert('Choose a date & time');
+  countdownAt = new Date(v).toISOString();
+  localStorage.setItem('countdownAt', countdownAt);
+  alert('Countdown saved.');
+});
+document.getElementById('clearClose').addEventListener('click', ()=>{
+  countdownAt = null;
+  localStorage.removeItem('countdownAt');
+  closeAtEl.value = '';
+  alert('Cleared.');
+});
+
+/* refresh interval */
+document.getElementById('applyInterval').addEventListener('click', ()=>{
+  const v = Number(document.getElementById('refreshInterval').value) || 10;
+  refreshSeconds = Math.max(3, Math.floor(v));
+  localStorage.setItem('refreshSeconds', refreshSeconds);
+  alert('Interval set to ' + refreshSeconds + 's');
+});
+
+/* theme toggle */
+const themeBtn = document.getElementById('themeBtn');
+function applyTheme(t){
+  if(t==='dark'){ document.documentElement.setAttribute('data-theme','dark'); localStorage.setItem('theme','dark'); }
+  else { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme','light'); }
+}
+themeBtn.addEventListener('click', ()=> {
+  const current = localStorage.getItem('theme') || 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+if(localStorage.getItem('theme') === 'dark') applyTheme('dark');
+
+/* auto-refresh toggle label */
+document.getElementById('autoLabel').innerText = autoRefresh ? 'On' : 'Off';
+
+/* show admin panel open/close */
+document.getElementById('adminToggle').addEventListener('click', ()=>{
+  if(!adminMode) return;
+  const ap = document.getElementById('adminPanel');
+  ap.style.display = ap.style.display === 'block' ? 'none' : 'block';
+});
+
+/* ====== Countdown & periodic refresh ====== */
+function updateCountdownAndMaybeLock(){
+  const txtEl = document.getElementById('countdownText');
+  if(!countdownAt){ txtEl.innerText = 'No close time set'; return; }
+  const end = new Date(countdownAt);
+  const now = new Date();
+  const diff = end - now;
+  if(diff <= 0){
+    txtEl.innerText = 'Voting closed';
+    // optional: visually mark closed - we simply show closed text
+    return;
+  }
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hrs = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const mins = Math.floor((diff%(1000*60*60))/(1000*60));
+  const secs = Math.floor((diff%(1000*60))/1000);
+  txtEl.innerText = `${days}d ${hrs}h ${mins}m ${secs}s remaining`;
+}
+
+function tick(){
+  updateCountdownAndMaybeLock();
+  // refresh if allowed
+  if(autoRefresh) loadLatestAppropriate();
+}
+
+/* load strategy: if local preview exists, use it; else fetch server */
+function loadLatestAppropriate(){
+  const preview = localStorage.getItem('previewCSV');
+  if(preview){
+    csvTextCache = preview;
+    lastUpdated = new Date();
+    renderFromCSV(preview);
+  } else {
+    loadCSVFromServer();
+  }
+}
+
+/* initial load */
+(function init(){
+  // restore refreshSeconds
+  const saved = Number(localStorage.getItem('refreshSeconds'));
+  if(saved) refreshSeconds = saved;
+  document.getElementById('refreshInterval').value = refreshSeconds;
+
+  // if there's a saved preview in localStorage, prefer it (admin uploaded)
+  const preview = localStorage.getItem('previewCSV');
+  if(preview){
+    csvTextCache = preview;
+    lastUpdated = new Date();
+    renderFromCSV(preview);
+  } else {
+    loadCSVFromServer();
+  }
+
+  // kickoff tick & interval
+  updateCountdownAndMaybeLock();
+  setInterval(tick, 1000);
+  setInterval(()=> {
+    if(autoRefresh) loadLatestAppropriate();
+  }, Math.max(3000, refreshSeconds*1000));
+})();
+
+/* small accessibility */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === '/' && document.activeElement !== searchEl){ e.preventDefault(); searchEl.focus(); }
+});
 </script>
-
 </body>
 </html>
