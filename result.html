@@ -3,39 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Results Page</title>
+<title>Contest Results</title>
+
 <style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-  h1 { color: #333; }
-  #results { margin-top: 20px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-  #adminPanel { display: none; margin-top: 20px; }
-  input, textarea { width: 100%; padding: 10px; margin-top: 5px; }
-  button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
+    body {
+        font-family: Arial, sans-serif;
+        background: #f1f1f1;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #222;
+    }
+    .position {
+        background: white;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .position h2 {
+        margin-bottom: 10px;
+        color: #444;
+    }
+    .candidate {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 10px;
+        background: #fafafa;
+        margin: 5px 0;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    .candidate span {
+        font-weight: bold;
+    }
+
+    /* ADMIN PANEL */
+    #adminPanel {
+        display: none;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    textarea {
+        width: 100%;
+        height: 120px;
+        padding: 10px;
+        margin-top: 10px;
+    }
+    button {
+        padding: 10px 20px;
+        background: black;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
 </style>
 </head>
 <body>
 
-<h1>Results</h1>
-<div id="results">No results yet.</div>
+<h1>Contest Results</h1>
 
-<!-- Admin Panel (hidden, can be shown via a secret URL or key) -->
+<div id="resultsContainer"></div>
+
+<!-- ADMIN UPDATE -->
 <div id="adminPanel">
-  <h2>Update Results</h2>
-  <textarea id="adminInput" rows="5" placeholder="Enter new results here..."></textarea>
-  <button onclick="updateResults()">Update</button>
+    <h2>Admin: Update Results</h2>
+    <textarea id="adminInput" placeholder="Use this format:
+
+President:
+A=10
+B=6
+C=4
+D=2
+E=1
+
+Vice President:
+A=5
+B=3
+C=2
+D=1
+E=0
+"></textarea>
+    <button onclick="updateResults()">Update Results</button>
 </div>
 
 <script>
-  // Optionally, show admin panel if URL contains ?admin=true
-  if (window.location.search.includes('admin=true')) {
-    document.getElementById('adminPanel').style.display = 'block';
-  }
+    // Default structure for positions and contestants
+    let results = {
+        "President": { A: 0, B: 0, C: 0, D: 0, E: 0 },
+        "Vice President": { A: 0, B: 0, C: 0, D: 0, E: 0 },
+        "Secretary": { A: 0, B: 0, C: 0, D: 0, E: 0 },
+        "PRO": { A: 0, B: 0, C: 0, D: 0, E: 0 },
+        "Treasurer": { A: 0, B: 0, C: 0, D: 0, E: 0 }
+    };
 
-  function updateResults() {
-    const newResults = document.getElementById('adminInput').value;
-    document.getElementById('results').innerText = newResults;
-    alert('Results updated!');
-  }
+    function displayResults() {
+        const container = document.getElementById("resultsContainer");
+        container.innerHTML = "";
+
+        for (let position in results) {
+            const div = document.createElement("div");
+            div.className = "position";
+
+            let html = `<h2>${position}</h2>`;
+            for (let candidate in results[position]) {
+                html += `
+                    <div class="candidate">
+                        <span>${candidate}</span>
+                        <span>${results[position][candidate]} votes</span>
+                    </div>
+                `;
+            }
+            div.innerHTML = html;
+            container.appendChild(div);
+        }
+    }
+
+    function updateResults() {
+        let text = document.getElementById("adminInput").value;
+        let blocks = text.split("\n\n");
+
+        blocks.forEach(block => {
+            let lines = block.trim().split("\n");
+            let position = lines[0].replace(":", "").trim();
+
+            if (results[position]) {
+                for (let i = 1; i < lines.length; i++) {
+                    let [name, value] = lines[i].split("=");
+                    if (results[position][name.trim()] !== undefined) {
+                        results[position][name.trim()] = parseInt(value.trim());
+                    }
+                }
+            }
+        });
+
+        displayResults();
+        alert("Results updated!");
+    }
+
+    // Show admin panel when ?admin=true
+    if (window.location.search.includes("admin=true")) {
+        document.getElementById("adminPanel").style.display = "block";
+    }
+
+    displayResults();
 </script>
 
 </body>
