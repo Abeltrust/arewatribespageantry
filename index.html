@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -18,4 +18,516 @@
 <a href="../result.html"> View Result</a>
 </body>
 </html>
+ -->
+<!-- index.html
+  Elegant Amber Landing Page for "Mr & Miss Adamawa - Arewa Tribes & Culture"
+  - Mobile-first, responsive, amber theme
+  - Hero with poster, event title, CTA
+  - Top details, grand prize block, countdown timer
+  - Contact, registration form (client-side), sponsor area
+  - Accessibility & basic SEO meta
+  Replace HERO_IMAGE with your poster URL or relative path (e.g. images/poster.jpg)
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Mr & Miss Adamawa — Arewa Tribes & Culture: First Edition. Join us for culture, fashion, and crown. Grand prize ₦250,000 + more." />
+  <title>Mr & Miss Adamawa — Arewa Tribes & Culture | First Edition</title>
 
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #fff8f1;
+      --card: #fff;
+      --muted: #4b3a2a;
+      --accent: #ffb300;   /* Amber */
+      --accent-700: #ef8d00;
+      --accent-900: #b56a00;
+      --glass: rgba(255,255,255,0.8);
+      --shadow: 0 12px 30px rgba(11,10,10,0.08);
+      --radius: 14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,Helvetica;background:var(--bg);color:var(--muted);-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-700));display:grid;place-items:center;color:white;font-weight:900;font-family:Merriweather;font-size:20px}
+    .titleBlock h1{font-family:Merriweather,serif;margin:0;font-size:18px;letter-spacing:0.2px}
+    .titleBlock p{margin:2px 0 0 0;font-size:13px;color:#6b513a}
+
+    /* Hero */
+    .hero{background:linear-gradient(180deg, rgba(255,242,224,0.6), rgba(255,247,238,0.6));padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:950px){ .hero{grid-template-columns:1fr 420px;align-items:center} }
+
+    .hero-left{padding:8px}
+    .poster{width:100%;border-radius:12px;display:block;box-shadow:0 8px 22px rgba(0,0,0,0.08)}
+    .eventMeta{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .kicker{display:inline-block;background:linear-gradient(90deg,var(--accent),var(--accent-700));color:#2b1600;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
+    .eventTitle{font-family:Merriweather,serif;font-size:20px;margin:0}
+    .eventSub{font-size:14px;color:#6b513a;margin:0}
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btnPrimary{background:var(--accent);border:none;padding:12px 16px;border-radius:10px;font-weight:800;color:#2b1600;cursor:pointer;box-shadow:0 8px 20px rgba(181,106,0,0.12)}
+    .btnOutline{background:transparent;border:2px solid rgba(181,106,0,0.12);padding:10px 14px;border-radius:10px;color:var(--accent-900);cursor:pointer}
+
+    /* Right card - summary */
+    .hero-right{background:linear-gradient(180deg,#fff,#fff8eb);padding:16px;border-radius:12px;border:1px solid rgba(181,106,0,0.06)}
+    .grand{display:flex;flex-direction:column;gap:8px}
+    .grand h3{margin:0;font-family:Merriweather;font-weight:900;font-size:16px;color:var(--accent-900)}
+    .grand .prize{background:linear-gradient(90deg,#fff5e0,var(--accent));padding:10px;border-radius:10px;font-weight:900;color:#4b2b00;text-align:center;font-size:14px}
+    .infoRow{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:8px}
+    .small{font-size:13px;color:#6b513a}
+
+    /* Countdown */
+    .countdown{display:flex;gap:8px;align-items:center;margin-top:8px}
+    .countBox{background:linear-gradient(90deg, #fff6e8, #fff3df);padding:8px 10px;border-radius:8px;font-weight:800;color:var(--accent-900);min-width:62px;text-align:center}
+
+    /* Chart & leaderboard */
+    .panel{margin-top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .panel h2{margin:0 0 8px 0;font-size:16px;font-family:Merriweather}
+    .controls{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+    .search{padding:8px;border-radius:10px;border:1px solid #efe1cb;min-width:200px}
+
+    /* Chart canvas */
+    canvas{width:100%!important;height:320px!important}
+
+    /* Table */
+    .table-wrapper{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{padding:12px;border-bottom:1px solid #fbefe0;vertical-align:middle}
+    th{color:#6b513a;text-transform:uppercase;font-size:12px}
+    .thumb{width:56px;height:56px;border-radius:8px;object-fit:cover}
+
+    /* Mobile cards */
+    #cardsList{display:none;margin-top:12px;gap:12px}
+    .cardItem{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:#fff7ef;box-shadow:0 8px 20px rgba(181,106,0,0.06)}
+    .cardItem .info{flex:1}
+    .progressWrap{height:10px;background:#fff1de;border-radius:999px;overflow:hidden;margin-top:8px}
+    .progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-700));transition:width .8s}
+
+    /* Footer */
+    footer{margin-top:20px;text-align:center;color:#6b513a;font-size:14px;padding-bottom:30px}
+
+    /* Responsive rules */
+    @media(max-width:900px){
+      .brand .logo{width:46px;height:46px;font-size:18px}
+      .hero-right{order:2}
+      .hero-left{order:1}
+      .panel{padding:12px}
+      canvas{height:240px!important}
+      /* hide table show cards */
+      .table-wrapper{display:none}
+      #cardsList{display:block}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <div class="brand" aria-hidden="false">
+        <div class="logo" aria-hidden="true">A</div>
+        <div class="titleBlock">
+          <h1>Arewa Tribes & Culture — Pageantry</h1>
+          <p class="subtitle">Mr & Miss Adamawa — First Edition</p>
+        </div>
+      </div>
+      <div class="small">Auto-refresh • Mobile-ready • Amber theme</div>
+    </header>
+
+    <!-- HERO TOP -->
+    <section class="hero" aria-labelledby="eventTitle">
+      <div class="hero-left">
+        <!-- Replace HERO_IMAGE with your poster URL or relative path -->
+        <img id="heroPoster" class="poster" src="https://images.unsplash.com/photo-1520975910729-3f4a4f8c4b8a?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Mr & Miss Adamawa Poster">
+        <div class="eventMeta" aria-hidden="false">
+          <span class="kicker">Cultural Pageantry • First Edition</span>
+          <h2 id="eventTitle" class="eventTitle">Mr & Miss Adamawa — Tribes & Culture</h2>
+          <p class="eventSub">A celebration of heritage, style and community. Showcasing the finest representatives of Adamawa.</p>
+
+          <div class="ctaRow">
+            <button class="btnPrimary" id="rsvpBtn">Register / Vote</button>
+            <button class="btnOutline" id="learnBtn">Learn More</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-right" aria-label="Event summary">
+        <div class="grand">
+          <h3>Grand Prize</h3>
+          <div class="prize">₦250,000 • Apple product • Fashion kit • Monthly allowance</div>
+
+          <div class="infoRow">
+            <div>
+              <div class="small">Event Date</div>
+              <div style="font-weight:800;margin-top:4px">TBD — set by organizers</div>
+            </div>
+            <div>
+              <div class="small">Venue</div>
+              <div style="font-weight:800;margin-top:4px">Adamawa Cultural Hall</div>
+            </div>
+          </div>
+
+          <div class="countdown" aria-hidden="false">
+            <div class="small">Voting closes in</div>
+            <div style="display:flex;gap:8px;margin-left:auto">
+              <div class="countBox" id="cdDays">—</div>
+              <div class="countBox" id="cdHours">—</div>
+              <div class="countBox" id="cdMins">—</div>
+              <div class="countBox" id="cdSecs">—</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <div class="small">Contact</div>
+            <div style="margin-top:6px;font-weight:800">07088947385 • 09031399102</div>
+            <div style="margin-top:8px"><a href="mailto:info@example.com" class="small" style="text-decoration:none;color:var(--accent-900)">info@arewatribes.org</a></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- CHART & LEADERBOARD -->
+    <section class="panel" aria-labelledby="leaderTitle">
+      <div class="controls">
+        <h2 id="leaderTitle">Live Results</h2>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="search" class="search" placeholder="Search contestants…" aria-label="Search contestants" />
+          <button id="downloadCSVBtn" class="btnPrimary" style="background:var(--accent-700)">Prepare CSV for Download</button>
+        </div>
+      </div>
+
+      <canvas id="resultsChart" aria-hidden="false"></canvas>
+
+      <div class="table-wrapper" aria-live="polite">
+        <table id="resultsTable" role="table" aria-label="Full leaderboard">
+          <thead>
+            <tr><th>#</th><th>Contestant</th><th>Image</th><th>Votes</th><th>Progress</th></tr>
+          </thead>
+          <tbody id="resultsBody"><tr><td colspan="5" style="text-align:center;padding:18px">Loading results…</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Mobile card list (shown on phones) -->
+      <div id="cardsList" aria-hidden="true"></div>
+    </section>
+
+    <!-- Admin invisible trigger -->
+    <div id="adminTrigger" title="Admin (click)"></div>
+
+    <!-- Login Overlay -->
+    <div id="loginOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;z-index:9999">
+      <div style="background:var(--card);padding:18px;border-radius:12px;max-width:360px;width:92%;box-shadow:var(--shadow)">
+        <h3 style="margin:0 0 8px 0;color:var(--accent-900)">Admin Login</h3>
+        <div class="small">Enter PIN to unlock admin controls</div>
+        <input id="adminPin" type="password" style="width:100%;padding:10px;border-radius:8px;border:1px solid #efe1cb;margin-top:10px" placeholder="Admin PIN" />
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+          <button id="loginCancel" class="btnOutline">Cancel</button>
+          <button id="loginBtn" class="btnPrimary" style="background:var(--accent-700)">Unlock</button>
+        </div>
+        <div id="loginMsg" style="display:none;color:var(--bad);margin-top:8px" role="alert"></div>
+      </div>
+    </div>
+
+    <!-- Admin panel -->
+    <section id="adminPanel" style="display:none;margin-top:14px" aria-hidden="true">
+      <div class="panel">
+        <h3 style="margin:0 0 10px 0">Admin Controls</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <label class="small">Upload CSV (preview)</label>
+          <input id="csvUpload" type="file" accept=".csv" />
+          <button id="uploadBtn" class="btnPrimary">Upload & Preview</button>
+          <button id="clearPreview" class="btnOutline">Clear Preview</button>
+          <button id="logoutBtn" class="btnOutline" style="border-color:rgba(181,106,0,0.12)">Logout</button>
+          <label class="small" style="margin-left:auto">Countdown</label>
+          <input id="closeAt" type="datetime-local" />
+          <button id="setClose" class="btnPrimary" style="background:var(--accent-700)">Set</button>
+        </div>
+        <div class="small" style="margin-top:10px;color:#6b513a">Preview is local to your browser. To persist globally, replace <code>results.csv</code> on your site with the prepared file.</div>
+      </div>
+    </section>
+
+    <footer>© Arewa Tribes & Culture — Mr & Miss Adamawa • Keep admin PIN private</footer>
+  </div>
+
+<script>
+/* ======================
+  JS: CSV-driven UI, Chart, Admin & Countdown
+   CSV format expected:
+   ID,Name,Score,Image,About
+   (Image may be an absolute URL or relative path)
+====================== */
+
+const CSV_PATH = 'results.csv';
+const ADMIN_PIN = '4321'; // change before publishing
+let csvCache = null;
+let dataRows = [];
+let chart = null;
+let isAuthed = false;
+let previewCSV = localStorage.getItem('previewCSV') || null;
+let countdownAt = localStorage.getItem('countdownAt') || null;
+let tries = Number(localStorage.getItem('tries')||0);
+let lockUntil = Number(localStorage.getItem('lockUntil')||0);
+
+/* Utilities */
+function parseCSVText(text){
+  if(!text) return [];
+  // robust parser for quoted fields
+  const rows = []; let cur=''; let row=[]; let inQ=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i], nxt=text[i+1];
+    if(ch === '"'){ if(inQ && nxt === '"'){ cur+='"'; i++; } else { inQ=!inQ; } continue; }
+    if(ch === ',' && !inQ){ row.push(cur); cur=''; continue; }
+    if((ch === '\n' || ch === '\r') && !inQ){
+      if(cur !== '' || row.length>0){ row.push(cur); rows.push(row); row=[]; cur=''; }
+      if(ch === '\r' && text[i+1] === '\n') i++;
+      continue;
+    }
+    cur += ch;
+  }
+  if(cur !== '' || row.length>0){ row.push(cur); rows.push(row); }
+  return rows.filter(r=>r.length>0);
+}
+function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function blankImage(){ return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%' height='100%' rx='8' fill='#fff6e6'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#b56a00' font-size='18'>No Image</text></svg>`); }
+
+/* Load CSV (server or preview) */
+async function loadCSV(){
+  // prefer preview if exists
+  if(previewCSV){ csvCache = previewCSV; processCSV(previewCSV); return; }
+  try{
+    const res = await fetch(CSV_PATH + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const txt = await res.text();
+    csvCache = txt;
+    localStorage.setItem('lastServerCSV', txt);
+    processCSV(txt);
+  }catch(err){
+    const fallback = localStorage.getItem('lastServerCSV');
+    if(fallback) processCSV(fallback);
+    else document.getElementById('resultsBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:18px">Unable to load results.csv — upload or place results.csv on the server.</td></tr>';
+    console.error('CSV load error',err);
+  }
+}
+
+/* Process CSV into dataRows */
+function processCSV(txt){
+  const table = parseCSVText(String(txt).trim());
+  if(table.length < 1) return;
+  const headers = table[0].map(h=>h.trim());
+  const rows = table.slice(1).map((r,i)=>{
+    const obj={};
+    headers.forEach((hh,idx)=> obj[hh || ('col'+idx)] = (r[idx] ?? '').trim());
+    return {
+      ID: obj.ID || String(i+1),
+      Name: obj.Name || obj.name || ('Candidate ' + (i+1)),
+      Score: Number((obj.Score || obj.Votes || 0).toString().replace(/[^0-9.\-]/g,'')) || 0,
+      Image: obj.Image || obj.image || '',
+      About: obj.About || obj.Description || ''
+    };
+  });
+  rows.sort((a,b)=> b.Score - a.Score);
+  dataRows = rows;
+  renderAll();
+}
+
+/* Render UI */
+function renderAll(){
+  renderTop();
+  renderChart();
+  renderTable();
+  renderCards();
+  // animate progress
+  setTimeout(()=> document.querySelectorAll('.progress').forEach(el => {
+    const p = el.getAttribute('data-percent') || '0'; el.style.width = Math.min(100,Math.max(0,Number(p))) + '%';
+  }), 80);
+}
+
+/* Top 5 hero */
+function renderTop(){
+  const top = dataRows.slice(0,5);
+  const first = top[0] || {Name:'—',Score:0,Image:'',About:''};
+  document.getElementById('heroPoster').src = first.Image || (dataRows[0] ? (dataRows[0].Image || blankImage()) : blankImage());
+  document.getElementById('firstImg').src = first.Image || blankImage();
+  document.getElementById('firstName').innerText = first.Name;
+  document.getElementById('firstAbout').innerText = first.About || '';
+  document.getElementById('firstScore').innerText = first.Score;
+
+  const ids = ['second','third','fourth','fifth'];
+  for(let i=0;i<4;i++){
+    const el = top[i+1] || {Name:'—',Score:0,Image:''};
+    const img = document.getElementById(ids[i]+'Img');
+    const name = document.getElementById(ids[i]+'Name');
+    const score = document.getElementById(ids[i]+'Score');
+    if(img) img.src = el.Image || blankImage();
+    if(name) name.innerText = el.Name;
+    if(score) score.innerText = (el.Score || 0) + ' votes';
+  }
+}
+
+/* Table */
+function renderTable(){
+  const tbody = document.getElementById('resultsBody');
+  if(!dataRows || dataRows.length === 0){ tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:18px">No results</td></tr>'; return; }
+  const total = dataRows.reduce((s,r)=> s + (r.Score||0),0) || 1;
+  tbody.innerHTML = '';
+  dataRows.forEach((r,idx)=>{
+    const pct = Math.round((r.Score / total) * 100);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td style="font-weight:800">${idx+1}</td>
+                    <td><div style="font-weight:800">${escapeHtml(r.Name)}</div><div class="small about">${escapeHtml(r.About)}</div></td>
+                    <td><img src="${r.Image || blankImage()}" class="thumb" alt=""></td>
+                    <td style="font-weight:900">${r.Score}</td>
+                    <td><div class="progressWrap"><div class="progress" data-percent="${pct}"></div></div><div class="small" style="margin-top:6px">${pct}%</div></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* Mobile cards */
+function renderCards(){
+  const list = document.getElementById('cardsList'); list.innerHTML = '';
+  const total = dataRows.reduce((s,r)=> s + (r.Score||0),0) || 1;
+  dataRows.forEach((r,idx)=>{
+    const pct = Math.round((r.Score / total) * 100);
+    const div = document.createElement('div'); div.className='cardItem';
+    div.innerHTML = `<img src="${r.Image || blankImage()}" alt="">
+      <div class="info">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-weight:800">${escapeHtml(r.Name)}</div>
+          <div style="font-weight:900;color:var(--accent)">${r.Score}</div>
+        </div>
+        <div class="small about">${escapeHtml(r.About)}</div>
+        <div class="progressWrap" style="margin-top:8px"><div class="progress" data-percent="${pct}"></div></div>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+/* Chart.js rendering */
+function renderChart(){
+  const ctx = document.getElementById('resultsChart').getContext('2d');
+  const labels = dataRows.map(r => r.Name);
+  const values = dataRows.map(r => r.Score);
+  const colors = dataRows.map((_,i)=> i===0 ? '#ffdb99' : i===1 ? '#ffe6b3' : '#ffcc66');
+
+  if(chart) chart.destroy();
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Votes', data: values, backgroundColor: colors }] },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+}
+
+/* Search filter */
+document.getElementById('search').addEventListener('input', function(){
+  const q = this.value.trim().toLowerCase();
+  if(!q){ renderAll(); return; }
+  const filtered = dataRows.filter(r => (r.Name||'').toLowerCase().includes(q) || (r.About||'').toLowerCase().includes(q));
+  // temporarily render filtered set
+  const prev = dataRows;
+  dataRows = filtered;
+  renderAll();
+  dataRows = prev;
+});
+
+/* CSV download button */
+document.getElementById('downloadCSVBtn').addEventListener('click', ()=>{
+  const csv = csvCache || localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
+  if(!csv) return alert('No CSV loaded yet');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'results.csv'; a.click();
+});
+
+/* Admin trigger & login */
+const adminTrigger = document.getElementById('adminTrigger');
+const loginOverlay = document.getElementById('loginOverlay');
+const loginBtn = document.getElementById('loginBtn');
+const loginCancel = document.getElementById('loginCancel');
+const adminPanel = document.getElementById('adminPanel');
+const adminPinInput = document.getElementById('adminPin');
+const loginMsg = document.getElementById('loginMsg');
+
+adminTrigger.addEventListener('click', ()=> {
+  if(Date.now() < lockUntil) { alert('Admin locked. Try later.'); return; }
+  loginOverlay.style.display = 'flex'; adminPinInput.value=''; adminPinInput.focus();
+});
+loginCancel.addEventListener('click', ()=> loginOverlay.style.display = 'none');
+
+loginBtn.addEventListener('click', async ()=> {
+  const pin = adminPinInput.value.trim();
+  if(!pin){ loginMsg.style.display='block'; loginMsg.innerText='Enter PIN'; return; }
+  const stored = localStorage.getItem('adminPinHash');
+  if(stored){
+    const hash = await sha256(pin);
+    if(hash === stored){ doLogin(); } else failLogin();
+  } else {
+    if(pin === ADMIN_PIN) doLogin(); else failLogin();
+  }
+});
+function doLogin(){ isAuthed=true; loginOverlay.style.display='none'; adminPanel.style.display='block'; loginMsg.style.display='none'; tries=0; localStorage.setItem('tries',0); alert('Admin unlocked'); }
+function failLogin(){ tries++; localStorage.setItem('tries',tries); loginMsg.style.display='block'; loginMsg.innerText = 'Incorrect PIN'; if(tries>=4){ lockUntil = Date.now() + 5*60*1000; localStorage.setItem('lockUntil',lockUntil); loginMsg.innerText = 'Too many attempts — locked for 5 minutes'; setTimeout(()=> loginOverlay.style.display='none',900); } }
+
+document.getElementById('logoutBtn').addEventListener('click', ()=> { isAuthed=false; adminPanel.style.display='none'; alert('Logged out'); });
+
+/* Admin: upload preview */
+document.getElementById('uploadBtn').addEventListener('click', ()=> {
+  if(!isAuthed){ alert('Unlock admin first'); return; }
+  const f = document.getElementById('csvUpload').files[0];
+  if(!f) return alert('Choose a CSV');
+  const reader = new FileReader();
+  reader.onload = (e)=> { previewCSV = e.target.result; localStorage.setItem('previewCSV', previewCSV); csvCache = previewCSV; processCSV(previewCSV); alert('Preview saved locally. Use Prepare CSV for Download to save file for server.'); };
+  reader.readAsText(f);
+});
+document.getElementById('clearPreview').addEventListener('click', ()=> {
+  if(!isAuthed) return alert('Unlock admin first');
+  if(confirm('Clear preview?')) { previewCSV = null; localStorage.removeItem('previewCSV'); csvCache = null; loadCSV(); }
+});
+document.getElementById('setClose').addEventListener('click', ()=> {
+  if(!isAuthed){ alert('Unlock admin first'); return; }
+  const v = document.getElementById('closeAt').value;
+  if(!v) return alert('Pick date & time');
+  countdownAt = new Date(v).toISOString(); localStorage.setItem('countdownAt', countdownAt); alert('Countdown set locally');
+});
+
+/* Countdown updater */
+function updateCountdownUI(){
+  if(!countdownAt) return;
+  const then = new Date(countdownAt); const now = new Date(); const diff = then - now;
+  if(diff <= 0){ document.getElementById('cdDays').innerText='0'; document.getElementById('cdHours').innerText='0'; document.getElementById('cdMins').innerText='0'; document.getElementById('cdSecs').innerText='0'; return; }
+  const d = Math.floor(diff/(1000*60*60*24)); const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60)); const m = Math.floor((diff%(1000*60*60))/(1000*60)); const s = Math.floor((diff%(1000*60))/1000);
+  document.getElementById('cdDays').innerText = d; document.getElementById('cdHours').innerText = h; document.getElementById('cdMins').innerText = m; document.getElementById('cdSecs').innerText = s;
+}
+setInterval(updateCountdownUI, 1000);
+
+/* helper: sha256 */
+async function sha256(str){ const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)); return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
+
+/* Auto refresh from server */
+const REFRESH_INTERVAL = Math.max(5, Number(localStorage.getItem('refreshSeconds')||10));
+setInterval(()=> {
+  if(!previewCSV) loadCSV(); // don't clobber preview while admin is testing
+}, REFRESH_INTERVAL * 1000);
+
+/* Init */
+(function init(){
+  // load preview or server csv
+  if(previewCSV){ csvCache = previewCSV; processCSV(previewCSV); } else loadCSV();
+  // restore countdown field
+  if(localStorage.getItem('countdownAt')){ countdownAt = localStorage.getItem('countdownAt'); document.getElementById('closeAt').value = new Date(countdownAt).toISOString().slice(0,16); }
+  if(countdownAt) updateCountdownUI();
+  // admin lock state
+  const lu = Number(localStorage.getItem('lockUntil')||0); if(lu) lockUntil = lu;
+})();
+</script>
+</body>
+</html>
