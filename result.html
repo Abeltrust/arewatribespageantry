@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Live Voting Results — Amber Showcase</title>
+<title>Live Voting Results</title>
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -74,7 +74,7 @@
 
   /* responsive */
   @media (max-width:900px){
-    .table-wrapper{display:none}
+    .table-wrapper{display:none; overflow-x:auto;}
     #cardsList{display:block}
     .bottomCards{grid-template-columns:1fr 1fr}
     .firstCard img{width:120px;height:120px}
@@ -102,12 +102,15 @@
     <div class="brand">
       <div class="logo">A</div>
       <div>
-        <h1>Amber Results — Live Showcase</h1>
+        <h1>Results — Live Showcase</h1>
         <div class="subtitle">Top contestants, live chart & full leaderboard</div>
       </div>
     </div>
-    <div class="small muted">Auto-refresh from server • Admin-protected</div>
+    <!-- <div class="small muted">Auto-refresh from server • Admin-protected</div> -->
   </header>
+
+  <!-- COUNTDOWN -->
+  <div id="countdown" class="small muted" style="margin-bottom:12px"></div>
 
   <!-- HERO TOP-5 -->
   <div class="hero">
@@ -163,7 +166,7 @@
           <div class="muted">Live Chart</div>
         </div>
         <div>
-          <button class="btn" id="downloadCSVBtn">Prepare CSV for Download</button>
+          <!-- <button class="btn" id="downloadCSVBtn">Prepare CSV for Download</button> -->
         </div>
       </div>
 
@@ -223,18 +226,15 @@
     <div class="small" style="margin-top:10px;color:#6b5543">To persist changes live, replace the server <code>results.csv</code> with the downloaded CSV (use Prepare CSV for Download button).</div>
   </div>
 
-  <footer>Made with culture • Keep your admin PIN safe</footer>
+  <footer>Made with culture • AbelTrust</footer>
 </div>
 
 <script>
 /* ==================================================
    CONFIG & STATE
-   - CSV format: ID,Name,Score,Image,About
-   - Place results.csv on the same folder as this file
-   - Admin PIN: change before publishing
    ================================================== */
 const CSV_PATH = 'results.csv';
-const ADMIN_PIN_DEFAULT = '4321'; // change this before publish
+const ADMIN_PIN_DEFAULT = '4321';
 let ADMIN_PIN = ADMIN_PIN_DEFAULT;
 let isAuthed = false;
 let csvTextCache = null;
@@ -245,7 +245,7 @@ let refreshSeconds = Number(localStorage.getItem('refreshSeconds') || 10);
 let tries = Number(localStorage.getItem('tries') || 0);
 let lockUntil = Number(localStorage.getItem('lockUntil') || 0);
 
-/* =============== UTIL: robust CSV parser (handles quotes) =============== */
+/* =============== UTIL: CSV parser =============== */
 function parseCSVText(text){
   if(!text) return [];
   const rows = [];
@@ -269,8 +269,9 @@ function parseCSVText(text){
   return rows.filter(r=>r.length>0);
 }
 
-/* =============== LOAD CSV from server (auto-refresh) =============== */
+/* =============== LOAD CSV from server =============== */
 async function loadCSVFromServer(){
+  if(document.activeElement === document.getElementById('search')) return; // skip refresh while typing
   try{
     const res = await fetch(CSV_PATH + '?t=' + Date.now());
     if(!res.ok) throw new Error('HTTP ' + res.status);
@@ -288,7 +289,7 @@ async function loadCSVFromServer(){
   }
 }
 
-/* =============== PROCESS CSV into dataRows =============== */
+/* =============== PROCESS CSV =============== */
 function processCSV(txt){
   if(!txt){ return; }
   const table = parseCSVText(String(txt).trim());
@@ -297,31 +298,27 @@ function processCSV(txt){
   const rows = table.slice(1).map((r,i)=>{
     const obj = {};
     headers.forEach((hh, idx)=> obj[hh || ('col'+idx)] = (r[idx] ?? '').trim());
-    // normalize fields
     return {
       ID: obj.ID || String(i+1),
       Name: obj.Name || obj.name || obj.FullName || ('Candidate ' + (i+1)),
-      Score: Number(String(obj.Score || obj.Votes || obj.Score || 0).replace(/[^0-9.\-]/g,'')) || 0,
+      Score: Number(String(obj.Score || obj.Votes || 0).replace(/[^0-9.\-]/g,'')) || 0,
       Image: obj.Image || obj.image || obj.Photo || '',
       About: obj.About || obj.Description || ''
     };
   });
 
-  // sort descending by Score
   rows.sort((a,b)=> b.Score - a.Score);
   dataRows = rows;
   renderAll();
 }
 
-/* =============== RENDER: top5 hero, table, cards, chart =============== */
+/* =============== RENDER ALL =============== */
 function renderAll(){
   renderTop5();
   renderTable();
   renderCards();
   renderChart();
   document.getElementById('downloadCSVBtn').disabled = !csvTextCache;
-  // update updatedAt
-  // animate progress bars
   setTimeout(()=> {
     document.querySelectorAll('.progress').forEach(el=>{
       const p = el.getAttribute('data-percent') || '0';
@@ -332,7 +329,6 @@ function renderAll(){
 
 function renderTop5(){
   const top = dataRows.slice(0,5);
-  // defaults
   const first = top[0] || {Name:'—',Score:0,Image:'',About:''};
   document.getElementById('firstImg').src = first.Image || blankImage();
   document.getElementById('firstPos').innerText = '#1';
@@ -341,22 +337,21 @@ function renderTop5(){
   document.getElementById('firstScore').innerText = first.Score;
 
   const s2 = top[1] || {Name:'—',Score:0,Image:''};
-  const s3 = top[2] || {Name:'—',Score:0,Image:''};
-  const s4 = top[3] || {Name:'—',Score:0,Image:''};
-  const s5 = top[4] || {Name:'—',Score:0,Image:''};
-
   document.getElementById('secondImg').src = s2.Image || blankImage();
   document.getElementById('secondName').innerText = s2.Name;
   document.getElementById('secondScore').innerText = s2.Score + ' votes';
 
+  const s3 = top[2] || {Name:'—',Score:0,Image:''};
   document.getElementById('thirdImg').src = s3.Image || blankImage();
   document.getElementById('thirdName').innerText = s3.Name;
   document.getElementById('thirdScore').innerText = s3.Score + ' votes';
 
+  const s4 = top[3] || {Name:'—',Score:0,Image:''};
   document.getElementById('fourthImg').src = s4.Image || blankImage();
   document.getElementById('fourthName').innerText = s4.Name;
   document.getElementById('fourthScore').innerText = s4.Score + ' votes';
 
+  const s5 = top[4] || {Name:'—',Score:0,Image:''};
   document.getElementById('fifthImg').src = s5.Image || blankImage();
   document.getElementById('fifthName').innerText = s5.Name;
   document.getElementById('fifthScore').innerText = s5.Score + ' votes';
@@ -364,256 +359,78 @@ function renderTop5(){
 
 function renderTable(){
   const tbody = document.getElementById('resultsBody');
-  if(!dataRows || dataRows.length === 0){
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px">No results</td></tr>';
-    return;
-  }
-  const total = dataRows.reduce((s,r)=> s + (r.Score || 0), 0) || 1;
+  const searchTerm = (document.getElementById('search')?.value || '').toLowerCase();
+  if(dataRows.length<1){ tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:16px">No data</td></tr>'; return; }
   tbody.innerHTML = '';
-  dataRows.forEach((r, idx)=>{
-    const pct = Math.round((r.Score / total) * 100);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="font-weight:800">${idx+1}</td>
-                    <td>
-                      <div style="font-weight:800">${escapeHtml(r.Name)}</div>
-                      <div class="small about">${escapeHtml(r.About)}</div>
-                    </td>
-                    <td><img src="${r.Image || blankImage()}" class="thumb" alt=""></td>
-                    <td style="font-weight:900">${r.Score}</td>
-                    <td>
-                      <div class="progressWrap"><div class="progress" data-percent="${pct}"></div></div>
-                      <div class="small" style="margin-top:6px">${pct}%</div>
-                    </td>`;
-    tbody.appendChild(tr);
+  const maxScore = Math.max(...dataRows.map(r=>r.Score),1);
+  dataRows.forEach((r,i)=>{
+    if(searchTerm && !r.Name.toLowerCase().includes(searchTerm)) return;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${i+1}</td>
+      <td>${r.Name}</td>
+      <td><img class="thumb" src="${r.Image||blankImage()}" /></td>
+      <td>${r.Score}</td>
+      <td><div class="progressWrap"><div class="progress" data-percent="${(r.Score/maxScore)*100}"></div></div></td>
+    `;
+    tbody.appendChild(row);
   });
 }
 
 function renderCards(){
-  const list = document.getElementById('cardsList');
-  list.innerHTML = '';
-  const total = dataRows.reduce((s,r)=> s + (r.Score || 0), 0) || 1;
-  dataRows.forEach((r, idx)=>{
-    const pct = Math.round((r.Score / total) * 100);
+  const container = document.getElementById('cardsList');
+  container.innerHTML = '';
+  const searchTerm = (document.getElementById('search')?.value || '').toLowerCase();
+  const maxScore = Math.max(...dataRows.map(r=>r.Score),1);
+  dataRows.forEach((r,i)=>{
+    if(searchTerm && !r.Name.toLowerCase().includes(searchTerm)) return;
     const div = document.createElement('div');
-    div.className = 'cardItem';
-    div.innerHTML = `<img src="${r.Image || blankImage()}" alt="">
-                     <div style="flex:1">
-                       <div style="display:flex;justify-content:space-between;align-items:center">
-                        <div style="font-weight:800">${escapeHtml(r.Name)}</div>
-                        <div style="font-weight:900;color:var(--accent)">${r.Score}</div>
-                       </div>
-                       <div class="small about">${escapeHtml(r.About)}</div>
-                       <div class="progressWrap" style="margin-top:8px"><div class="progress" data-percent="${pct}"></div></div>
-                     </div>`;
-    list.appendChild(div);
+    div.className='cardItem';
+    div.innerHTML=`<img src="${r.Image||blankImage()}" alt=""><div><div style="font-weight:800">${r.Name}</div><div class="small">${r.Score} votes</div></div>`;
+    container.appendChild(div);
   });
 }
 
-/* Chart */
 function renderChart(){
   const ctx = document.getElementById('resultsChart').getContext('2d');
-  const labels = dataRows.map(r => r.Name);
-  const values = dataRows.map(r => r.Score);
-  const colors = dataRows.map((_,i)=> i===0 ? '#ffcc66' : i===1 ? '#ffd88a' : i===2 ? '#ffdd99' : '#ffb300');
-
-  if(chart) chart.destroy();
-  chart = new Chart(ctx, {
-    type: 'bar',
-    data: { labels, datasets: [{ label: 'Votes', data: values, backgroundColor: colors }] },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true } }
-    }
+  const labels = dataRows.map(r=>r.Name);
+  const scores = dataRows.map(r=>r.Score);
+  const colors = dataRows.map((_,i)=> i===0?'#ffcc66': i===1?'#ffd88a': i===2?'#ffe0b3':'#ffb300');
+  if(chart){ chart.data.labels=labels; chart.data.datasets[0].data=scores; chart.data.datasets[0].backgroundColor=colors; chart.update(); return; }
+  chart = new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[{label:'Votes',data:scores,backgroundColor:colors}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
   });
 }
 
-/* =============== HELPERS =============== */
-function blankImage(){
-  // tiny transparent amber placeholder (data URI)
-  return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect rx='12' width='100%' height='100%' fill='%23ffecd1'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23b56a00' font-size='20'>No Image</text></svg>`);
-}
-function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function blankImage(){return 'data:image/svg+xml;base64,'+btoa('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="#f0e6d5"/></svg>');}
 
 /* =============== SEARCH FILTER =============== */
-document.getElementById('search').addEventListener('input', function(){
-  const q = this.value.trim().toLowerCase();
-  if(!q){ renderAll(); return; }
-  const filtered = dataRows.filter(r => (r.Name || '').toLowerCase().includes(q) || (r.About||'').toLowerCase().includes(q));
-  // render filtered views
-  // temporarily set displayed data
-  renderFiltered(filtered);
-});
-
-function renderFiltered(rows){
-  // top5 uses the filtered first 5
-  const prevData = dataRows;
-  dataRows = rows;
-  renderTop5();
+document.getElementById('search')?.addEventListener('input',()=>{
   renderTable();
   renderCards();
-  renderChart();
-  dataRows = prevData; // restore
+});
+
+/* =============== COUNTDOWN =============== */
+function updateCountdown(){
+  const el = document.getElementById('countdown');
+  if(!countdownAt){ el.innerText='No active countdown'; return; }
+  const end = new Date(countdownAt).getTime();
+  const now = Date.now();
+  const diff = end-now;
+  if(diff<=0){ el.innerText='Voting ended'; return; }
+  const d=Math.floor(diff/86400000), h=Math.floor(diff%86400000/3600000), m=Math.floor(diff%3600000/60000), s=Math.floor(diff%60000/1000);
+  el.innerText=`Ends in: ${d}d ${h}h ${m}m ${s}s`;
 }
-
-/* =============== ADMIN: PIN + Brute-force limit =============== */
-const adminTrigger = document.getElementById('adminTrigger');
-const loginOverlay = document.getElementById('loginOverlay');
-const loginBtn = document.getElementById('loginBtn');
-const adminPinInput = document.getElementById('adminPin');
-const loginMsg = document.getElementById('loginMsg');
-const adminPanel = document.getElementById('adminPanel');
-
-adminTrigger.addEventListener('click', ()=> {
-  if(isLocked()){
-    alert('Admin locked. Try later.');
-    return;
-  }
-  loginOverlay.style.display = 'flex';
-  adminPinInput.value = '';
-  adminPinInput.focus();
-});
-
-function isLocked(){
-  return Date.now() < lockUntil;
-}
-
-loginBtn.addEventListener('click', ()=> {
-  const pin = adminPinInput.value.trim();
-  // check local stored override PIN (optional)
-  const stored = localStorage.getItem('adminPinHash');
-  if(stored){
-    // compare SHA-256
-    sha256(pin).then(h=>{
-      if(h === stored){ succeedLogin(); }
-      else failLogin();
-    });
-  } else {
-    if(pin === ADMIN_PIN){ succeedLogin(); }
-    else failLogin();
-  }
-});
-
-function succeedLogin(){
-  isAuthed = true;
-  loginOverlay.style.display = 'none';
-  adminPanel.style.display = 'block';
-  loginMsg.style.display = 'none';
-  tries = 0; localStorage.setItem('tries', 0);
-  alert('Admin unlocked for this session.');
-}
-function failLogin(){
-  tries++;
-  localStorage.setItem('tries', tries);
-  loginMsg.style.display = 'block';
-  loginMsg.innerText = 'Incorrect PIN';
-  if(tries >= 4){
-    lockUntil = Date.now() + 5*60*1000; // 5 minutes
-    localStorage.setItem('lockUntil', lockUntil);
-    loginMsg.innerText = 'Too many attempts — locked for 5 minutes';
-    setTimeout(()=> loginOverlay.style.display = 'none', 800);
-  }
-}
-
-document.getElementById('logoutBtn').addEventListener('click', ()=> {
-  isAuthed = false;
-  adminPanel.style.display = 'none';
-  alert('Logged out');
-});
-
-/* optional hashing helper */
-async function sha256(str){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-
-/* =============== ADMIN: Upload & Prepare CSV download =============== */
-document.getElementById('uploadBtn').addEventListener('click', ()=> {
-  if(!isAuthed){ alert('Unlock admin first'); return; }
-  const f = document.getElementById('csvUpload').files[0];
-  if(!f) return alert('Pick a CSV file');
-  const reader = new FileReader();
-  reader.onload = e => {
-    const txt = e.target.result;
-    localStorage.setItem('previewCSV', txt);
-    csvTextCache = txt;
-    processCSV(txt);
-    alert('Preview saved locally. Use "Prepare CSV for Download" to replace server file.');
-  };
-  reader.readAsText(f);
-});
-
-document.getElementById('downloadCSVBtn').addEventListener('click', ()=> {
-  const csv = csvTextCache || localStorage.getItem('previewCSV') || localStorage.getItem('lastServerCSV');
-  if(!csv) return alert('No CSV loaded yet');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'results.csv'; a.click();
-});
-
-document.getElementById('clearPreview').addEventListener('click', ()=> {
-  if(!isAuthed){ alert('Unlock admin first'); return; }
-  if(confirm('Clear local preview and countdown?')){
-    localStorage.removeItem('previewCSV');
-    localStorage.removeItem('countdownAt');
-    localStorage.removeItem('lastServerCSV');
-    csvTextCache = null;
-    loadCSVFromServer();
-  }
-});
-
-document.getElementById('setClose').addEventListener('click', ()=> {
-  if(!isAuthed){ alert('Unlock admin first'); return; }
-  const v = document.getElementById('closeAt').value;
-  if(!v) return alert('Pick a date & time');
-  countdownAt = new Date(v).toISOString();
-  localStorage.setItem('countdownAt', countdownAt);
-  alert('Countdown saved to browser. To publish globally, update server-side config.');
-});
-
-/* countdown updater */
-setInterval(()=> {
-  if(countdownAt) {
-    const then = new Date(countdownAt);
-    const now = new Date();
-    const diff = then - now;
-    const el = document.getElementById('countdown');
-    if(diff <= 0) el.innerText = 'Voting closed';
-    else {
-      const d = Math.floor(diff/(1000*60*60*24));
-      const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-      const m = Math.floor((diff%(1000*60*60))/(1000*60));
-      const s = Math.floor((diff%(1000*60))/1000);
-      el.innerText = `Ends in: ${d}d ${h}h ${m}m ${s}s`;
-    }
-  }
-}, 1000);
+setInterval(updateCountdown,1000);
+updateCountdown();
 
 /* =============== AUTO REFRESH =============== */
-setInterval(()=> {
-  loadCSVFromServer();
-}, Math.max(3000, refreshSeconds*1000));
+setInterval(loadCSVFromServer, refreshSeconds*1000);
 
-/* =============== INIT =============== */
-(function init(){
-  // restore saved preview if exists or load server csv
-  const preview = localStorage.getItem('previewCSV');
-  if(preview){ csvTextCache = preview; processCSV(preview); } else loadCSVFromServer();
-
-  // restore countdown
-  if(localStorage.getItem('countdownAt')) {
-    countdownAt = localStorage.getItem('countdownAt');
-    document.getElementById('closeAt').value = new Date(countdownAt).toISOString().slice(0,16);
-  }
-
-  // restore refreshSeconds
-  const saved = Number(localStorage.getItem('refreshSeconds'));
-  if(saved) refreshSeconds = saved;
-
-  // restore admin lock state
-  const lu = Number(localStorage.getItem('lockUntil') || 0);
-  if(lu) lockUntil = lu;
-})();
-
+/* =============== INITIAL LOAD =============== */
+loadCSVFromServer();
 </script>
 </body>
 </html>
