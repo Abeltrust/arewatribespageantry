@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Voting Results</title>
 
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
     body {
         margin: 0;
@@ -23,7 +26,7 @@
 
     .container {
         width: 95%;
-        max-width: 900px;
+        max-width: 1000px;
         margin: 20px auto;
         background: white;
         padding: 20px;
@@ -54,11 +57,20 @@
     #resultsTable th, #resultsTable td {
         padding: 10px;
         border: 1px solid #ccc;
+        text-align: left;
+        vertical-align: middle;
     }
 
     #resultsTable th {
         background: #2a2a72;
         color: #fff;
+    }
+
+    .contestant-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
     }
 
     .admin-btn {
@@ -80,12 +92,17 @@
         border-radius: 5px;
     }
 
-    .hidden {
-        display: none !important;
+    #searchInput {
+        margin-bottom: 10px;
+        padding: 6px 10px;
+        width: 100%;
+        max-width: 250px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
     }
 
-    input[type="file"] {
-        margin-top: 10px;
+    canvas {
+        margin-top: 20px;
     }
 
     footer {
@@ -95,6 +112,36 @@
         color: #666;
         font-size: 14px;
     }
+
+    .cardItem {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-bottom: 8px;
+    }
+
+    .cardItem .info {
+        flex: 1;
+    }
+
+    .progressWrap {
+        height: 12px;
+        background: #eee;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-top: 4px;
+    }
+
+    .progress {
+        height: 100%;
+        width: 0%;
+        background: #2a2a72;
+        transition: width 0.8s ease-in-out;
+    }
+
 </style>
 </head>
 
@@ -108,23 +155,35 @@
     <!-- Countdown -->
     <div id="countdown" class="timer">Loading countdown...</div>
 
+    <!-- Search -->
+    <input type="text" id="searchInput" placeholder="Search contestant...">
+
+    <!-- Chart -->
+    <canvas id="resultsChart" height="200"></canvas>
+
     <!-- Results Table -->
     <table id="resultsTable">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Contestant Name</th>
+                <th>Contestant</th>
+                <th>Image</th>
                 <th>Votes</th>
+                <th>Progress</th>
             </tr>
         </thead>
         <tbody id="resultsBody">
-            <tr><td colspan="3" style="text-align:center;">Loading...</td></tr>
+            <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
         </tbody>
     </table>
 
-    <!-- Hidden Admin -->
+    <!-- Mobile Card View -->
+    <div id="cardsList"></div>
+
+    <!-- Hidden Admin Trigger -->
     <div id="adminTrigger" style="width:40px; height:40px; opacity:0; position:fixed; bottom:10px; left:10px;"></div>
 
+    <!-- Admin Panel -->
     <div id="adminPanel" class="admin-panel">
         <h3>Admin Control Panel</h3>
         <p>Upload New CSV:</p>
@@ -135,106 +194,203 @@
 
 <footer>Powered by Your Voting System © 2025</footer>
 
-
 <script>
 /* ---------------------------
-   SECURITY SYSTEM (ADMIN LOGIN)
+   CONFIG
 ----------------------------- */
-
+const CSV_PATH = 'results.csv';
+const ADMIN_PIN = "4321"; // change PIN
+const eventDate = new Date("2025-12-30T23:59:59");
 let adminUnlocked = false;
-const ADMIN_PIN = "4321";  // Change this to any secret PIN
+let csvData = [];
+let chart;
 
+/* ---------------------------
+   ADMIN LOGIN
+----------------------------- */
 document.getElementById("adminTrigger").addEventListener("click", () => {
-    if (!adminUnlocked) {
+    if(!adminUnlocked){
         let pin = prompt("Enter Admin PIN:");
-        if (pin === ADMIN_PIN) {
+        if(pin === ADMIN_PIN){
             adminUnlocked = true;
             document.getElementById("adminPanel").style.display = "block";
             alert("Admin panel unlocked.");
-        } else {
-            alert("Incorrect PIN.");
-        }
+        } else alert("Incorrect PIN.");
     }
 });
 
 /* ---------------------------
    COUNTDOWN TIMER
 ----------------------------- */
-
-const eventDate = new Date("2025-12-30T23:59:59");
-
 function updateCountdown() {
     const now = new Date();
     const diff = eventDate - now;
 
-    if (diff <= 0) {
+    if(diff <= 0){
         document.getElementById("countdown").innerHTML = "Voting has ended.";
         return;
     }
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hrs = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const secs = Math.floor((diff % (1000*60)) / 1000);
+    const days = Math.floor(diff/(1000*60*60*24));
+    const hrs = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    const mins = Math.floor((diff%(1000*60*60))/(1000*60));
+    const secs = Math.floor((diff%(1000*60))/1000);
 
     document.getElementById("countdown").innerHTML =
         `Ends in: ${days}d ${hrs}h ${mins}m ${secs}s`;
 }
-
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
 /* ---------------------------
-   LOAD CSV & DISPLAY RESULTS
+   CSV LOADING & RENDER
 ----------------------------- */
-
-function loadCSV() {
-    fetch("results.csv")
-        .then(response => response.text())
-        .then(data => parseCSV(data));
+async function loadCSV(){
+    try{
+        const res = await fetch(CSV_PATH + '?t=' + Date.now());
+        const txt = await res.text();
+        parseCSV(txt);
+    } catch(err){
+        console.error('CSV load failed', err);
+    }
 }
 
-function parseCSV(data) {
-    const rows = data.trim().split("\n").slice(1);
-    let html = "";
-
-    rows.forEach(row => {
-        const cols = row.split(",");
-        html += `
-            <tr>
-                <td>${cols[0]}</td>
-                <td>${cols[1]}</td>
-                <td>${cols[2]}</td>
-            </tr>`;
+function parseCSV(data){
+    const lines = data.trim().split('\n');
+    const headers = lines[0].split(',');
+    const rows = lines.slice(1).map(r => {
+        const cols = r.split(',');
+        return {
+            ID: cols[0],
+            Name: cols[1],
+            Votes: parseInt(cols[2]) || 0,
+            Image: cols[3] || ''
+        };
     });
 
-    document.getElementById("resultsBody").innerHTML = html;
+    // Sort descending
+    rows.sort((a,b)=>b.Votes - a.Votes);
+    csvData = rows;
+    renderTable(rows);
+    renderCards(rows);
+    renderChart(rows);
 }
-
-loadCSV();
 
 /* ---------------------------
-   ADMIN CSV UPLOAD (Local)
+   TABLE & PROGRESS
 ----------------------------- */
+function renderTable(rows){
+    const tbody = document.getElementById("resultsBody");
+    tbody.innerHTML = '';
+    const totalVotes = rows.reduce((a,b)=>a+b.Votes, 0) || 1;
 
-function uploadCSV() {
+    rows.forEach((r,i)=>{
+        const percent = Math.round((r.Votes/totalVotes)*100);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${r.ID}</td>
+            <td>${r.Name}</td>
+            <td>${r.Image? `<img src="${r.Image}" class="contestant-img">` : ''}</td>
+            <td>${r.Votes}</td>
+            <td>
+                <div class="progressWrap">
+                    <div class="progress" style="width:${percent}%"></div>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+/* ---------------------------
+   MOBILE CARDS
+----------------------------- */
+function renderCards(rows){
+    const container = document.getElementById('cardsList');
+    container.innerHTML = '';
+    const totalVotes = rows.reduce((a,b)=>a+b.Votes,0)||1;
+
+    rows.forEach(r=>{
+        const percent = Math.round((r.Votes/totalVotes)*100);
+        const card = document.createElement('div');
+        card.className = 'cardItem';
+        card.innerHTML = `
+            ${r.Image? `<img src="${r.Image}" class="contestant-img">` : ''}
+            <div class="info">
+                <strong>${r.Name}</strong><br>
+                Votes: ${r.Votes}
+                <div class="progressWrap"><div class="progress" style="width:${percent}%"></div></div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+/* ---------------------------
+   CHART
+----------------------------- */
+function renderChart(rows){
+    const labels = rows.map(r=>r.Name);
+    const votes = rows.map(r=>r.Votes);
+    const colors = rows.map((_,i)=> i===0?'#ffd700':i===1?'#c0c0c0':i===2?'#cd7f32':'#2a2a72');
+
+    if(chart) chart.destroy();
+
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    chart = new Chart(ctx,{
+        type:'bar',
+        data:{
+            labels,
+            datasets:[{
+                label:'Votes',
+                data:votes,
+                backgroundColor: colors
+            }]
+        },
+        options:{
+            responsive:true,
+            plugins:{legend:{display:false}},
+            scales:{y:{beginAtZero:true}}
+        }
+    });
+}
+
+/* ---------------------------
+   SEARCH
+----------------------------- */
+document.getElementById('searchInput').addEventListener('input', function(){
+    const q = this.value.toLowerCase();
+    const filtered = csvData.filter(r=>r.Name.toLowerCase().includes(q));
+    renderTable(filtered);
+    renderCards(filtered);
+    renderChart(filtered);
+});
+
+/* ---------------------------
+   ADMIN CSV UPLOAD
+----------------------------- */
+function uploadCSV(){
     const fileInput = document.getElementById("csvFile");
-    if (!fileInput.files.length) {
-        alert("Please select a CSV file.");
+    if(!fileInput.files.length){
+        alert("Select a CSV file");
         return;
     }
-
-    const file = fileInput.files[0];
-
-    // Preview uploaded CSV without backend
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function(e){
         parseCSV(e.target.result);
-        alert("CSV Loaded (local preview).");
+        alert("CSV Loaded (Preview). To persist, upload to server.");
     };
-    reader.readAsText(file);
+    reader.readAsText(fileInput.files[0]);
 }
-</script>
 
+/* ---------------------------
+   AUTO REFRESH
+----------------------------- */
+setInterval(loadCSV, 10000); // every 10s
+
+// Initial load
+loadCSV();
+
+</script>
 </body>
 </html>
