@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Results Page</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+  h1 { color: #333; }
+  #results { margin-top: 20px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+  #adminPanel { display: none; margin-top: 20px; }
+  input, textarea { width: 100%; padding: 10px; margin-top: 5px; }
+  button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1>Results</h1>
+<div id="results">No results yet.</div>
+
+<!-- Admin Panel (hidden, can be shown via a secret URL or key) -->
+<div id="adminPanel">
+  <h2>Update Results</h2>
+  <textarea id="adminInput" rows="5" placeholder="Enter new results here..."></textarea>
+  <button onclick="updateResults()">Update</button>
+</div>
+
+<script>
+  // Optionally, show admin panel if URL contains ?admin=true
+  if (window.location.search.includes('admin=true')) {
+    document.getElementById('adminPanel').style.display = 'block';
+  }
+
+  function updateResults() {
+    const newResults = document.getElementById('adminInput').value;
+    document.getElementById('results').innerText = newResults;
+    alert('Results updated!');
+  }
+</script>
+
+</body>
+</html>
