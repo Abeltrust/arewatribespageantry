@@ -64,8 +64,22 @@
   th,td{padding:10px;border-bottom:1px solid #f0e6d5;text-align:left;vertical-align:middle}
   th{font-size:13px;color:#4b3a2a;background:rgba(0,0,0,0.03)}
   .thumb{width:48px;height:48px;border-radius:8px;object-fit:cover}
-  .progressWrap{height:10px;background:#fff1de;border-radius:999px;overflow:hidden;margin-top:6px}
-  .progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-700));transition:width .8s ease}
+  /* .progressWrap{height:10px;background:#fff1de;border-radius:999px;overflow:hidden;margin-top:6px}
+  .progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-700));transition:width .8s ease} */
+.progressWrap {
+  height: 10px;
+  background: #fff1de;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-700));
+  transition: width 0.8s ease;
+}
 
   /* mobile card list */
   #cardsList{display:none;margin-top:12px;gap:8px}
@@ -318,14 +332,21 @@ function renderAll(){
   renderTable();
   renderCards();
   renderChart();
-  document.getElementById('downloadCSVBtn').disabled = !csvTextCache;
-  setTimeout(()=> {
-    document.querySelectorAll('.progress').forEach(el=>{
-      const p = el.getAttribute('data-percent') || '0';
-      el.style.width = Math.min(100, Math.max(0, Number(p))) + '%';
+  
+  // Ensure progress bars are updated AFTER DOM paint
+  setTimeout(() => {
+    const maxScore = Math.max(...dataRows.map(r => r.Score), 1);
+    document.querySelectorAll('tr').forEach(tr => {
+      const tdScore = tr.querySelector('td:nth-child(4)');
+      const progressEl = tr.querySelector('.progress');
+      if(progressEl && tdScore){
+        const score = Number(tdScore.innerText) || 0;
+        progressEl.style.width = ((score / maxScore) * 100) + '%';
+      }
     });
-  },80);
+  }, 50);
 }
+
 
 function renderTop5(){
   const top = dataRows.slice(0,5);
