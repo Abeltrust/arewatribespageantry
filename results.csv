@@ -1,22 +1,21 @@
 ID,Name,Tribe,Score,Image,About
-      ID:1, Name:"Muhammad Tasiu(Muhammad)",Tribe:"Fulani", Score:0, Image:"1000697526.jpg", About:"",
-      ID:2, Name:"Margaret Makodi(Maggie)",Tribe:"Bwatiye", Score:0, Image:"1000697529.jpg", About:"",
-      ID:3, Name:"Favour John Wappa(Smaller)",Tribe:"Higgi", Score:0, Image:"1000697530.jpg", About:"",
-      ID:4, Name:"Hadiza Ibrahim(Meeraty)",Tribe:"Fulani", Score:0, Image:"1000697531.jpg", About:"",
-      ID:5, Name:"Jessica Samuel(Iconic Queen)",Tribe:"Bille", Score:0, Image:"1000697532.jpg", About:"",
-      ID:6, Name:"Momsisuri Sylvester(Ambassador)",Tribe:"Chamba", Score:0, Image:"1000697533.jpg", About:"",
-      ID:7, Name:"Mercy Clement",Tribe:"Bwatiye",Score:0, Image:"1000697534.jpg", About:"",
-      ID:8, Name:"Na'omi Ingapwa(Ruby Babe)",Tribe:"Bwatiye",Score:0, Image:"1000697535.jpg", About:"",
-      ID:9, Name:"Ijagila Stephen(AiJay)",Tribe:"MArghi", Score:0, Image:"1000697538.jpg", About:"",
-      ID:10, Name:"Danladi Aroma(Junior)",Tribe:"Yungur", Score:0, Image:"1000697539.jpg", About:"",
-      ID:11, Name:"Alvary Hassan(Man2Man)",Tribe:"Kilba", Score:0, Image:"1000697540.jpg", About:"",
-      ID:12, Name:"Payesa Patience(Patp)",Tribe:"Yungur", Score:0, Image:"1000697541.jpg", About:"",
-      ID:13, Name:"Elizabeth John(Lizzy)",Tribe:"Yungur", Score:0, Image:"1000697542.jpg", About:"",
-      ID:14, Name:"Jacob Gloria",Tribe:"Kilba", Score:0, Image:"1000697543.jpg", About:"",
-      ID:15, Name:"Yakubu Dauda(Prince Yaks)",Tribe:"Higgi", Score:0, Image:"1000697544.jpg", About:"",
-      ID:16, Name:"Anita P Haniel(Nita)",Tribe:"Bwatiye", Score:0, Image:"1000697545.jpg", About:"",
-      ID:17, Name:"Innocent Adauna(Centinno)",Tribe:"Lunguda", Score:0, Image:"1000697546.jpg", About:"",
-      ID:18, Name:"Francis Kadala(Unusual)",Tribe:"Kilba", Score:0, Image:"1000697547.jpg", About:"",
-      ID:19, Name:"Stella Sabo(Biq Stella)",Tribe:"Bwatiye", Score:0, Image:"1000697548.jpg", About:"",
-      ID:20, Name:"Miyambi Elishama(Miyambiee)",Tribe:"Bille", Score:0, Image:"1000697549.jpg", About:"",
-
+1,"Muhammad Tasiu (Muhammad)","Fulani",0,"1000697526.jpg",""
+2,"Margaret Makodi (Maggie)","Bwatiye",0,"1000697529.jpg",""
+3,"Favour John Wappa (Smaller)","Higgi",0,"1000697530.jpg",""
+4,"Hadiza Ibrahim (Meeraty)","Fulani",0,"1000697531.jpg",""
+5,"Jessica Samuel (Iconic Queen)","Bille",0,"1000697532.jpg",""
+6,"Momsisuri Sylvester (Ambassador)","Chamba",0,"1000697533.jpg",""
+7,"Mercy Clement","Bwatiye",0,"1000697534.jpg",""
+8,"Na'omi Ingapwa (Ruby Babe)","Bwatiye",0,"1000697535.jpg",""
+9,"Ijagila Stephen (AiJay)","Marghi",0,"1000697538.jpg",""
+10,"Danladi Aroma (Junior)","Yungur",0,"1000697539.jpg",""
+11,"Alvary Hassan (Man2Man)","Kilba",0,"1000697540.jpg",""
+12,"Payesa Patience (Patp)","Yungur",0,"1000697541.jpg",""
+13,"Elizabeth John (Lizzy)","Yungur",0,"1000697542.jpg",""
+14,"Jacob Gloria","Kilba",0,"1000697543.jpg",""
+15,"Yakubu Dauda (Prince Yaks)","Higgi",0,"1000697544.jpg",""
+16,"Anita P Haniel (Nita)","Bwatiye",0,"1000697545.jpg",""
+17,"Innocent Adauna (Centinno)","Lunguda",0,"1000697546.jpg",""
+18,"Francis Kadala (Unusual)","Kilba",0,"1000697547.jpg",""
+19,"Stella Sabo (Biq Stella)","Bwatiye",0,"1000697548.jpg",""
+20,"Miyambi Elishama (Miyambiee)","Bille",0,"1000697549.jpg",""
