@@ -1,4 +1,4 @@
- in between the life result section i want to display pictures of contestant with a vote button that direct to whatsap inbox 
+
 
 <!-- <!DOCTYPE html>
 <html lang="en">
@@ -334,6 +334,39 @@ th { color: #6b513a; text-transform: uppercase; font-size: 12px; }
   background: linear-gradient(90deg,var(--accent),var(--accent-700));
   transition: width .8s;
 }
+#voteGallery {
+  margin-top: 25px;
+  padding: 16px;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+  gap: 14px;
+}
+
+.voteCard {
+  background: #fff7ef;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.08);
+}
+
+.voteCard img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.voteCard h4 { margin: 10px 0 4px; font-size: 15px; font-weight: 700; }
+.voteCard button {
+  margin-top: 8px; width: 100%;
+  background: var(--accent); border: none;
+  padding: 10px; border-radius: 8px;
+  font-weight: 700; cursor: pointer;
+}
 
 /* Footer */
 footer {
@@ -422,7 +455,7 @@ footer {
         </div>
       </aside>
     </section>
-
+    <section id="voteGallery"></section>
     <section class="panel">
       <div class="controls">
         <h2>Live Results</h2>
@@ -453,6 +486,21 @@ footer {
       {ID:2, Name:"Bob", Score:180, Image:"https://via.placeholder.com/150", About:"Strong contender"},
       {ID:3, Name:"Chinedu", Score:150, Image:"https://via.placeholder.com/150", About:"Fashion star"}
     ];
+    // Render Vote Gallery
+    function renderVoteGallery(){
+      const wrap=document.getElementById("voteGallery");
+      wrap.innerHTML="";
+      dataRows.forEach(r=>{
+        const wa=`https://wa.me/2347088947385?text=Hello,%20I%20want%20to%20vote%20for%20${encodeURIComponent(r.Name)}%20(ID:${r.ID}).`;
+        wrap.innerHTML+=`
+          <div class="voteCard">
+            <img src="${r.Image}">
+            <h4>${r.Name}</h4>
+            <button onclick="window.open('${wa}','_blank')">Vote on WhatsApp</button>
+          </div>
+        `;
+      });
+    }
 
     function renderCardsAndTable(){
       const tbody=document.getElementById('resultsBody'); tbody.innerHTML='';
