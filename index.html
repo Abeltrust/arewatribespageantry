@@ -1,42 +1,11 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Results Page</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-  h1 { color: #333; }
-  #results { margin-top: 20px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-  #adminPanel { display: none; margin-top: 20px; }
-  input, textarea { width: 100%; padding: 10px; margin-top: 5px; }
-  button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
-</style>
-</head>
-<body>
-
-<a href="../result.html"> View Result</a>
-</body>
-</html>
- -->
-<!-- index.html
-  Elegant Amber Landing Page for "Mr & Miss Adamawa - Arewa Tribes & Culture"
-  - Mobile-first, responsive, amber theme
-  - Hero with poster, event title, CTA
-  - Top details, grand prize block, countdown timer
-  - Contact, registration form (client-side), sponsor area
-  - Accessibility & basic SEO meta
-  Replace HERO_IMAGE with your poster URL or relative path (e.g. images/poster.jpg)
--->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Mr & Miss Adamawa — Arewa Tribes & Culture: First Edition. Join us for culture, fashion, and crown. Grand prize ₦250,000 + more." />
+  <meta name="description" content="Mr & Miss Adamawa — Arewa Tribes & Culture: First Edition." />
   <title>Mr & Miss Adamawa — Arewa Tribes & Culture | First Edition</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -48,7 +17,6 @@
   --accent: #ffb300;
   --accent-700: #ef8d00;
   --accent-900: #b56a00;
-  --glass: rgba(255,255,255,0.8);
   --shadow: 0 12px 30px rgba(11,10,10,0.08);
   --radius: 14px;
 }
@@ -58,440 +26,191 @@
 html, body {
   height: 100%;
   margin: 0;
-  font-family: Inter, system-ui, Arial, Helvetica;
+  font-family: Inter, system-ui;
   background: var(--bg);
   color: var(--muted);
-  -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; text-decoration: none; }
+.wrap { max-width: 1100px; margin: auto; padding: 18px; }
 
-.wrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 18px;
-}
-
-/* Header */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.brand {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
+header { display: flex; align-items: center; gap: 12px; }
 .logo {
-  width: 60px;
-  height: 60px;
+  width: 60px; height: 60px;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--accent), var(--accent-700));
-  display: grid;
-  place-items: center;
-  color: white;
-  font-weight: 900;
-  font-family: Merriweather;
-  font-size: 20px;
-}
-
-.titleBlock h1 {
-  font-family: Merriweather, serif;
-  margin: 0;
-  font-size: 18px;
-  letter-spacing: 0.2px;
-}
-
-.titleBlock p {
-  margin: 2px 0 0;
-  font-size: 13px;
-  color: #6b513a;
+  display: grid; place-items: center;
+  color: white; font-weight: 900; font-family: Merriweather;
 }
 
 /* Hero */
 .hero {
-  background: linear-gradient(180deg, rgba(255,242,224,0.6), rgba(255,247,238,0.6));
-  padding: 14px;
-  border-radius: var(--radius);
+  background: #fff4e3;
+  padding: 14px; border-radius: 14px;
+  box-shadow: var(--shadow);
+  display: grid; gap: 12px;
+}
+.poster { width: 100%; border-radius: 12px; }
+
+/* New Vote Gallery Section */
+#voteGallery {
+  margin-top: 25px;
+  padding: 16px;
+  background: var(--card);
+  border-radius: 14px;
   box-shadow: var(--shadow);
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+  gap: 14px;
 }
 
-@media(min-width: 950px) {
-  .hero { grid-template-columns: 1fr 420px; align-items: center; }
-}
-
-.hero-left { padding: 8px; }
-.poster {
-  width: 100%;
-  border-radius: 12px;
-  display: block;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-}
-
-.eventMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.kicker {
-  display: inline-block;
-  background: linear-gradient(90deg,var(--accent),var(--accent-700));
-  color: #2b1600;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 13px;
-}
-
-.eventTitle {
-  font-family: Merriweather, serif;
-  font-size: 20px;
-  margin: 0;
-}
-
-.eventSub {
-  font-size: 14px;
-  color: #6b513a;
-  margin: 0;
-}
-
-.ctaRow {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.btnPrimary {
-  background: var(--accent);
-  border: none;
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-weight: 800;
-  color: #2b1600;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(181,106,0,0.12);
-}
-
-.btnOutline {
-  background: transparent;
-  border: 2px solid rgba(181,106,0,0.12);
-  padding: 10px 14px;
-  border-radius: 10px;
-  color: var(--accent-900);
-  cursor: pointer;
-}
-
-/* Right card - summary */
-.hero-right {
-  background: linear-gradient(180deg,#fff,#fff8eb);
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(181,106,0,0.06);
-}
-
-.grand {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.grand h3 {
-  margin: 0;
-  font-family: Merriweather;
-  font-weight: 900;
-  font-size: 16px;
-  color: var(--accent-900);
-}
-
-.grand .prize {
-  background: linear-gradient(90deg,#fff5e0,var(--accent));
-  padding: 10px;
-  border-radius: 10px;
-  font-weight: 900;
-  color: #4b2b00;
-  text-align: center;
-  font-size: 14px;
-}
-
-.infoRow {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-}
-
-.small { font-size: 13px; color: #6b513a; }
-
-/* Countdown */
-.countdown {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.countBox {
-  background: linear-gradient(90deg, #fff6e8, #fff3df);
-  padding: 8px 10px;
-  border-radius: 8px;
-  font-weight: 800;
-  color: var(--accent-900);
-  min-width: 62px;
-  text-align: center;
-}
-
-/* Chart & leaderboard */
-.panel {
-  margin-top: 18px;
-  background: var(--card);
-  padding: 14px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.panel h2 { margin: 0 0 8px; font-size: 16px; font-family: Merriweather; }
-
-.controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.search {
-  padding: 8px;
-  border-radius: 10px;
-  border: 1px solid #efe1cb;
-  min-width: 200px;
-}
-
-canvas { width: 100%!important; height: 320px!important; }
-
-/* Table */
-.table-wrapper { overflow-x: auto; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-th, td { padding: 12px; border-bottom: 1px solid #fbefe0; vertical-align: middle; }
-th { color: #6b513a; text-transform: uppercase; font-size: 12px; }
-.thumb { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; }
-
-/* Mobile cards */
-#cardsList {
-  display: none;
-  margin-top: 12px;
-  gap: 12px;
-}
-
-.cardItem {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 12px;
-  border-radius: 12px;
+.voteCard {
   background: #fff7ef;
-  box-shadow: 0 8px 20px rgba(181,106,0,0.06);
-}
-
-.cardItem img {
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.cardItem .info { flex: 1; }
-
-.progressWrap {
-  height: 10px;
-  background: #fff1de;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 8px;
-}
-
-.progress {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg,var(--accent),var(--accent-700));
-  transition: width .8s;
-}
-
-/* Footer */
-footer {
-  margin-top: 20px;
+  border-radius: 12px;
+  padding: 12px;
   text-align: center;
-  color: #6b513a;
-  font-size: 14px;
-  padding-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.08);
 }
 
-/* Mobile adjustments */
-@media(max-width: 900px) {
-  .wrap { padding: 12px; }
-
-  header { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .brand { gap: 8px; align-items: center; }
-  .brand .logo { width: 46px; height: 46px; font-size: 18px; }
-  .titleBlock h1 { font-size: 16px; }
-  .titleBlock p { font-size: 12px; }
-
-  .hero { grid-template-columns: 1fr; padding: 10px; gap: 10px; }
-  .hero-left, .hero-right { width: 100%; padding: 0; }
-  .hero-right { margin-top: 12px; }
-
-  .ctaRow { flex-direction: column; gap: 8px; }
-  .btnPrimary, .btnOutline { width: 100%; text-align: center; }
-
-  .panel { padding: 12px; }
-  canvas { height: 240px!important; }
-
-  .table-wrapper { display: none; }
-  #cardsList { display: flex; flex-direction: column; gap: 10px; }
+.voteCard img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
 }
-</style>
 
+.voteCard h4 { margin: 10px 0 4px; font-size: 15px; font-weight: 700; }
+.voteCard button {
+  margin-top: 8px; width: 100%;
+  background: var(--accent); border: none;
+  padding: 10px; border-radius: 8px;
+  font-weight: 700; cursor: pointer;
+}
+
+/* Live Results */
+.panel { margin-top: 25px; background: var(--card); padding: 16px; border-radius: 14px; box-shadow: var(--shadow); }
+
+.table-wrapper { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th,td { padding:12px; border-bottom:1px solid #f0dfc6; }
+.thumb { width:56px;height:56px;border-radius:8px;object-fit:cover; }
+
+/* Mobile Cards */
+#cardsList { display:none; }
+@media(max-width:900px){
+  .table-wrapper { display:none; }
+  #cardsList { display:flex; flex-direction:column; gap:12px; }
+}
+  </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo">A</div>
-        <div class="titleBlock">
-          <h1>Arewa Tribes & Culture — Pageantry</h1>
-          <p class="subtitle">Mr & Miss Adamawa — First Edition</p>
-        </div>
-      </div>
-   
-    </header>
+<div class="wrap">
 
-    <section class="hero">
-      <div class="hero-left">
-        <img id="heroPoster" class="poster" src="1000697522.jpg" alt="Mr & Miss Adamawa Poster">
-        <div class="eventMeta">
-          <span class="kicker">Cultural Pageantry • First Edition</span>
-          <h2 class="eventTitle">Mr & Miss Adamawa — Tribes & Culture</h2>
-          <p class="eventSub">A celebration of heritage, style and community. Showcasing the finest representatives of Adamawa.</p>
-          <div class="ctaRow">
-            <button class="btnPrimary">Register / Vote</button>
-            <button class="btnOutline">Learn More</button>
-          </div>
-        </div>
-      </div>
+<header>
+  <div class="logo">A</div>
+  <div>
+    <h2 style="margin:0">Arewa Tribes & Culture — Pageantry</h2>
+    <p style="margin:0;font-size:13px;">Mr & Miss Adamawa — First Edition</p>
+  </div>
+</header>
 
-      <aside class="hero-right">
-        <div class="grand">
-          <h3>Grand Prize</h3>
-          <div class="prize">₦250,000 • Apple product • Fashion kit • Monthly allowance</div>
-          <div class="infoRow">
-            <div><div class="small">Event Date</div><div style="font-weight:800;margin-top:4px">TBD</div></div>
-            <div><div class="small">Venue</div><div style="font-weight:800;margin-top:4px">Adamawa Cultural Hall</div></div>
-          </div>
-          <div class="countdown">
-            <div class="small">Voting closes in</div>
-            <div style="display:flex;gap:8px;margin-left:auto">
-              <div class="countBox" id="cdDays">—</div>
-              <div class="countBox" id="cdHours">—</div>
-              <div class="countBox" id="cdMins">—</div>
-              <div class="countBox" id="cdSecs">—</div>
-            </div>
-          </div>
-          <div style="margin-top:12px">
-            <div class="small">Contact</div>
-            <div style="margin-top:6px;font-weight:800">07088947385 • 09031399102</div>
-            <div style="margin-top:8px"><a href="mailto:info@example.com" class="small" style="color:var(--accent-900)">info@arewatribes.org</a></div>
-          </div>
-        </div>
-      </aside>
-    </section>
+<!-- HERO -->
+<section class="hero">
+  <img class="poster" src="1000697522.jpg" alt="">
+  <p style="font-size:14px;">A celebration of heritage, culture and style.</p>
+</section>
 
-    <section class="panel">
-      <div class="controls">
-        <h2>Live Results</h2>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input id="search" class="search" placeholder="Search contestants…" />
-          <!-- <button id="downloadCSVBtn" class="btnPrimary" style="background:var(--accent-700)">Prepare CSV for Download</button> -->
-        </div>
-      </div>
-      <canvas id="resultsChart"></canvas>
-      <div class="table-wrapper">
-        <table id="resultsTable">
-          <thead>
-            <tr><th>#</th><th>Contestant</th><th>Image</th><th>Votes</th><th>Progress</th></tr>
-          </thead>
-          <tbody id="resultsBody"><tr><td colspan="5" style="text-align:center;padding:18px">Loading results…</td></tr></tbody>
-        </table>
-      </div>
-      <div id="cardsList"></div>
-    </section>
+<!-- 🔥 NEW VOTE GALLERY SECTION (ABOVE LIVE RESULTS) -->
+<section id="voteGallery"></section>
 
-    <footer>© Arewa Tribes & Culture — Mr & Miss Adamawa • AbelTrust</footer>
+<!-- LIVE RESULTS -->
+<section class="panel">
+  <h2>Live Results</h2>
+  <canvas id="resultsChart"></canvas>
+
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>#</th><th>Name</th><th>Img</th><th>Votes</th><th>%</th></tr></thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
   </div>
 
-  <script>
-    // ======= Minimal CSV + leaderboard + cards rendering + chart.js + countdown =======
-    const dataRows = [
-      {ID:1, Name:"Alice", Score:250, Image:"https://via.placeholder.com/150", About:"Top contestant"},
-      {ID:2, Name:"Bob", Score:180, Image:"https://via.placeholder.com/150", About:"Strong contender"},
-      {ID:3, Name:"Chinedu", Score:150, Image:"https://via.placeholder.com/150", About:"Fashion star"}
-    ];
+  <div id="cardsList"></div>
+</section>
 
-    function renderCardsAndTable(){
-      const tbody=document.getElementById('resultsBody'); tbody.innerHTML='';
-      const cards=document.getElementById('cardsList'); cards.innerHTML='';
-      const total=dataRows.reduce((s,r)=>s+r.Score,0)||1;
-      dataRows.forEach((r,idx)=>{
-        const pct=Math.round((r.Score/total)*100);
-        // table row
-        const tr=document.createElement('tr');
-        tr.innerHTML=`<td>${idx+1}</td><td>${r.Name}<div class="small">${r.About}</div></td><td><img src="${r.Image}" class="thumb"/></td><td>${r.Score}</td><td><div class="progressWrap"><div class="progress" style="width:${pct}%"></div></div><div class="small">${pct}%</div></td>`;
-        tbody.appendChild(tr);
-        // mobile card
-        const div=document.createElement('div'); div.className='cardItem';
-        div.innerHTML=`<img src="${r.Image}"/><div class="info"><div style="display:flex;justify-content:space-between"><strong>${r.Name}</strong><strong style="color:var(--accent)">${r.Score}</strong></div><div class="small">${r.About}</div><div class="progressWrap"><div class="progress" style="width:${pct}%"></div></div></div>`;
-        cards.appendChild(div);
-      });
-    }
+<footer style="margin-top:25px;text-align:center;font-size:14px;">© Arewa Tribes & Culture</footer>
 
-    function renderChart(){
-      const ctx=document.getElementById('resultsChart').getContext('2d');
-      new Chart(ctx,{
-        type:'bar',
-        data:{labels:dataRows.map(r=>r.Name),datasets:[{label:'Votes',data:dataRows.map(r=>r.Score),backgroundColor:['#ffdb99','#ffe6b3','#ffcc66']}]},
-        options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
-      });
-    }
+</div>
 
-    renderCardsAndTable(); renderChart();
+<script>
+// Dummy sample data
+const dataRows = [
+  {ID:1, Name:"Alice", Score:250, Image:"https://via.placeholder.com/150"},
+  {ID:2, Name:"Bob", Score:180, Image:"https://via.placeholder.com/150"},
+  {ID:3, Name:"Chinedu", Score:150, Image:"https://via.placeholder.com/150"}
+];
 
-    // Countdown demo
-    const countdownAt=new Date(Date.now()+3600*1000*24); // 1 day demo
-    setInterval(()=>{
-      const diff=countdownAt-new Date(); if(diff<0) return;
-      const d=Math.floor(diff/(1000*60*60*24)); const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-      const m=Math.floor((diff%(1000*60*60))/(1000*60)); const s=Math.floor((diff%(1000*60))/1000);
-      document.getElementById('cdDays').innerText=d;
-      document.getElementById('cdHours').innerText=h;
-      document.getElementById('cdMins').innerText=m;
-      document.getElementById('cdSecs').innerText=s;
-    },1000);
-  </script>
+// Render Vote Gallery
+function renderVoteGallery(){
+  const wrap=document.getElementById("voteGallery");
+  wrap.innerHTML="";
+  dataRows.forEach(r=>{
+    const wa=`https://wa.me/2347088947385?text=Hello,%20I%20want%20to%20vote%20for%20${encodeURIComponent(r.Name)}%20(ID:${r.ID}).`;
+    wrap.innerHTML+=`
+      <div class="voteCard">
+        <img src="${r.Image}">
+        <h4>${r.Name}</h4>
+        <button onclick="window.open('${wa}','_blank')">Vote on WhatsApp</button>
+      </div>
+    `;
+  });
+}
+
+// Render Table + Cards
+function renderCardsAndTable(){
+  const tbody=document.getElementById("resultsBody");
+  const cards=document.getElementById("cardsList");
+  tbody.innerHTML=""; cards.innerHTML="";
+  const total=dataRows.reduce((s,r)=>s+r.Score,0)||1;
+
+  dataRows.forEach((r,i)=>{
+    const pct=Math.round((r.Score/total)*100);
+
+    tbody.innerHTML+=`
+      <tr>
+        <td>${i+1}</td><td>${r.Name}</td>
+        <td><img src="${r.Image}" class="thumb"></td>
+        <td>${r.Score}</td>
+        <td>${pct}%</td>
+      </tr>
+    `;
+
+    cards.innerHTML+=`
+      <div class="voteCard">
+        <img src="${r.Image}">
+        <h4>${r.Name} — ${r.Score}</h4>
+      </div>
+    `;
+  });
+}
+
+// Chart
+function renderChart(){
+  const ctx=document.getElementById("resultsChart").getContext("2d");
+  new Chart(ctx,{
+    type:"bar",
+    data:{
+      labels:dataRows.map(r=>r.Name),
+      datasets:[{label:"Votes",data:dataRows.map(r=>r.Score),backgroundColor:"#ffcc80"}]
+    },
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+  });
+}
+
+renderVoteGallery();
+renderCardsAndTable();
+renderChart();
+</script>
+
 </body>
 </html>
-
