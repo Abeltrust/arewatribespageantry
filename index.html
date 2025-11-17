@@ -100,6 +100,24 @@ header {
   grid-template-columns: 1fr;
   gap: 12px;
 }
+.amber-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 18px;
+  background: #ffb300;            /* amber */
+  color: #2b1600;
+  font-weight: 800;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.14);
+  transition: 0.2s ease;
+}
+
+.amber-btn:hover {
+  background: #ef8d00;
+  box-shadow: 0 10px 24px rgba(181,106,0,0.18);
+}
 
 @media(min-width: 950px) {
   .hero { grid-template-columns: 1fr 420px; align-items: center; }
@@ -495,7 +513,7 @@ footer {
       </div>
       <div id="cardsList"></div>
     </section>
-
+    <a href="https://www.facebook.com" target="_blank" class="amber-btn">Follow on Facebook</a>
     <footer>© Arewa Tribes & Culture — Mr & Miss Adamawa • AbelTrust</footer>
   </div>
 
