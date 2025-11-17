@@ -489,7 +489,7 @@ function renderTop5(){
   const top = dataRows.slice(0,5);
   const first = top[0] || {Name:'—',Score:0,Image:'',About:'', ID:''};
   document.getElementById('firstImg').src = first.Image || blankImage();
-  document.getElementById('firstPos').innerText = 'Contestestant:'+first.ID;
+  document.getElementById('firstPos').innerText = 'Contestant:'+first.ID;
   document.getElementById('firstName').innerText = first.Name;
   document.getElementById('firstAbout').innerText = first.About || '';
   document.getElementById('firstScore').innerText = first.Score;
