@@ -114,6 +114,25 @@
   background: linear-gradient(90deg, var(--accent), var(--accent-700));
   transition: width 0.8s ease;
 }
+  .amber-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 18px;
+  background: #ffb300;            /* amber */
+  color: #2b1600;
+  font-weight: 800;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.14);
+  transition: 0.2s ease;
+}
+
+.amber-btn:hover {
+  background: #ef8d00;
+  box-shadow: 0 10px 24px rgba(181,106,0,0.18);
+}
+
 /* MOBILE RESPONSIVE FIXES */
 @media (max-width: 900px) {
 
@@ -182,7 +201,7 @@
   .table-wrapper {
     display: none !important;
   }
-
+  
   /* MOBILE CARDS */
   #cardsList {
     display: grid !important;
@@ -261,7 +280,8 @@
   </header>
 
   <!-- COUNTDOWN -->
-  <div id="countdown" class="small muted" style="margin-bottom:12px"></div>
+  <div id="countdown" class="small muted" style="margin-bottom:12px"></div> 
+  <a href="index.html" class="amber-btn"> Back to Home</a>
 
   <!-- HERO TOP-5 -->
   <div class="hero">
