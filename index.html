@@ -485,30 +485,30 @@ footer {
       {ID:1, Name:"Muhammad Tasiu(Muhammad)",Tribe:"Fulani", Score:0, Image:"1000697526.jpg", About:"Top contestant"},
       {ID:2, Name:"Margaret Makodi(Maggie)",Tribe:"Bwatiye", Score:0, Image:"1000697529.jpg", About:"Strong contender"},
       {ID:3, Name:"Favour John Wappa(Smaller)",Tribe:"Higgi", Score:0, Image:"1000697530.jpg", About:"Fashion star"},
-      {ID:3, Name:"Hadiza Ibrahim(Meeraty)",Tribe:"Fulani", Score:0, Image:"1000697531.jpg", About:"Fashion star"},
-      {ID:3, Name:"Jessica Samuel(Iconic Queen)",Tribe:"Bille", Score:0, Image:"1000697532.jpg", About:"Fashion star"},
-      {ID:3, Name:"Momsisuri Sylvester(Ambassador)",Tribe:"Chamba", Score:0, Image:"1000697533.jpg", About:"Fashion star"},
-      {ID:3, Name:"Mercy Clement",Tribe:"Bwatiye",Score:0, Image:"1000697534.jpg", About:"Fashion star"},
-      {ID:3, Name:"Na'omi Ingapwa(Ruby Babe)",Tribe:"Bwatiye",Score:0, Image:"1000697535.jpg", About:"Fashion star"},
-      {ID:3, Name:"Ijagila Stephen(AiJay)",Tribe:"MArghi", Score:0, Image:"1000697538.jpg", About:"Fashion star"},
-      {ID:3, Name:"Danladi Aroma(Junior)",Tribe:"Yungur", Score:0, Image:"1000697539.jpg", About:"Fashion star"},
-      {ID:3, Name:"Alvary Hassan(Man2Man)",Tribe:"Kilba", Score:0, Image:"1000697540.jpg", About:"Fashion star"},
-      {ID:3, Name:"Payesa Patience(Patp)",Tribe:"Yungur", Score:0, Image:"1000697541.jpg", About:"Fashion star"},
-      {ID:3, Name:"Elizabeth John(Lizzy)",Tribe:"Yungur", Score:0, Image:"1000697542.jpg", About:"Fashion star"},
-      {ID:3, Name:"Jacob Gloria",Tribe:"Kilba", Score:0, Image:"1000697543.jpg", About:"Fashion star"},
-      {ID:3, Name:"Yakubu Dauda(Prince Yaks)",Tribe:"Higgi", Score:0, Image:"1000697544.jpg", About:"Fashion star"},
-      {ID:3, Name:"Anita P Haniel(Nita)",Tribe:"Bwatiye", Score:0, Image:"1000697545.jpg", About:"Fashion star"},
-      {ID:3, Name:"Innocent Adauna(Centinno)",Tribe:"Lunguda", Score:0, Image:"1000697546.jpg", About:"Fashion star"},
-      {ID:3, Name:"Francis Kadala(Unusual)",Tribe:"Kilba", Score:0, Image:"1000697547.jpg", About:"Fashion star"},
-      {ID:3, Name:"Stella Sabo(Biq Stella)",Tribe:"Bwatiye", Score:0, Image:"1000697548.jpg", About:"Fashion star"},
-      {ID:3, Name:"Miyambi Elishama(Miyambiee)",Tribe:"Bille", Score:0, Image:"1000697549.jpg", About:"Fashion star"}
+      {ID:4, Name:"Hadiza Ibrahim(Meeraty)",Tribe:"Fulani", Score:0, Image:"1000697531.jpg", About:"Fashion star"},
+      {ID:5, Name:"Jessica Samuel(Iconic Queen)",Tribe:"Bille", Score:0, Image:"1000697532.jpg", About:"Fashion star"},
+      {ID:6, Name:"Momsisuri Sylvester(Ambassador)",Tribe:"Chamba", Score:0, Image:"1000697533.jpg", About:"Fashion star"},
+      {ID:7, Name:"Mercy Clement",Tribe:"Bwatiye",Score:0, Image:"1000697534.jpg", About:"Fashion star"},
+      {ID:8, Name:"Na'omi Ingapwa(Ruby Babe)",Tribe:"Bwatiye",Score:0, Image:"1000697535.jpg", About:"Fashion star"},
+      {ID:9, Name:"Ijagila Stephen(AiJay)",Tribe:"MArghi", Score:0, Image:"1000697538.jpg", About:"Fashion star"},
+      {ID:10, Name:"Danladi Aroma(Junior)",Tribe:"Yungur", Score:0, Image:"1000697539.jpg", About:"Fashion star"},
+      {ID:11, Name:"Alvary Hassan(Man2Man)",Tribe:"Kilba", Score:0, Image:"1000697540.jpg", About:"Fashion star"},
+      {ID:12, Name:"Payesa Patience(Patp)",Tribe:"Yungur", Score:0, Image:"1000697541.jpg", About:"Fashion star"},
+      {ID:13, Name:"Elizabeth John(Lizzy)",Tribe:"Yungur", Score:0, Image:"1000697542.jpg", About:"Fashion star"},
+      {ID:14, Name:"Jacob Gloria",Tribe:"Kilba", Score:0, Image:"1000697543.jpg", About:"Fashion star"},
+      {ID:15, Name:"Yakubu Dauda(Prince Yaks)",Tribe:"Higgi", Score:0, Image:"1000697544.jpg", About:"Fashion star"},
+      {ID:16, Name:"Anita P Haniel(Nita)",Tribe:"Bwatiye", Score:0, Image:"1000697545.jpg", About:"Fashion star"},
+      {ID:17, Name:"Innocent Adauna(Centinno)",Tribe:"Lunguda", Score:0, Image:"1000697546.jpg", About:"Fashion star"},
+      {ID:18, Name:"Francis Kadala(Unusual)",Tribe:"Kilba", Score:0, Image:"1000697547.jpg", About:"Fashion star"},
+      {ID:19, Name:"Stella Sabo(Biq Stella)",Tribe:"Bwatiye", Score:0, Image:"1000697548.jpg", About:"Fashion star"},
+      {ID:20, Name:"Miyambi Elishama(Miyambiee)",Tribe:"Bille", Score:0, Image:"1000697549.jpg", About:"Fashion star"}
     ];
     // Render Vote Gallery
     function renderVoteGallery(){
       const wrap=document.getElementById("voteGallery");
       wrap.innerHTML="";
       dataRows.forEach(r=>{
-        const wa=`https://wa.me/2347088947385?text=Hello,%20I%20want%20to%20vote%20for%20${encodeURIComponent(r.Name)}%20(ID:${r.ID}).`;
+        const wa=`https://wa.me/2347088947385?text=Hello,%20I%20want%20to%20vote%20for%20${encodeURIComponent(r.Name)}%20(Tribe:${r.Tribe}).`;
         wrap.innerHTML+=`
           <div class="voteCard">
             <img src="${r.Image}">
