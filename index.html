@@ -498,7 +498,7 @@ footer {
       {ID:3, Name:"Jacob Gloria",Tribe:"Kilba", Score:0, Image:"1000697543.jpg", About:"Fashion star"},
       {ID:3, Name:"Yakubu Dauda(Prince Yaks)",Tribe:"Higgi", Score:0, Image:"1000697544.jpg", About:"Fashion star"},
       {ID:3, Name:"Anita P Haniel(Nita)",Tribe:"Bwatiye", Score:0, Image:"1000697545.jpg", About:"Fashion star"},
-      {ID:3, Name:"Innocent Adauna(Centinno)",Tribe:"Lunguda)", Score:0, Image:"1000697546.jpg", About:"Fashion star"},
+      {ID:3, Name:"Innocent Adauna(Centinno)",Tribe:"Lunguda", Score:0, Image:"1000697546.jpg", About:"Fashion star"},
       {ID:3, Name:"Francis Kadala(Unusual)",Tribe:"Kilba", Score:0, Image:"1000697547.jpg", About:"Fashion star"},
       {ID:3, Name:"Stella Sabo(Biq Stella)",Tribe:"Bwatiye", Score:0, Image:"1000697548.jpg", About:"Fashion star"},
       {ID:3, Name:"Miyambi Elishama(Miyambiee)",Tribe:"Bille", Score:0, Image:"1000697549.jpg", About:"Fashion star"}
@@ -512,8 +512,7 @@ footer {
         wrap.innerHTML+=`
           <div class="voteCard">
             <img src="${r.Image}">
-            <h4>Name:${r.Name}</h4>
-            <h5>Tribe: ${r.Tribe}</h5>
+            <h4>Name:${r.Name}</h4> : Tribe: ${r.Tribe}
             <button onclick="window.open('${wa}','_blank')">Vote on WhatsApp</button>
           </div>
         `;
