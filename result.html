@@ -487,10 +487,10 @@ function renderAll(){
 
 function renderTop5(){
   const top = dataRows.slice(0,5);
-  const first = top[0] || {Name:'—',Score:0,Image:'',Tribe:'',Contestant:''};
+  const first = top[0] || {Name:'—',Score:0,Image:'',Tribe:''};
   document.getElementById('firstImg').src = first.Image || blankImage();
   document.getElementById('firstPos').innerText = '#1';
-  document.getElementById('firstName').innerText = first.Name : first.Contestant;
+  document.getElementById('firstName').innerText = first.Name;
   document.getElementById('firstAbout').innerText = first.Tribe || '';
   document.getElementById('firstScore').innerText = first.Score;
 
