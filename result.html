@@ -80,20 +80,123 @@
   background: linear-gradient(90deg, var(--accent), var(--accent-700));
   transition: width 0.8s ease;
 }
+/* MOBILE RESPONSIVE FIXES */
+@media (max-width: 900px) {
+
+  body {
+    padding: 12px;
+  }
+
+  .wrap {
+    padding: 0;
+  }
+
+  /* HERO SECTION */
+  .hero {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .firstCard {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .firstCard img {
+    width: 100%;
+    max-width: 220px;
+    height: 220px;
+  }
+
+  .name {
+    font-size: 18px;
+  }
+
+  .score {
+    font-size: 26px;
+  }
+
+  /* TOP 2 + NEXT 2 CARDS */
+  .bottomCards {
+    grid-template-columns: 1fr !important;
+  }
+
+  .medCard,
+  .smallCard {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .medCard img,
+  .smallCard img {
+    width: 64px;
+    height: 64px;
+  }
+
+  /* CHART */
+  .panel {
+    padding: 12px;
+  }
+
+  canvas {
+    max-height: 280px;
+  }
+
+  /* TABLE REMOVED ON MOBILE */
+  .table-wrapper {
+    display: none !important;
+  }
+
+  /* MOBILE CARDS */
+  #cardsList {
+    display: grid !important;
+    gap: 10px;
+  }
+
+  .cardItem {
+    display: flex;
+    padding: 12px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+
+  .cardItem img {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  /* SEARCH FIELD FULL WIDTH */
+  #search {
+    width: 100% !important;
+  }
+
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+}
 
   /* mobile card list */
-  #cardsList{display:none;margin-top:12px;gap:8px}
+  /* #cardsList{display:none;margin-top:12px;gap:8px}
   .cardItem{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;background:var(--card);box-shadow:0 6px 18px rgba(0,0,0,0.04)}
-  .cardItem img{width:72px;height:72px;object-fit:cover;border-radius:8px}
+  .cardItem img{width:72px;height:72px;object-fit:cover;border-radius:8px} */
 
   /* responsive */
-  @media (max-width:900px){
+  /* @media (max-width:900px){
     .table-wrapper{display:none; overflow-x:auto;}
     #cardsList{display:block}
     .bottomCards{grid-template-columns:1fr 1fr}
     .firstCard img{width:120px;height:120px}
     .firstCard{padding:12px}
-  }
+  } */
 
   footer{margin-top:20px;text-align:center;color:#7b6d60;font-size:13px}
 
