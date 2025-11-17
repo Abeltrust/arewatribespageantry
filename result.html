@@ -450,11 +450,11 @@ function processCSV(txt){
     const obj = {};
     headers.forEach((hh, idx)=> obj[hh || ('col'+idx)] = (r[idx] ?? '').trim());
     return {
-      ID: obj.ID || String(i+1),
+      ID: obj.Contestant || String(i+1),
       Name: obj.Name || obj.name || obj.FullName || ('Candidate ' + (i+1)),
       Score: Number(String(obj.Score || obj.Votes || 0).replace(/[^0-9.\-]/g,'')) || 0,
       Image: obj.Image || obj.image || obj.Photo || '',
-      About: obj.About || obj.Description || ''
+      About: obj.Tribe || obj.Description || ''
     };
   });
 
@@ -487,11 +487,11 @@ function renderAll(){
 
 function renderTop5(){
   const top = dataRows.slice(0,5);
-  const first = top[0] || {Name:'—',Score:0,Image:'',Tribe:''};
+  const first = top[0] || {Name:'—',Score:0,Image:'',About:'', ID:''};
   document.getElementById('firstImg').src = first.Image || blankImage();
-  document.getElementById('firstPos').innerText = '#1';
+  document.getElementById('firstPos').innerText = first.ID;
   document.getElementById('firstName').innerText = first.Name;
-  document.getElementById('firstAbout').innerText = first.Tribe || '';
+  document.getElementById('firstAbout').innerText = first.About || '';
   document.getElementById('firstScore').innerText = first.Score;
 
   const s2 = top[1] || {Name:'—',Score:0,Image:''};
