@@ -571,17 +571,32 @@ document.getElementById('search')?.addEventListener('input',()=>{
 });
 
 /* =============== COUNTDOWN =============== */
-function updateCountdown(){
+function updateCountdown() {
   const el = document.getElementById('countdown');
-  if(!countdownAt){ el.innerText='No active countdown'; return; }
-  const end = new Date(countdownAt).getTime();
+  const countdownAt = new Date("December 7, 2025 23:59:59").getTime();
+
+  if (!countdownAt) {
+    el.innerText = 'No active countdown';
+    return;
+  }
+
+  const end = countdownAt;
   const now = Date.now();
-  const diff = end-now;
-  if(diff<=0){ el.innerText='Voting ended'; return; }
-  const d=Math.floor(diff/86400000), h=Math.floor(diff%86400000/3600000), m=Math.floor(diff%3600000/60000), s=Math.floor(diff%60000/1000);
-  el.innerText=`Ends in: ${d}d ${h}h ${m}m ${s}s`;
+  const diff = end - now;
+
+  if (diff <= 0) {
+    el.innerText = 'Voting ended';
+    return;
+  }
+
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+
+  el.innerText = `Ends in: ${d}d ${h}h ${m}m ${s}s`;
 }
-setInterval(updateCountdown,1000);
+setInterval(updateCountdown, 1000);
 updateCountdown();
 
 /* =============== AUTO REFRESH =============== */
