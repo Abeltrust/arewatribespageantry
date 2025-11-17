@@ -29,7 +29,22 @@
 
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
   .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-700));display:grid;place-items:center;color:white;font-weight:800;font-size:20px}
+ .logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-700));
+  display: grid;
+  place-items: center;
+  overflow: hidden; /* ensures image doesn't overflow */
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills container while keeping aspect ratio */
+  display: block;
+}
   h1{margin:0;font-size:18px}
   .subtitle{color:#6b5a4a;font-size:13px}
 
@@ -236,7 +251,7 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <div class="logo">A</div>
+      <div class="logo"><img src="1000698484.jpg" alt="logo"> </div>
       <div>
         <h1>Results — Live Showcase</h1>
         <div class="subtitle">Top contestants, live chart & full leaderboard</div>
