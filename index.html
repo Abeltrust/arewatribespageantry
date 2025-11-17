@@ -1,35 +1,4 @@
 
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Results Page</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-  h1 { color: #333; }
-  #results { margin-top: 20px; padding: 10px; background: #fff; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-  #adminPanel { display: none; margin-top: 20px; }
-  input, textarea { width: 100%; padding: 10px; margin-top: 5px; }
-  button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
-</style>
-</head>
-<body>
-
-<a href="../result.html"> View Result</a>
-</body>
-</html>
- -->
-<!-- index.html
-  Elegant Amber Landing Page for "Mr & Miss Adamawa - Arewa Tribes & Culture"
-  - Mobile-first, responsive, amber theme
-  - Hero with poster, event title, CTA
-  - Top details, grand prize block, countdown timer
-  - Contact, registration form (client-side), sponsor area
-  - Accessibility & basic SEO meta
-  Replace HERO_IMAGE with your poster URL or relative path (e.g. images/poster.jpg)
--->
 <!doctype html>
 <html lang="en">
 <head>
@@ -89,18 +58,7 @@ header {
   align-items: center;
 }
 
-/* .logo {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-700));
-  display: grid;
-  place-items: center;
-  color: white;
-  font-weight: 900;
-  font-family: Merriweather;
-  font-size: 20px;
-} */
+
 
     .logo {
   width: 56px;
@@ -490,22 +448,7 @@ footer {
         </div>
       </aside>
     </section>
-    <!-- HOW TO VOTE SECTION -->
-    <!-- <div class="panel" style="margin-bottom:18px; background:#fff8ea; padding:16px; border-radius:12px; box-shadow:var(--shadow);">
-      <h2 style="margin-top:0; font-size:18px; color:var(--accent-700)">How to Vote</h2>
-      <ul style="padding-left:20px; margin:8px 0; color:#4b3a2a; line-height:1.5;">
-        <li>Each vote costs <strong>N100</strong>.</li>
-        <li>You can vote for as many contestants as you want, as many times as you like.</li>
-        <li>To vote, send the total amount of money corresponding to the number of votes to the following account:</li>
-      </ul>
-      <div style="background:#fff3cd; padding:10px 12px; border-radius:8px; font-weight:700; color:#856404; margin-bottom:8px;">
-        Account Name: <strong>Nahum Joseph</strong><br>
-        Account Number: <strong>0116735109</strong><br>
-        Bank: <strong>Sterling Bank</strong>
-      </div>
-      <p style="margin:0; color:#4b3a2a;">After sending your payment, choose the contestant you want to vote for and provide the Transaction Reciept, so your vote can be counted.</p>
-    </div> -->
-    <!-- HOW TO VOTE SECTION (STYLISH) -->
+   
     <div class="panel" style="margin-bottom:18px; background:linear-gradient(135deg, #fff7ed, #fff3e0); padding:20px; border-radius:16px; box-shadow:var(--shadow);">
       <h2 style="margin-top:0; font-size:20px; color:var(--accent-700); text-align:center; margin-bottom:16px;">How to Vote</h2>
       
@@ -627,17 +570,27 @@ footer {
 
     renderCardsAndTable(); renderChart();
 
-    // Countdown demo
-    const countdownAt=new Date(Date.now()+3600*1000*24); // 1 day demo
-    setInterval(()=>{
-      const diff=countdownAt-new Date(); if(diff<0) return;
-      const d=Math.floor(diff/(1000*60*60*24)); const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-      const m=Math.floor((diff%(1000*60*60))/(1000*60)); const s=Math.floor((diff%(1000*60))/1000);
-      document.getElementById('cdDays').innerText=d;
-      document.getElementById('cdHours').innerText=h;
-      document.getElementById('cdMins').innerText=m;
-      document.getElementById('cdSecs').innerText=s;
-    },1000);
+
+  // Countdown to 7th December at 11:59 PM
+  const countdownAt = new Date("December 7, 2025 23:59:59").getTime();
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = countdownAt - now;
+
+    if (diff < 0) return; // countdown finished
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cdDays').innerText = d;
+    document.getElementById('cdHours').innerText = h;
+    document.getElementById('cdMins').innerText = m;
+    document.getElementById('cdSecs').innerText = s;
+  }, 1000);
+
     renderVoteGallery();
 // renderCardsAndTable();
 // renderChart();
