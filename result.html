@@ -9,6 +9,8 @@
      crossorigin="anonymous"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="nav.css">
+<script src="nav.js" defer></script>
 
 <style>
   :root{
@@ -286,6 +288,26 @@
 </style>
 </head>
 <body>
+  <nav class="mainNav">
+    <div class="navBrand">
+      <img src="logo.jpg" alt="Arewa Tribes & Culture">
+      <span>Arewa Tribes & Culture</span>
+    </div>
+  
+    <button class="navToggle" onclick="toggleMenu()">☰</button>
+  
+    <ul class="navLinks" id="navLinks">
+      <li class="navSection">Valentine Edition</li>
+      <li><a href="index.html">Valentine Voting</a></li>
+      <li><a href="contestants_result.html">Valentine Results</a></li>
+  
+      <li class="navDivider"></li>
+  
+      <li class="navSection">Previous Projects</li>
+      <li><a href="result.html">Mr & Mrs Adamawa</a></li>
+      <li><a href="culture.html">Culture Showcase</a></li>
+    </ul>
+  </nav>
 <div class="wrap">
   <header>
     <div class="brand">
