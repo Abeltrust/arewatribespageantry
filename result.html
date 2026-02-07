@@ -101,7 +101,19 @@
   height: 72px;
   object-fit: cover;
 }
+@media (max-width: 900px) {
+  .firstCard img {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+  }
 
+  .medCard img,
+  .smallCard img {
+    width: 64px;
+    height: 64px;
+  }
+}
   /* CHART + controls */
   .panel{background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px}
   .controls{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
