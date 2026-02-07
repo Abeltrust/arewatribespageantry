@@ -471,12 +471,13 @@ if (Date.now() >= votingEndsAt) {
 }
 
 const contestants=[
- {id:1,name:"Posh Paul",votes:340,image:"v1.jpg"},
- {id:2,name:"Mark Kullini Clement",votes:120,image:"v2.jpg"},
- {id:3,name:"Patience Tarhye",votes:560,image:"v3.jpg"},
- {id:4,name:"Joseph A'aron",votes:220,image:"v4.jpg"},
- {id:5,name:"Patience Yuguda",votes:410,image:"v5.jpg"},
- {id:6,name:"Fedelia Friday",votes:180,image:"v6.jpg"}
+ {id:1,name:"Posh Paul",votes:0,image:"v1.jpg"},
+ {id:2,name:"Mark Kullini Clement",votes:0,image:"v2.jpg"},
+ {id:3,name:"Patience Tarhye",votes:0,image:"v3.jpg"},
+ {id:4,name:"Joseph A'aron",votes:0,image:"v4.jpg"},
+ {id:5,name:"Patience Yuguda",votes:0,image:"v5.jpg"},
+ {id:6,name:"Fedelia Friday",votes:0,image:"v6.jpg"},
+ {id:7,name:"Kanatapwa Johnson",votes:0,image:"v7.jpg"}
 ].sort((a,b)=>b.votes-a.votes);
 
 const max=Math.max(...contestants.map(c=>c.votes));
