@@ -624,7 +624,7 @@ function openModal(id){
   modalImg.src=c.image;
   modalName.textContent=c.name;
   modalInfo.textContent=`${c.nick} • Contestant No ${c.number}`;
-  voteLink.href=`https://wa.me/2349031399102?text=I%20want%20to%20vote%20for%20${encodeURIComponent(c.name)}%20<b>Contestant</b>*%20<b>No.</b>:%20${encodeURIComponent(c.number)}`;
+  voteLink.href=`https://wa.me/2349031399102?text=I%20want%20to%20vote%20for%20${encodeURIComponent(c.name)}%20%2AContestant%20No.%3A%2A:%20${encodeURIComponent(c.number)}`;
   modal.style.display="flex";
 }
 
