@@ -400,6 +400,41 @@ footer{
     font-size:14px;
   }
 }
+.contactBlock{
+  margin-top:14px;
+  text-align:center;
+}
+
+.contactLabel{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.contactPhone{
+  margin-top:6px;
+  font-weight:800;
+  font-size:14px;
+}
+
+.contactEmail{
+  display:inline-block;
+  margin-top:8px;
+  font-size:13px;
+  color:var(--accent);
+  text-decoration:none;
+  word-break:break-word;
+}
+
+/* Mobile refinement */
+@media(max-width:600px){
+  .contactPhone{
+    font-size:13px;
+  }
+
+  .contactEmail{
+    font-size:12px;
+  }
+}
 </style>
 </head>
 
@@ -425,8 +460,8 @@ footer{
   <aside class="hero-right">
     <div class="prize">₦100,000 CASH PRIZE</div>
     <div class="infoRow">
-      <div><b>Event Date</b><br>TBD</div>
-      <div><b>Venue</b><br>Adamawa Cultural Hall</div>
+      <div><b>Event Date</b><br>14th of February 2026</div>
+      <!-- <div><b>Venue</b><br>Adamawa Cultural Hall</div> -->
     </div>
     <div class="countdown">
       <span style="font-size:13px">Voting closes in</span>
@@ -436,18 +471,29 @@ footer{
       <div class="countBox" id="cdSecs">—</div>
     </div>
     <div class="heroActions">
-      <a href="#live-results" class="viewResultBtn">
+      <a href="contestants_result.html" class="viewResultBtn">
         View Live Results
+      </a>
+    </div>
+    <div class="contactBlock">
+      <div class="contactLabel">Contact</div>
+    
+      <div class="contactPhone">
+        07088947385 • 09031399102
+      </div>
+    
+      <a href="mailto:arewaculturalcarnival@gmail.com" class="contactEmail">
+        arewaculturalcarnival@gmail.com
       </a>
     </div>
   </aside>
 </section>
 
 <section class="panel">
-  <h3>How to Vote</h3>
+  <h3 style=" text-align: center;">How to Vote</h3>
   <div class="voteStep">Each vote costs <b>₦100</b></div>
   <div class="voteStep">
-    Account Name: <b>Arewa Tribes & Culture</b><br>
+    Account Name: <b>Arewa Tribes & Culture Pageantry Concept</b><br>
     Bank: <b>UBA</b><br>
     Account Number: <b>1029439206</b>
   </div>
@@ -455,7 +501,7 @@ footer{
 </section>
 
 <section class="panel">
-  <h3>Contestants</h3>
+  <h3 style=" text-align: center;">Contestants</h3>
   <div id="voteGallery"></div>
 </section>
 
@@ -489,12 +535,12 @@ footer{
 
 <script>
 const contestants=[
- {id:1,name:"Patience Yuguda",nick:"Peshmee",number:5,votes:340,image:"v1.jpg"},
- {id:2,name:"Aisha Bello",nick:"Aishy",number:7,votes:120,image:"v2.jpg"},
- {id:3,name:"Blessing James",nick:"Blessy",number:9,votes:560,image:"v3.jpg"},
- {id:4,name:"Mary Yakubu",nick:"MaryGold",number:11,votes:220,image:"v4.jpg"},
- {id:5,name:"Zainab Musa",nick:"Zee",number:13,votes:410,image:"v5.jpg"},
- {id:6,name:"Fatima Lawal",nick:"Faty",number:15,votes:180,image:"v6.jpg"}
+ {id:1,name:"Posh Paul",nick:"Posh",number:1,votes:340,image:"v1.jpg"},
+ {id:2,name:"Mark Kullini Clement",nick:"MK",number:2,votes:120,image:"v2.jpg"},
+ {id:3,name:"Patience Tarhye",nick:"Pesh",number:3,votes:560,image:"v3.jpg"},
+ {id:4,name:"Joseph A'aron",nick:"JPrince of Yola",number:4,votes:220,image:"v4.jpg"},
+ {id:5,name:"Patience Yuguda",nick:"Peshmee",number:5,votes:410,image:"v5.jpg"},
+ {id:6,name:"Fedelia Friday",nick:"Madam",number:6,votes:180,image:"v6.jpg"}
 ];
 
 const total=contestants.reduce((s,c)=>s+c.votes,0);

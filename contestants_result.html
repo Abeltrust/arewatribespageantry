@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adamawa Mr & Miss Valentine 2026 — Results</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+  --bg:#fff8f1;
+  --card:#ffffff;
+  --text:#4b1c2a;
+  --muted:#6b3f4f;
+  --accent:#d90429;        /* Valentine red */
+  --accent-700:#ff4d6d;   /* pink */
+  --gold:#ffb703;
+  --shadow:0 12px 30px rgba(0,0,0,.08);
+  --radius:14px;
+}
+html, body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:Inter,system-ui;
+  color:var(--text);
+  padding:14px;
+}
+.wrap{max-width:1100px;margin:auto}
+.wrap,
+.hero,
+.heroCard,
+.panel,
+.tableWrap,
+#cards,
+.card,
+header {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+canvas {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+/* HEADER */
+header{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:16px;
+}
+.logo{
+  width:56px;height:56px;
+  border-radius:12px;
+  overflow:hidden;
+}
+.logo img{width:100%;height:100%;object-fit:cover}
+h1{
+  margin:0;
+  font-family:Merriweather;
+  font-size:18px;
+}
+
+/* HERO */
+.hero{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:14px;
+}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
+
+.heroCard{
+  background:linear-gradient(180deg,#ffe1e8,#fff);
+  padding:16px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.first{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+@media(max-width:600px){
+  .first{flex-direction:column;text-align:center}
+}
+.first img{
+  width:160px;height:160px;
+  border-radius:12px;
+  object-fit:cover;
+}
+.score{
+  font-size:34px;
+  font-weight:900;
+  color:var(--accent);
+}
+
+/* TOP OTHERS */
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}}
+.smallCard{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  background:#fff3f6;
+  padding:10px;
+  border-radius:10px;
+}
+.smallCard img{
+  width:60px;height:60px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+/* PANEL */
+.panel{
+  background:var(--card);
+  padding:16px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin-top:16px;
+}
+
+/* TABLE */
+.tableWrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #f5d3db}
+th{
+  background:#fff0f4;
+  font-size:13px;
+}
+.thumb{
+  width:48px;height:48px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+.progressWrap{
+  height:10px;
+  background:#ffe3ea;
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress{
+  height:100%;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+}
+
+/* MOBILE CARDS */
+#cards{display:none}
+@media(max-width:900px){
+  .tableWrap{display:none}
+  #cards{display:grid;gap:10px}
+}
+.card{
+  display:flex;
+  gap:12px;
+  padding:12px;
+  background:var(--card);
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+.card img{
+  width:64px;height:64px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+/* BUTTON */
+.btn{
+  display:block;
+  text-align:center;
+  background:linear-gradient(90deg,var(--accent),var(--accent-700));
+  padding:14px;
+  font-weight:800;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  margin-top:20px;
+}
+
+/* ================= MOBILE FIT FIX ================= */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Reduce outer padding on very small screens */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .wrap {
+    padding: 0;
+  }
+
+  /* Header stack nicely */
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  /* HERO */
+  .hero {
+    gap: 10px;
+  }
+
+  .heroCard {
+    padding: 12px;
+  }
+
+  .first img {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+  }
+
+  .score {
+    font-size: 26px;
+  }
+
+  /* Top 2 cards full width */
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Chart fit */
+  canvas {
+    max-height: 220px !important;
+  }
+
+  /* Table already hidden – cards spacing */
+  #cards {
+    padding-bottom: 10px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .card img {
+    width: 56px;
+    height: 56px;
+  }
+
+  /* Button full width */
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 900px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+#winnerLabel b {
+  color: var(--accent);
+}
+
+.winner-final {
+  color: var(--gold);
+}
+.resultCountdown{
+  margin-top:12px;
+  padding:12px;
+  background:#fff3f6;
+  border-radius:12px;
+  text-align:center;
+}
+
+#resultCountdownLabel{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.resultTimer{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.resultTimer div{
+  background:#fff;
+  padding:6px 10px;
+  border-radius:10px;
+  min-width:56px;
+}
+
+.resultTimer b{
+  display:block;
+  font-size:16px;
+  color:var(--accent);
+}
+
+.resultTimer small{
+  font-size:11px;
+  color:var(--muted);
+}
+
+/* Mobile tightening */
+@media(max-width:480px){
+  .resultTimer div{
+    min-width:50px;
+    padding:6px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo"><img src="logo.jpg"></div>
+  <div>
+    <h1>Valentine Results ❤️</h1>
+    <div style="font-size:13px;color:var(--muted)">
+      Adamawa Mr & Miss Valentine 2026
+    </div>
+  </div>
+  <div class="resultCountdown">
+    <span id="resultCountdownLabel">Voting ends in</span>
+    <div class="resultTimer">
+      <div><b id="rDays">—</b><small>Days</small></div>
+      <div><b id="rHours">—</b><small>Hrs</small></div>
+      <div><b id="rMins">—</b><small>Mins</small></div>
+      <div><b id="rSecs">—</b><small>Secs</small></div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="heroCard">
+    <div class="first">
+      <img id="firstImg">
+      <div>
+        <div id="winnerLabel"><b>Leading…</b></div>
+        <div id="firstName" style="font-size:20px;font-weight:800"></div>
+        <div class="score" id="firstScore"></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="smallCard">
+        <img id="secondImg">
+        <div>
+          <b id="secondName"></b><br>
+          <small id="secondScore"></small>
+        </div>
+      </div>
+      <div class="smallCard">
+        <img id="thirdImg">
+        <div>
+          <b id="thirdName"></b><br>
+          <small id="thirdScore"></small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <canvas id="chart"></canvas>
+  </div>
+</div>
+
+<div class="panel tableWrap">
+<table>
+<thead>
+<tr><th>#</th><th>Contestant</th><th>Image</th><th>Votes</th><th>Progress</th></tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+<div id="cards"></div>
+
+<a href="index.html" class="btn">⬅ Back to Voting</a>
+
+</div>
+
+<script>
+    const votingEndsAt = new Date("February 14, 2026 16:00:00").getTime();
+
+const rDays  = document.getElementById("rDays");
+const rHours = document.getElementById("rHours");
+const rMins  = document.getElementById("rMins");
+const rSecs  = document.getElementById("rSecs");
+const resultCountdownLabel = document.getElementById("resultCountdownLabel");
+
+function updateResultCountdown(){
+  const diff = votingEndsAt - Date.now();
+
+  if(diff <= 0){
+    rDays.textContent = rHours.textContent =
+    rMins.textContent = rSecs.textContent = "0";
+
+    resultCountdownLabel.textContent = "Voting Closed — Final Results";
+    return;
+  }
+
+  rDays.textContent  = Math.floor(diff / 86400000);
+  rHours.textContent = Math.floor(diff / 3600000) % 24;
+  rMins.textContent  = Math.floor(diff / 60000) % 60;
+  rSecs.textContent  = Math.floor(diff / 1000) % 60;
+}
+
+updateResultCountdown();
+setInterval(updateResultCountdown, 1000);
+  
+    const winnerLabel = document.getElementById("winnerLabel");
+
+if (Date.now() >= votingEndsAt) {
+  winnerLabel.innerHTML = "<b class='winner-final'>🏆 Winner</b>";
+} else {
+  winnerLabel.innerHTML = "<b>Leading…</b>";
+}
+
+const contestants=[
+ {id:1,name:"Posh Paul",votes:340,image:"v1.jpg"},
+ {id:2,name:"Mark Kullini Clement",votes:120,image:"v2.jpg"},
+ {id:3,name:"Patience Tarhye",votes:560,image:"v3.jpg"},
+ {id:4,name:"Joseph A'aron",votes:220,image:"v4.jpg"},
+ {id:5,name:"Patience Yuguda",votes:410,image:"v5.jpg"},
+ {id:6,name:"Fedelia Friday",votes:180,image:"v6.jpg"}
+].sort((a,b)=>b.votes-a.votes);
+
+const max=Math.max(...contestants.map(c=>c.votes));
+const $=id=>document.getElementById(id);
+
+$("firstImg").src=contestants[0].image;
+$("firstName").textContent=contestants[0].name;
+$("firstScore").textContent=contestants[0].votes+" votes";
+
+$("secondImg").src=contestants[1].image;
+$("secondName").textContent=contestants[1].name;
+$("secondScore").textContent=contestants[1].votes+" votes";
+
+$("thirdImg").src=contestants[2].image;
+$("thirdName").textContent=contestants[2].name;
+$("thirdScore").textContent=contestants[2].votes+" votes";
+
+const tbody=$("tbody");
+const cards=$("cards");
+
+contestants.forEach((c,i)=>{
+  tbody.innerHTML+=`
+  <tr>
+    <td>${i+1}</td>
+    <td>${c.name}</td>
+    <td><img class="thumb" src="${c.image}"></td>
+    <td>${c.votes}</td>
+    <td>
+      <div class="progressWrap">
+        <div class="progress" style="width:${(c.votes/max)*100}%"></div>
+      </div>
+    </td>
+  </tr>`;
+
+  cards.innerHTML+=`
+  <div class="card">
+    <img src="${c.image}">
+    <div>
+      <b>${c.name}</b><br>
+      <small>${c.votes} votes</small>
+      <div class="progressWrap">
+        <div class="progress" style="width:${(c.votes/max)*100}%"></div>
+      </div>
+    </div>
+  </div>`;
+});
+
+new Chart($("chart"),{
+  type:"bar",
+  data:{
+    labels:contestants.map(c=>c.id),
+    datasets:[{
+      data:contestants.map(c=>c.votes),
+      backgroundColor:"#d90429"
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false}},
+    scales:{y:{beginAtZero:true}}
+  }
+});
+
+
+</script>
+</body>
+</html>
