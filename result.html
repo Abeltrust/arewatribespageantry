@@ -88,21 +88,17 @@
   .bottomCards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
   .smallCard{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(90deg,rgba(255,235,205,0.6),transparent)}
 /* HERO TOP 5 */
+/* Desktop-safe image sizing */
 .firstCard img {
-  width: 100%;
-  max-width: 160px; /* limit for desktop */
-  height: auto; /* scale proportionally */
+  width: 160px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 10px;
-  flex-shrink: 0;
 }
 
 .medCard img,
 .smallCard img {
-  width: 100%;
-  max-width: 72px; /* limit for desktop */
-  height: auto;
-  border-radius: 8px;
+  width: 72px;
+  height: 72px;
   object-fit: cover;
 }
 
