@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3093044450880691"
+     crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Mr & Miss Adamawa — Arewa Tribes & Culture: First Edition. Join us for culture, fashion, and crown. Grand prize ₦250,000 + more." />
+  <title>Mr & Miss Adamawa — Arewa Tribes & Culture | First Edition</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+:root {
+  --bg: #fff8f1;
+  --card: #fff;
+  --muted: #4b3a2a;
+  --accent: #ffb300;
+  --accent-700: #ef8d00;
+  --accent-900: #b56a00;
+  --glass: rgba(255,255,255,0.8);
+  --shadow: 0 12px 30px rgba(11,10,10,0.08);
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, Arial, Helvetica;
+  background: var(--bg);
+  color: var(--muted);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+
+
+    .logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-700));
+  display: grid;
+  place-items: center;
+  overflow: hidden; /* ensures image doesn't overflow */
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills container while keeping aspect ratio */
+  display: block;
+}
+
+.titleBlock h1 {
+  font-family: Merriweather, serif;
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+}
+
+.titleBlock p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #6b513a;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(180deg, rgba(255,242,224,0.6), rgba(255,247,238,0.6));
+  padding: 14px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.amber-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 18px;
+  background: #ffb300;            /* amber */
+  color: #2b1600;
+  font-weight: 800;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.14);
+  transition: 0.2s ease;
+}
+
+.amber-btn:hover {
+  background: #ef8d00;
+  box-shadow: 0 10px 24px rgba(181,106,0,0.18);
+}
+
+@media(min-width: 950px) {
+  .hero { grid-template-columns: 1fr 420px; align-items: center; }
+}
+
+.hero-left { padding: 8px; }
+.poster {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+.eventMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.kicker {
+  display: inline-block;
+  background: linear-gradient(90deg,var(--accent),var(--accent-700));
+  color: #2b1600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.eventTitle {
+  font-family: Merriweather, serif;
+  font-size: 20px;
+  margin: 0;
+}
+
+.eventSub {
+  font-size: 14px;
+  color: #6b513a;
+  margin: 0;
+}
+
+.ctaRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.btnPrimary {
+  background: var(--accent);
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 800;
+  color: #2b1600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.12);
+}
+
+.btnOutline {
+  background: transparent;
+  border: 2px solid rgba(181,106,0,0.12);
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--accent-900);
+  cursor: pointer;
+}
+
+/* Right card - summary */
+.hero-right {
+  background: linear-gradient(180deg,#fff,#fff8eb);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(181,106,0,0.06);
+}
+
+.grand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grand h3 {
+  margin: 0;
+  font-family: Merriweather;
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--accent-900);
+}
+
+.grand .prize {
+  background: linear-gradient(90deg,#fff5e0,var(--accent));
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 900;
+  color: #4b2b00;
+  text-align: center;
+  font-size: 14px;
+}
+
+.infoRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.small { font-size: 13px; color: #6b513a; }
+
+/* Countdown */
+.countdown {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.countBox {
+  background: linear-gradient(90deg, #fff6e8, #fff3df);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 800;
+  color: var(--accent-900);
+  min-width: 62px;
+  text-align: center;
+}
+
+/* Chart & leaderboard */
+.panel {
+  margin-top: 18px;
+  background: var(--card);
+  padding: 14px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.panel h2 { margin: 0 0 8px; font-size: 16px; font-family: Merriweather; }
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.search {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #efe1cb;
+  min-width: 200px;
+}
+
+canvas { width: 100%!important; height: 320px!important; }
+
+/* Table */
+.table-wrapper { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td { padding: 12px; border-bottom: 1px solid #fbefe0; vertical-align: middle; }
+th { color: #6b513a; text-transform: uppercase; font-size: 12px; }
+.thumb { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; }
+
+/* Mobile cards */
+#cardsList {
+  display: none;
+  margin-top: 12px;
+  gap: 12px;
+}
+
+.cardItem {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff7ef;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.06);
+}
+
+.cardItem img {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cardItem .info { flex: 1; }
+
+.progressWrap {
+  height: 10px;
+  background: #fff1de;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg,var(--accent),var(--accent-700));
+  transition: width .8s;
+}
+#voteGallery {
+  margin-top: 25px;
+  padding: 16px;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+  gap: 14px;
+}
+
+.voteCard {
+  background: #fff7ef;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(181,106,0,0.08);
+}
+
+.voteCard img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.voteCard h4 { margin: 10px 0 4px; font-size: 15px; font-weight: 700; }
+.voteCard button {
+  margin-top: 8px; width: 100%;
+  background: var(--accent); border: none;
+  padding: 10px; border-radius: 8px;
+  font-weight: 700; cursor: pointer;
+}
+
+/* Footer */
+footer {
+  margin-top: 20px;
+  text-align: center;
+  color: #6b513a;
+  font-size: 14px;
+  padding-bottom: 30px;
+}
+
+/* Mobile adjustments */
+@media(max-width: 900px) {
+  .wrap { padding: 12px; }
+
+  header { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .brand { gap: 8px; align-items: center; }
+  .brand .logo { width: 46px; height: 46px; font-size: 18px; }
+  .titleBlock h1 { font-size: 16px; }
+  .titleBlock p { font-size: 12px; }
+
+  .hero { grid-template-columns: 1fr; padding: 10px; gap: 10px; }
+  .hero-left, .hero-right { width: 100%; padding: 0; }
+  .hero-right { margin-top: 12px; }
+
+  .ctaRow { flex-direction: column; gap: 8px; }
+  .btnPrimary, .btnOutline { width: 100%; text-align: center; }
+
+  .panel { padding: 12px; }
+  canvas { height: 240px!important; }
+
+  .table-wrapper { display: none; }
+  #cardsList { display: flex; flex-direction: column; gap: 10px; }
+}
+</style>
+
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo"><img src="logo.jpg" alt="logo"> </div>
+        <div class="titleBlock">
+          <h1>Arewa Tribes & Culture — Pageantry</h1>
+          <p class="subtitle">Mr & Miss Adamawa — First Edition</p>
+        </div>
+      </div>
+   
+    </header>
+
+    <section class="hero">
+      <div class="hero-left">
+        <img id="heroPoster" class="poster" src="1000697522.jpg" alt="Mr & Miss Adamawa Poster">
+        <div class="eventMeta">
+          <span class="kicker">Cultural Pageantry • First Edition</span>
+          <h2 class="eventTitle">Mr & Miss Adamawa — Tribes & Culture</h2>
+          <p class="eventSub">A celebration of heritage, style and community. Showcasing the finest representatives of Adamawa.</p>
+          <div class="ctaRow">
+            <a href="result.html" class="btnPrimary">View Result</a>
+            <button class="btnOutline">Learn More</button>
+          </div>
+        </div>
+      </div>
+    <!-- EVENT POPUP MODAL -->
+      <div id="eventPopup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+        <div style="background:white; border-radius:16px; max-width:500px; width:90%; box-shadow:var(--shadow); overflow:hidden; position:relative;">
+          
+          <!-- CLOSE BUTTON -->
+          <button onclick="closePopup()" 
+                  style="position:absolute; top:12px; right:12px; background:var(--accent-700); color:white; border:none; border-radius:50%; width:32px; height:32px; font-weight:bold; cursor:pointer;">×</button>
+          
+          <!-- EVENT IMAGE -->
+          <img src="IMG-20251130-WA0000.jpg" alt="Next Event" style="width:100%; display:block; object-fit:cover;">
+          
+          <!-- EVENT INFO -->
+          <div style="padding:16px; text-align:center;">
+            <h3 style="margin:0 0 8px 0; color:var(--accent-700);">Upcoming Event</h3>
+            <p style="margin:0; color:#4b3a2a;">Join us for our next amazing event! We are here to make your moment count.</p>
+          </div>
+        </div>
+      </div>
+      
+      <aside class="hero-right">
+        <div class="grand">
+          <h3>Grand Prize</h3>
+          <div class="prize">₦250,000 • Apple product • Fashion kit • Monthly allowance</div>
+          <div class="infoRow">
+            <div><div class="small">Event Date</div><div style="font-weight:800;margin-top:4px">TBD</div></div>
+            <div><div class="small">Venue</div><div style="font-weight:800;margin-top:4px">Adamawa Cultural Hall</div></div>
+          </div>
+          <div class="countdown">
+            <div class="small">Voting closes in</div>
+            <div style="display:flex;gap:8px;margin-left:auto">
+              <div class="countBox" id="cdDays">—</div>
+              <div class="countBox" id="cdHours">—</div>
+              <div class="countBox" id="cdMins">—</div>
+              <div class="countBox" id="cdSecs">—</div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <div class="small">Contact</div>
+            <div style="margin-top:6px;font-weight:800">07088947385 • 09031399102</div>
+            <div style="margin-top:8px"><a href="mailto:info@example.com" class="small" style="color:var(--accent-900)">arewaculturalcarnival@gmail.com</a></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+   
+    <div class="panel" style="margin-bottom:18px; background:linear-gradient(135deg, #fff7ed, #fff3e0); padding:20px; border-radius:16px; box-shadow:var(--shadow);">
+      <h2 style="margin-top:0; font-size:20px; color:var(--accent-700); text-align:center; margin-bottom:16px;">How to Vote</h2>
+      
+      <div style="display:grid; gap:16px;">
+        <div style="background:white; padding:16px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.05);">
+          <p style="margin:0; font-weight:700; color:#4b3a2a;">Step 1: Make Payment</p>
+          <p style="margin:4px 0 0 0; color:#4b3a2a;">Each vote costs <strong>N100</strong>. Send the total amount corresponding to the number of votes you want to cast to the account below:</p>
+          <div style="background:#fff3cd; padding:12px; border-radius:10px; font-weight:700; color:#856404; margin-top:8px; text-align:center;">
+            Account Name: <strong>Nahum Joseph</strong><br>
+            Account Number: <strong>0116735109</strong><br>
+            Bank: <strong>Sterling Bank</strong>
+          </div>
+        </div>
+    
+        <div style="background:white; padding:16px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.05);">
+          <p style="margin:0; font-weight:700; color:#4b3a2a;">Step 2: Submit Your Vote</p>
+          <p style="margin:4px 0 0 0; color:#4b3a2a;">After sending your payment, choose the contestant you want to vote for and submit your <strong>transaction receipt</strong> as reference so your vote can be counted.</p>
+        </div>
+    
+        <div style="background:white; padding:16px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.05); text-align:center;">
+          <p style="margin:0; font-weight:700; color:#4b3a2a;">Step 3: Multiple Votes</p>
+          <p style="margin:4px 0 0 0; color:#4b3a2a;">You can vote for as many contestants as you want and as many times as you like. Just send the equivalent money and provide the receipt for each vote.</p>
+        </div>
+      </div>
+    </div>
+
+    <section id="voteGallery"></section>
+    <section class="panel">
+      <div class="controls">
+        <h2>Live Results</h2>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="search" class="search" placeholder="Search contestants…" />
+          <!-- <button id="downloadCSVBtn" class="btnPrimary" style="background:var(--accent-700)">Prepare CSV for Download</button> -->
+        </div>
+      </div>
+      <canvas id="resultsChart"></canvas>
+      <div class="table-wrapper">
+        <table id="resultsTable">
+          <thead>
+            <tr><th>#</th><th>Contestant</th><th>Image</th><th>Votes</th><th>Progress</th></tr>
+          </thead>
+          <tbody id="resultsBody"><tr><td colspan="5" style="text-align:center;padding:18px">Loading results…</td></tr></tbody>
+        </table>
+      </div>
+      <div id="cardsList"></div>
+    </section>
+    <a href="https://www.facebook.com/share/17eKcrqs3x/" target="_blank" class="amber-btn">Follow Us On Facebook</a>
+    <footer>© Arewa Tribes & Culture — Mr & Miss Adamawa • AbelTrust</footer>
+  </div>
+
+  <script>
+    // ======= Minimal CSV + leaderboard + cards rendering + chart.js + countdown =======
+    const dataRows = [
+ {ID:1, Name:"Yunuty Wyclidd(Kilba)", Tribe:"Prexxy", Contestant:001, Score:60, Image:"1000700009.jpg", About:""},
+{ID:2, Name:"Muhammad Tasiu(Fulani)", Tribe:"Muhammad", Contestant:002, Score:23, Image:"1000697526.jpg", About:""},
+{ID:3, Name:"Jessica Samuel(Bille)", Tribe:"Iconic Queen", Contestant:003, Score:2467, Image:"1000697532.jpg", About:""},
+{ID:4, Name:"Yakubu Dauda(Higgi)", Tribe:"Prince Yaks", Contestant:004, Score:411, Image:"1000697544.jpg", About:""},
+{ID:8, Name:"Danladi Aroma(Yungur)", Tribe:"Junior", Contestant:008, Score:84, Image:"1000697539.jpg", About:""},
+{ID:9, Name:"Payesa Patience(Yungur)", Tribe:"Patp", Contestant:009, Score:254, Image:"1000697541.jpg", About:""},
+{ID:10, Name:"Momsisuri Sylvester(Chamba)", Tribe:"Ambassador", Contestant:010, Score:770, Image:"1000697533.jpg", About:""},
+{ID:11, Name:"Elizabeth John(Yungur)", Tribe:"Lizzy", Contestant:011, Score:228, Image:"1000697542.jpg", About:""},
+{ID:12, Name:"Hadiza Ibrahim(Fulani)", Tribe:"Meeraty", Contestant:012, Score:137, Image:"1000697531.jpg", About:""},
+{ID:13, Name:"Anita P Haniel(Bwatiye)", Tribe:"Nita", Contestant:013, Score:293, Image:"1000697545.jpg", About:""},
+{ID:14, Name:"Na'omi Ingapwa(Bwatiye)", Tribe:"Ruby Babe", Contestant:014, Score:55, Image:"1000697535.jpg", About:""},
+{ID:16, Name:"Favour John Wappa(Higgi)", Tribe:"Smaller", Contestant:016, Score:750, Image:"1000697530.jpg", About:""},
+{ID:18, Name:"Rejoice Jacob Joice(Mbula)", Tribe:"", Contestant:018, Score:123, Image:"1000700578.jpg", About:""},
+{ID:19, Name:"Innocent Adauna(Lunguda)", Tribe:"Centinno", Contestant:019, Score:49, Image:"1000697546.jpg", About:""},
+{ID:20, Name:"Francis Kadala(Kilba)", Tribe:"Unusual", Contestant:020, Score:193, Image:"1000697547.jpg", About:""},
+{ID:21, Name:"Margaret Makodi(Bwatiye)", Tribe:"Maggie", Contestant:021, Score:1305, Image:"1000697529.jpg", About:""},
+
+
+    ];
+    // Render Vote Gallery
+    function renderVoteGallery(){
+      const wrap=document.getElementById("voteGallery");
+      wrap.innerHTML="";
+      dataRows.forEach(r=>{
+        const wa=`https://wa.me/2349031399102?text=Hello,%20I%20want%20to%20vote%20for%20${encodeURIComponent(r.Name)}%20(Tribe:${r.Tribe}%20(Contestant:${r.Contestant}).`;
+        wrap.innerHTML+=`
+          <div class="voteCard">
+            <img src="${r.Image}">
+            <h4>Name:${r.Name}</h4> Nickname: ${r.Tribe}
+            <button>Voting Ended</button>
+          </div>
+        `;
+      });
+    }
+
+    function renderCardsAndTable(){
+      const tbody=document.getElementById('resultsBody'); tbody.innerHTML='';
+      const cards=document.getElementById('cardsList'); cards.innerHTML='';
+      const total=dataRows.reduce((s,r)=>s+r.Score,0)||1;
+      dataRows.forEach((r,idx)=>{
+        const pct=Math.round((r.Score/total)*100);
+        // table row
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${idx+1}</td><td>${r.Name}<div class="small">${r.About}</div></td><td><img src="${r.Image}" class="thumb"/></td><td>${r.Score}</td><td><div class="progressWrap"><div class="progress" style="width:${pct}%"></div></div><div class="small">${pct}%</div></td>`;
+        tbody.appendChild(tr);
+        // mobile card
+        const div=document.createElement('div'); div.className='cardItem';
+        div.innerHTML=`<img src="${r.Image}"/><div class="info"><div style="display:flex;justify-content:space-between"><strong>${r.Name}</strong><strong style="color:var(--accent)">${r.Score}</strong></div><div class="small">${r.Tribe}</div><div class="progressWrap"><div class="progress" style="width:${pct}%"></div></div></div>`;
+        cards.appendChild(div);
+      });
+    }
+
+    function renderChart(){
+      const ctx=document.getElementById('resultsChart').getContext('2d');
+      new Chart(ctx,{
+        type:'bar',
+        data:{labels:dataRows.map(r=>r.Name),datasets:[{label:'Votes',data:dataRows.map(r=>r.Score),backgroundColor:['#ffdb99','#ffe6b3','#ffcc66']}]},
+        options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+      });
+    }
+
+    renderCardsAndTable(); renderChart();
+
+
+  // Countdown to 7th December at 04:29 PM
+  const countdownAt = new Date("December 7, 2025 16:30:00").getTime();
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = countdownAt - now;
+
+    if (diff < 0) return; // countdown finished
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cdDays').innerText = d;
+    document.getElementById('cdHours').innerText = h;
+    document.getElementById('cdMins').innerText = m;
+    document.getElementById('cdSecs').innerText = s;
+  }, 1000);
+
+    renderVoteGallery();
+// renderCardsAndTable();
+// renderChart();
+
+  
+  // Show popup after 2 seconds (or trigger as needed)
+  setTimeout(() => { 
+    document.getElementById('eventPopup').style.display = 'flex';
+  }, 2000);
+
+  function closePopup() {
+    document.getElementById('eventPopup').style.display = 'none';
+  }
+  </script>
+</body>
+</html>
