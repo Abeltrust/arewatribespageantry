@@ -539,7 +539,24 @@ footer{
 
 <footer>© Arewa Tribes & Culture — Valentine Edition</footer>
 </div>
-
+<!-- EVENT POPUP MODAL -->
+      <div id="eventPopup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+        <div style="background:white; border-radius:16px; max-width:500px; width:90%; box-shadow:var(--shadow); overflow:hidden; position:relative;">
+          
+          <!-- CLOSE BUTTON -->
+          <button onclick="closePopup()" 
+                  style="position:absolute; top:12px; right:12px; background:var(--accent-700); color:white; border:none; border-radius:50%; width:32px; height:32px; font-weight:bold; cursor:pointer;">×</button>
+          
+          <!-- EVENT IMAGE -->
+          <img src="val/pop.jpg" alt="Next Event" style="width:100%; display:block; object-fit:cover;">
+          
+          <!-- EVENT INFO -->
+          <div style="padding:16px; text-align:center;">
+            <h3 style="margin:0 0 8px 0; color:var(--accent-700);">Upcoming Event</h3>
+            <p style="margin:0; color:#4b3a2a;">Join us for our next amazing event! We are here to make your moment count.</p>
+          </div>
+        </div>
+      </div>
 <!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modalContent">
@@ -704,6 +721,14 @@ setInterval(updateCountdown, 1000);
   modalContent.addEventListener("click", function (e) {
     e.stopPropagation();
   });
+
+  setTimeout(() => { 
+    document.getElementById('eventPopup').style.display = 'flex';
+  }, 2000);
+
+  function closePopup() {
+    document.getElementById('eventPopup').style.display = 'none';
+  }
   </script>
 </body>
 </html>
