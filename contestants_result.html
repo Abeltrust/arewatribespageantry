@@ -513,25 +513,16 @@
     }
 
     function loadResultsFromCSV() {
-      renderResults();
-      const cached = localStorage.getItem('cached_adamawa_csv');
-      if (cached) {
-        const cachedData = parseCSVTextToContestants(cached);
-        if (cachedData.length > 0) {
-          contestants = cachedData;
-          renderResults();
-        }
-      }
-
       fetchCSVData().then(text => {
         if (text) {
           const fresh = parseCSVTextToContestants(text);
           if (fresh.length > 0) {
             contestants = fresh;
-            localStorage.setItem('cached_adamawa_csv', text);
             renderResults();
+            return;
           }
         }
+        renderResults();
       }).catch(err => {
         console.warn('Notice loading CSV:', err);
         renderResults();

@@ -792,34 +792,18 @@
     }
 
     function loadContestantsFromCSV() {
-      // Always fetch live CSV first — never serve stale cache as primary data
       fetchCSVData().then(text => {
         if (text) {
           const fresh = parseCSVTextToContestants(text);
           if (fresh.length > 0) {
             contestants = fresh;
-            localStorage.setItem('cached_adamawa_csv', text);
             renderGalleryAndChart();
             return;
-          }
-        }
-        // Fallback: use cache only if live fetch returned nothing (e.g. offline/file://)
-        const cached = localStorage.getItem('cached_adamawa_csv');
-        if (cached) {
-          const cachedData = parseCSVTextToContestants(cached);
-          if (cachedData.length > 0) {
-            contestants = cachedData;
           }
         }
         renderGalleryAndChart();
       }).catch(err => {
         console.warn('Notice loading CSV:', err);
-        // Fallback to cache on error
-        const cached = localStorage.getItem('cached_adamawa_csv');
-        if (cached) {
-          const cachedData = parseCSVTextToContestants(cached);
-          if (cachedData.length > 0) contestants = cachedData;
-        }
         renderGalleryAndChart();
       });
     }

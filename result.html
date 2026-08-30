@@ -789,27 +789,12 @@
 
     /* =============== LOAD CSV from server =============== */
     async function loadCSVFromServer() {
-      if (document.activeElement === document.getElementById('search')) return; // skip refresh while typing
+      if (document.activeElement === document.getElementById('search')) return;
       try {
         const txt = await fetchServerCSV();
         csvTextCache = txt;
-        localStorage.setItem('cached_adamawa_csv', txt);
-        localStorage.setItem('lastServerCSV', txt);
         processCSV(txt);
       } catch (err) {
-        const fallback = localStorage.getItem('previewCSV') || localStorage.getItem('cached_adamawa_csv') || localStorage.getItem('lastServerCSV');
-        if (fallback) processCSV(fallback);
-        else {
-          let defaultCSV = `ID,Name,Tribe,Contestant,Score,Image,About
-1,"Peace Ezekiel","Bille",001,0,"assets/images/adamawa_edition2/001.jpg","Nickname: Nicky • Age: 19 • Hobbies: Dancing and Singing"
-2,"Engnaro Audu","Mbula",002,0,"assets/images/adamawa_edition2/002.jpg","Age: 24 • Hobbies: Singing and dancing"
-3,"Janet Thomas (Ijanada)","Marghi",003,0,"assets/images/adamawa_edition2/003.jpg","Nickname: Blaq quin • Age: 23 • LGA: Madagali • Hobbies: Outing and dancing"
-4,"Naomi Dahiru Yohanna","Bachama (Bwetiye)",004,0,"assets/images/adamawa_edition2/004.jpg","Age: 21 • LGA: Numan • Hobbies: Outing, reading and creating things"
-5,"Atomsa Mallum Roma","Yungur",005,0,"assets/images/adamawa_edition2/005.jpg","Nickname: Twinkle • Age: 20 • LGA: Song • Hobbies: Singing and praying"
-6,"Lawrence Luka","Mbula",006,0,"assets/images/adamawa_edition2/006.jpg","Age: 24 • Hobbies: Singing, cooking, photography, traveling"
-7,"Victor Zhehwi Albert","Kilba",007,1,"assets/images/adamawa_edition2/007.jpg","Nickname: Sir Viçs • Age: 24 • LGA: Gombi • Hobbies: Outing"`;
-          processCSV(defaultCSV);
-        }
         console.warn('Notice loading CSV:', err);
       }
     }
