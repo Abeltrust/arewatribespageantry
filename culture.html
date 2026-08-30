@@ -397,33 +397,45 @@ footer {
   #cardsList { display: flex; flex-direction: column; gap: 10px; }
 }
 </style>
-
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="assets/nav.css">
+<script src="assets/nav.js" defer></script>
+<style>
+i[data-lucide] {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.15em;
+  display: inline-block;
+  stroke-width: 2.2;
+}
+</style>
 </head>
 <body>
   <nav class="mainNav">
     <div class="navBrand">
-      <img src="images/logo.jpg" alt="Arewa Tribes & Culture">
+      <img src="assets/images/logo.jpg" alt="Arewa Tribes & Culture">
       <span>Arewa Tribes & Culture</span>
     </div>
   
-    <button class="navToggle" onclick="toggleMenu()">☰</button>
+    <button class="navToggle" onclick="toggleMenu()" aria-label="Toggle Menu">☰</button>
   
     <ul class="navLinks" id="navLinks">
-      <li class="navSection">Valentine Edition</li>
-      <li><a href="index.html">Valentine Voting</a></li>
-      <li><a href="contestants_result.html">Valentine Results</a></li>
+      <li class="navSection">Active Event</li>
+      <li><a href="index.html">Vote Now</a></li>
+      <li><a href="result.html">Live Results</a></li>
+      <li><a href="contestants_result.html">Contestants Breakdown</a></li>
   
       <li class="navDivider"></li>
   
-      <li class="navSection">Previous Projects</li>
-      <li><a href="result.html">Mr & Mrs Adamawa</a></li>
-      <li><a href="culture.html">Culture Showcase</a></li>
+      <li class="navSection">Past Editions</li>
+      <li><a href="archive/adamawa_edition1_results.html">Adamawa 1st Edition</a></li>
+      <li><a href="archive/valentine_results.html">Valentine 2026</a></li>
     </ul>
   </nav>
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="logo"><img src="images/logo.jpg" alt="logo"> </div>
+        <div class="logo"><img src="assets/images/logo.jpg" alt="logo"> </div>
         <div class="titleBlock">
           <p class="subtitle">Mr & Miss Adamawa — First Edition</p>
         </div>
@@ -433,7 +445,7 @@ footer {
 
     <section class="hero">
       <div class="hero-left">
-        <img id="heroPoster" class="poster" src="images/1000697522.jpg" alt="Mr & Miss Adamawa Poster">
+        <img id="heroPoster" class="poster" src="assets/images/adamawa_edition1/1000697522.jpg" alt="Mr & Miss Adamawa Poster">
         <div class="eventMeta">
           <span class="kicker">Cultural Pageantry • First Edition</span>
           <h2 class="eventTitle">Mr & Miss Adamawa — Tribes & Culture</h2>
@@ -638,6 +650,7 @@ footer {
   function closePopup() {
     document.getElementById('eventPopup').style.display = 'none';
   }
-  </script>
+  if (window.lucide) lucide.createIcons();
+</script>
 </body>
 </html>

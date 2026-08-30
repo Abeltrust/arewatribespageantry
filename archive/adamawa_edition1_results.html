@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Master & Miss Adamawa (1st Edition) — Archive Results</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="../assets/nav.css">
+<script src="../assets/nav.js" defer></script>
+
+<style>
+  i[data-lucide] {
+    width: 1.1em;
+    height: 1.1em;
+    vertical-align: -0.15em;
+    display: inline-block;
+    stroke-width: 2.2;
+  }
+
+  :root{
+    --bg: #fff7ed;
+    --card: #ffffff;
+    --muted: #333333;
+    --accent: #ffb300;
+    --accent-600: #ff9800;
+    --accent-700: #ef6c00;
+    --good: #16a34a;
+    --radius: 12px;
+    --shadow: 0 10px 30px rgba(15,15,15,0.08);
+
+    --text-xs: clamp(10px, 2.5vw, 12px);
+    --text-sm: clamp(12px, 3vw, 14px);
+    --text-md: clamp(14px, 3.5vw, 16px);
+    --text-lg: clamp(16px, 4vw, 20px);
+    --text-xl: clamp(20px, 5vw, 26px);
+  }
+
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:var(--muted);margin:0;padding:12px;line-height:1.35}
+  @media(min-width:768px){ body{padding:18px;} }
+  .wrap{max-width:1100px;margin:0 auto;width:100%}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo {
+    width: clamp(44px, 8vw, 56px);
+    height: clamp(44px, 8vw, 56px);
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-700));
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  h1{margin:0;font-size:var(--text-lg);color:#2b1600;}
+  .subtitle{color:#6b5a4a;font-size:var(--text-xs)}
+
+  .topArea{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);border: 1px solid #ffe0b2;margin-bottom:18px}
+  .topGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:768px){ .topGrid{grid-template-columns:1fr;} }
+  .firstCard{display:flex;gap:12px;padding:14px;border-radius:10px;background:linear-gradient(90deg,rgba(255,179,0,0.15),transparent);align-items:center}
+  @media(max-width:600px){ .firstCard{flex-direction:column;text-align:center} }
+  .firstCard img{width:clamp(120px, 35vw, 160px);height:clamp(120px, 35vw, 160px);object-fit:cover;border-radius:10px;flex-shrink:0}
+  .pos{font-size:var(--text-lg);font-weight:900;color:var(--accent-700);display:flex;align-items:center;gap:6px;}
+  .name{font-size:var(--text-md);font-weight:800;margin-top:6px;color:#2b1600;}
+  .score{font-size:var(--text-xl);font-weight:900;color:var(--accent-700);margin-top:6px}
+
+  .sideCards{display:grid;grid-template-rows:1fr 1fr;gap:12px}
+  .medCard{display:flex;gap:10px;align-items:center;padding:12px;border-radius:10px;background:#fff8ea;border:1px solid #ffe8cc}
+  .medCard img{width:64px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0}
+
+  .bottomCards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+  @media(max-width:500px){ .bottomCards{grid-template-columns:1fr} }
+  .smallCard{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(90deg,rgba(255,235,205,0.6),transparent);border:1px solid #ffe8cc}
+  .smallCard img{width:56px;height:56px;border-radius:8px;object-fit:cover;flex-shrink:0}
+
+  .panel{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;width:100%}
+
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th,td{padding:10px;text-align:left;border-bottom:1px solid #ffe8cc;font-size:var(--text-sm)}
+  th{background:#fff8ea;color:#2b1600;}
+  .thumb{width:44px;height:44px;border-radius:8px;object-fit:cover}
+  
+  .progressWrap{height:8px;background:#ffe8cc;border-radius:999px;overflow:hidden;width:100%}
+  .progress{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-700));transition:width .4s ease}
+
+  .searchBox{width:100%;padding:10px 14px;border-radius:8px;border:1px solid #ffcc80;margin-bottom:12px;font-size:var(--text-sm)}
+
+  .progressRow{
+    display:grid;
+    grid-template-columns: 28px 50px 1fr;
+    gap:10px;
+    align-items:center;
+    background:#fff8ea;
+    padding:10px;
+    border-radius:12px;
+    margin-top:10px;
+    border:1px solid #ffe8cc;
+  }
+  .progressIndex{
+    font-weight:900;
+    font-size:var(--text-sm);
+    color:var(--accent-700);
+    text-align:center;
+  }
+  .progressRow img{
+    width:50px;
+    height:50px;
+    border-radius:8px;
+    object-fit:cover;
+  }
+  .progressInfo{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    min-width:0;
+  }
+  .progressTop{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:var(--text-xs);
+    gap:6px;
+  }
+  .progressName{
+    font-weight:700;
+    color:#2b1600;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .progressVotes{
+    color:var(--muted);
+    font-size:var(--text-xs);
+    white-space:nowrap;
+  }
+  .progressBarWrap{
+    height:8px;
+    background:#ffe8cc;
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .progressBar{
+    height:100%;
+    background:linear-gradient(90deg,var(--accent),var(--accent-700));
+  }
+  .progressPercent{
+    font-size:var(--text-xs);
+    font-weight:700;
+    color:var(--accent-700);
+    text-align:right;
+  }
+
+  .amber-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 18px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-700));
+    color: #2b1600;
+    font-weight: 800;
+    font-size: var(--text-md);
+    border-radius: 10px;
+    text-decoration: none;
+    margin-top: 14px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(181,106,0,0.14);
+    box-sizing: border-box;
+  }
+  .amber-btn:hover {
+    background: linear-gradient(90deg, var(--accent-600), var(--accent-700));
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+  <nav class="mainNav">
+    <div class="navBrand">
+      <img src="../assets/images/logo.jpg" alt="Arewa Tribes & Culture">
+      <span>Arewa Tribes & Culture</span>
+    </div>
+  
+    <button class="navToggle" onclick="toggleMenu()" aria-label="Toggle Menu">☰</button>
+  
+    <ul class="navLinks" id="navLinks">
+      <li class="navSection">Active Event</li>
+      <li><a href="../index.html">Vote Now</a></li>
+      <li><a href="../result.html">Live Results</a></li>
+      <li><a href="../contestants_result.html">Contestants Breakdown</a></li>
+  
+      <li class="navDivider"></li>
+  
+      <li class="navSection">Past Editions</li>
+      <li><a href="adamawa_edition1_results.html">Adamawa 1st Edition</a></li>
+      <li><a href="valentine_results.html">Valentine 2026</a></li>
+    </ul>
+  </nav>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo"><img src="../assets/images/logo.jpg" alt="logo"></div>
+      <div>
+        <h1>Master & Miss Adamawa (1st Edition) — Archived Results</h1>
+        <div class="subtitle">Official Transparency Record • 1st Edition Winner & Leaderboard</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOP WINNERS HERO -->
+  <div class="topArea">
+    <h3 style="margin:0 0 12px 0;font-family:Merriweather;color:#2b1600;font-size:var(--text-lg);display:flex;align-items:center;gap:6px;">
+      <i data-lucide="trophy"></i> Top 5 Winners & Final Leaderboard
+    </h3>
+    <div class="topGrid">
+      <div class="firstCard">
+        <img id="firstImg" alt="1st Place">
+        <div class="firstInfo">
+          <div class="pos"><i data-lucide="crown"></i> Winner (1st)</div>
+          <div id="firstName" class="name">Loading...</div>
+          <div id="firstAbout" style="font-size:var(--text-xs);color:#6b5a4a;margin-top:4px"></div>
+          <div id="firstScore" class="score">0</div>
+        </div>
+      </div>
+      <div class="sideCards">
+        <div class="medCard">
+          <img id="secondImg" alt="2nd Place">
+          <div>
+            <div style="font-size:var(--text-xs);font-weight:900;color:var(--accent-700);display:flex;align-items:center;gap:4px;">
+              <i data-lucide="award"></i> 2nd Place
+            </div>
+            <div id="secondName" style="font-weight:800;font-size:var(--text-sm)"></div>
+            <div id="secondScore" style="font-size:var(--text-xs);color:var(--accent-700);font-weight:700"></div>
+          </div>
+        </div>
+        <div class="medCard">
+          <img id="thirdImg" alt="3rd Place">
+          <div>
+            <div style="font-size:var(--text-xs);font-weight:900;color:var(--accent-700);display:flex;align-items:center;gap:4px;">
+              <i data-lucide="medal"></i> 3rd Place
+            </div>
+            <div id="thirdName" style="font-weight:800;font-size:var(--text-sm)"></div>
+            <div id="thirdScore" style="font-size:var(--text-xs);color:var(--accent-700);font-weight:700"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottomCards">
+      <div class="smallCard">
+        <img id="fourthImg" alt="4th Place">
+        <div>
+          <div style="font-size:var(--text-xs);font-weight:900;color:var(--accent-700)">4th Place</div>
+          <div id="fourthName" style="font-weight:800;font-size:var(--text-sm)"></div>
+          <div id="fourthScore" style="font-size:var(--text-xs);color:var(--accent-700)"></div>
+        </div>
+      </div>
+      <div class="smallCard">
+        <img id="fifthImg" alt="5th Place">
+        <div>
+          <div style="font-size:var(--text-xs);font-weight:900;color:var(--accent-700)">5th Place</div>
+          <div id="fifthName" style="font-weight:800;font-size:var(--text-sm)"></div>
+          <div id="fifthScore" style="font-size:var(--text-xs);color:var(--accent-700)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOTES SUMMARY PROGRESS LIST (No Canvas Chart for Fast Mobile Loading) -->
+  <div class="panel">
+    <h3 style="margin:0 0 12px 0;font-family:Merriweather;color:#2b1600;font-size:var(--text-lg);">Final Votes Summary & Distribution</h3>
+    <div id="progressList"></div>
+  </div>
+
+  <!-- COMPLETE LEADERBOARD TABLE -->
+  <div class="panel">
+    <h3 style="margin:0 0 12px 0;font-family:Merriweather;color:#2b1600;font-size:var(--text-lg);">Complete Leaderboard</h3>
+    <input type="text" id="search" class="searchBox" placeholder="Search contestant by name...">
+    
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Contestant Name</th>
+            <th>Photo</th>
+            <th>Total Votes</th>
+            <th>Percentage</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <a href="../index.html" class="amber-btn"><i data-lucide="arrow-left"></i> Back to Active Master & Miss Adamawa Voting Page</a>
+</div>
+
+<script>
+function resolveImgPath(imgPath) {
+  if (!imgPath) return '../assets/images/logo.jpg';
+  if (imgPath.startsWith('http://') || imgPath.startsWith('https://') || imgPath.startsWith('data:')) return imgPath;
+  let clean = imgPath.replace(/^(\.\.\/)+/, '').replace(/^\//, '');
+  if (clean.startsWith('assets/images/')) return '../' + clean;
+  if (clean.startsWith('images/')) return '../assets/' + clean;
+  return '../assets/images/' + clean;
+}
+
+let dataRows = [
+  {ID:"1",Name:"Yunuty Wyclidd(Kilba)",Tribe:"Prexxy",Contestant:"001",Score:60,Image:resolveImgPath("assets/images/adamawa_edition1/1000700009.jpg")},
+  {ID:"2",Name:"Muhammad Tasiu(Fulani)",Tribe:"Muhammad",Contestant:"002",Score:23,Image:resolveImgPath("assets/images/adamawa_edition1/1000697526.jpg")},
+  {ID:"3",Name:"Jessica Samuel(Bille)",Tribe:"Iconic Queen",Contestant:"003",Score:2592,Image:resolveImgPath("assets/images/adamawa_edition1/1000697532.jpg")},
+  {ID:"4",Name:"Yakubu Dauda(Higgi)",Tribe:"Prince Yaks",Contestant:"004",Score:721,Image:resolveImgPath("assets/images/adamawa_edition1/1000697544.jpg")},
+  {ID:"5",Name:"Danladi Aroma(Yungur)",Tribe:"Junior",Contestant:"008",Score:84,Image:resolveImgPath("assets/images/adamawa_edition1/1000697539.jpg")},
+  {ID:"6",Name:"Payesa Patience(Yungur)",Tribe:"Patp",Contestant:"009",Score:254,Image:resolveImgPath("assets/images/adamawa_edition1/1000697541.jpg")},
+  {ID:"7",Name:"Momsisuri Sylvester(Chamba)",Tribe:"Ambassador",Contestant:"010",Score:770,Image:resolveImgPath("assets/images/adamawa_edition1/1000697533.jpg")},
+  {ID:"8",Name:"Elizabeth John(Yungur)",Tribe:"Lizzy",Contestant:"011",Score:228,Image:resolveImgPath("assets/images/adamawa_edition1/1000697542.jpg")},
+  {ID:"9",Name:"Hadiza Ibrahim(Fulani)",Tribe:"Meeraty",Contestant:"012",Score:137,Image:resolveImgPath("assets/images/adamawa_edition1/1000697531.jpg")},
+  {ID:"10",Name:"Anita P Haniel(Bwatiye)",Tribe:"Nita",Contestant:"013",Score:293,Image:resolveImgPath("assets/images/adamawa_edition1/1000697545.jpg")},
+  {ID:"11",Name:"Favour John Wappa(Higgi)",Tribe:"Smaller",Contestant:"016",Score:750,Image:resolveImgPath("assets/images/adamawa_edition1/1000697530.jpg")},
+  {ID:"12",Name:"Rejoice Jacob Joice(Mbula)",Tribe:"",Contestant:"018",Score:123,Image:resolveImgPath("assets/images/adamawa_edition1/1000700578.jpg")},
+  {ID:"13",Name:"Innocent Adauna(Lunguda)",Tribe:"Centinno",Contestant:"019",Score:49,Image:resolveImgPath("assets/images/adamawa_edition1/1000697546.jpg")},
+  {ID:"14",Name:"Francis Kadala(Kilba)",Tribe:"Unusual",Contestant:"020",Score:193,Image:resolveImgPath("assets/images/adamawa_edition1/1000697547.jpg")},
+  {ID:"15",Name:"Margaret Makodi(Bwatiye)",Tribe:"Maggie",Contestant:"021",Score:1795,Image:resolveImgPath("assets/images/adamawa_edition1/1000697529.jpg")},
+  {ID:"16",Name:"Na'omi Ingapwa(Bwatiye)",Tribe:"Ruby Babe",Contestant:"014",Score:55,Image:resolveImgPath("assets/images/adamawa_edition1/1000697535.jpg")}
+].sort((a,b)=>b.Score - a.Score);
+
+function parseCSVLine(str){
+  let result = [];
+  let entry = '';
+  let inQuotes = false;
+  for(let i=0; i<str.length; i++){
+    let c = str[i];
+    if(c === '"'){
+      inQuotes = !inQuotes;
+    } else if(c === ',' && !inQuotes){
+      result.push(entry.trim());
+      entry = '';
+    } else {
+      entry += c;
+    }
+  }
+  result.push(entry.trim());
+  return result;
+}
+
+fetch('../assets/adamawa_editions/results_adamawa_edition1.csv')
+  .then(res => res.text())
+  .then(text => {
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+    if(lines.length > 1){
+      const parsed = [];
+      for(let i=1; i<lines.length; i++){
+        const row = parseCSVLine(lines[i]);
+        if(row.length >= 5){
+          let rawImg = row[5]?.replace(/^"|"$/g, '') || '';
+          parsed.push({
+            ID: row[0],
+            Name: row[1]?.replace(/^"|"$/g, '') || '',
+            Tribe: row[2]?.replace(/^"|"$/g, '') || '',
+            Contestant: row[3]?.replace(/^"|"$/g, '') || '',
+            Score: parseInt(row[4]) || 0,
+            Image: resolveImgPath(rawImg),
+            About: row[6]?.replace(/^"|"$/g, '') || ''
+          });
+        }
+      }
+      if(parsed.length > 0){
+        dataRows = parsed.sort((a,b)=>b.Score - a.Score);
+      }
+    }
+    renderPage();
+  })
+  .catch(err => {
+    console.warn('Using fallback dataRows:', err);
+    renderPage();
+  });
+
+function renderPage(){
+  renderTop5();
+  renderTable();
+  renderProgressList();
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderTop5(){
+  const first = dataRows[0] || {Name:'—',Score:0,Image:resolveImgPath('')};
+  document.getElementById('firstImg').src = first.Image;
+  document.getElementById('firstName').innerText = first.Name;
+  document.getElementById('firstAbout').innerText = first.Tribe ? 'Tribe: ' + first.Tribe : '';
+  document.getElementById('firstScore').innerText = first.Score + ' votes';
+
+  const s2 = dataRows[1] || {Name:'—',Score:0,Image:resolveImgPath('')};
+  document.getElementById('secondImg').src = s2.Image;
+  document.getElementById('secondName').innerText = s2.Name;
+  document.getElementById('secondScore').innerText = s2.Score + ' votes';
+
+  const s3 = dataRows[2] || {Name:'—',Score:0,Image:resolveImgPath('')};
+  document.getElementById('thirdImg').src = s3.Image;
+  document.getElementById('thirdName').innerText = s3.Name;
+  document.getElementById('thirdScore').innerText = s3.Score + ' votes';
+
+  const s4 = dataRows[3] || {Name:'—',Score:0,Image:resolveImgPath('')};
+  document.getElementById('fourthImg').src = s4.Image;
+  document.getElementById('fourthName').innerText = s4.Name;
+  document.getElementById('fourthScore').innerText = s4.Score + ' votes';
+
+  const s5 = dataRows[4] || {Name:'—',Score:0,Image:resolveImgPath('')};
+  document.getElementById('fifthImg').src = s5.Image;
+  document.getElementById('fifthName').innerText = s5.Name;
+  document.getElementById('fifthScore').innerText = s5.Score + ' votes';
+}
+
+function renderProgressList(){
+  const progressList = document.getElementById("progressList");
+  if(!progressList) return;
+  const total = dataRows.reduce((s,c)=>s+c.Score,0) || 1;
+  progressList.innerHTML = "";
+  dataRows.forEach((r, index) => {
+    const pct = Math.round((r.Score / total) * 100);
+    progressList.innerHTML += `
+      <div class="progressRow">
+        <div class="progressIndex">${index + 1}</div>
+        <img src="${r.Image}" alt="${r.Name}">
+        <div class="progressInfo">
+          <div class="progressTop">
+            <span class="progressName">${r.Name}</span>
+            <span class="progressVotes">${r.Score} votes</span>
+          </div>
+          <div class="progressBarWrap">
+            <div class="progressBar" style="width:${pct}%"></div>
+          </div>
+          <div class="progressPercent">${pct}%</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function renderTable(){
+  const tbody = document.getElementById('resultsBody');
+  const searchTerm = (document.getElementById('search')?.value || '').toLowerCase();
+  tbody.innerHTML = '';
+  const maxScore = Math.max(...dataRows.map(r=>r.Score), 1);
+  dataRows.forEach((r,i)=>{
+    if(searchTerm && !r.Name.toLowerCase().includes(searchTerm)) return;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><b>${i+1}</b></td>
+      <td><b>${r.Name}</b></td>
+      <td><img class="thumb" src="${r.Image}" alt="${r.Name}"></td>
+      <td><b>${r.Score}</b></td>
+      <td>
+        <div class="progressWrap">
+          <div class="progress" style="width:${(r.Score/maxScore)*100}%"></div>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// Initial render
+renderPage();
+document.getElementById('search')?.addEventListener('input', renderTable);
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

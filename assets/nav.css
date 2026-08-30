@@ -55,15 +55,20 @@
   
   .navToggle{
     display:none;
-    background:none;
-    border:none;
-    font-size:22px;
+    background:rgba(255,179,0,0.15);
+    border:1px solid #ffe8cc;
+    font-size:24px;
+    color:#2b1600;
     cursor:pointer;
+    padding:4px 10px;
+    border-radius:8px;
+    line-height:1;
+    font-weight:900;
   }
   
   /* ===== MOBILE MENU ===== */
   @media(max-width:768px){
-    .navToggle{display:block}
+    .navToggle{display:inline-flex;align-items:center;justify-content:center}
   
     .navLinks{
       position:absolute;

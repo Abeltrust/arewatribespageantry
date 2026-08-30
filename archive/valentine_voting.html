@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Adamawa Mr & Miss Valentine 2026 — Archive Voting</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="../assets/nav.css">
+<script src="../assets/nav.js" defer></script>
+<style>
+i[data-lucide] {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.15em;
+  display: inline-block;
+  stroke-width: 2.2;
+}
+
+:root{
+  --bg:#fff8f1;
+  --card:#fff;
+  --text:#4b1c2a;
+  --muted:#6b3f4f;
+  --accent:#d90429;
+  --accent-700:#ff4d6d;
+  --gold:#ffb703;
+  --shadow:0 12px 30px rgba(0,0,0,.08);
+  --radius:14px;
+  --text-xs: clamp(10px, 2.5vw, 12px);
+  --text-sm: clamp(12px, 3vw, 14px);
+  --text-md: clamp(14px, 3.5vw, 16px);
+  --text-lg: clamp(16px, 4vw, 20px);
+  --text-xl: clamp(20px, 5vw, 26px);
+}
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin:0;
+  font-family:Inter,system-ui;
+  background:var(--bg);
+  color:var(--text);
+  line-height: 1.35;
+}
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:12px;
+  width:100%;
+}
+
+@media(min-width:768px){
+  .wrap{
+    padding:18px;
+  }
+}
+*{box-sizing:border-box}
+
+/* ================= HEADER ================= */
+header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+.logo{
+  width:clamp(44px, 8vw, 56px);
+  height:clamp(44px, 8vw, 56px);
+  border-radius:12px;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.logo img{width:100%;height:100%;object-fit:cover}
+.titleBlock h1{
+  margin:0;
+  font-family:Merriweather;
+  font-size:var(--text-lg);
+}
+.titleBlock p{
+  margin:2px 0 0;
+  font-size:var(--text-xs);
+  color:var(--muted);
+}
+
+/* ================= HERO ================= */
+.hero{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+  background:linear-gradient(180deg,#ffe1e8,#fff);
+  padding:16px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+@media(min-width:950px){
+  .hero{grid-template-columns:1fr 420px}
+}
+.poster{
+  width:100%;
+  border-radius:12px;
+}
+.kicker{
+  display:inline-block;
+  background:linear-gradient(90deg,var(--accent),var(--accent-700));
+  color:white;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:var(--text-xs);
+  font-weight:700;
+}
+.hero h2{
+  margin:10px 0 4px;
+  font-family:Merriweather;
+  font-size:var(--text-lg);
+}
+.hero p{margin:0;color:var(--muted);font-size:var(--text-sm)}
+
+.hero-right{
+  background:#fff;
+  padding:16px;
+  border-radius:12px;
+}
+.prize{
+  background:linear-gradient(90deg,#fff0f4,var(--gold));
+  padding:12px;
+  border-radius:10px;
+  font-weight:900;
+  text-align:center;
+  font-size:var(--text-sm);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.infoRow{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  font-size:var(--text-sm);
+}
+.countdown{
+  display:flex;
+  gap:6px;
+  margin-top:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  font-size:var(--text-xs);
+}
+
+.countBox{
+  background:#fff0f4;
+  padding:6px 8px;
+  border-radius:8px;
+  font-weight:800;
+  min-width:auto;
+  font-size:var(--text-xs);
+  text-align:center;
+}
+
+.panel{
+  margin-top:18px;
+  background:var(--card);
+  padding:16px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  width:100%;
+}
+.panel h3{
+  margin:0 0 12px;
+  font-family:Merriweather;
+  font-size:var(--text-md);
+}
+
+.voteStep{
+  background:#fff3f6;
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:10px;
+  font-size:var(--text-sm);
+}
+
+#voteGallery{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+@media(min-width:600px){
+  #voteGallery{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+@media(min-width:900px){
+  #voteGallery{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+.voteCard{
+  background:#fff7fa;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
+}
+.voteCard img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:10px;
+  cursor:pointer;
+}
+.voteCard h4{margin:10px 0 2px;font-size:var(--text-md)}
+.voteCard small{font-size:var(--text-xs)}
+.voteBtn{
+  margin-top:10px;
+  width:100%;
+  background:#999;
+  border:none;
+  padding:12px;
+  border-radius:8px;
+  font-weight:800;
+  color:white;
+  font-size:var(--text-sm);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+
+.progressRow{
+  display:grid;
+  grid-template-columns: 28px 50px 1fr;
+  gap:10px;
+  align-items:center;
+  background:#fff7fa;
+  padding:10px;
+  border-radius:12px;
+  margin-top:10px;
+  border:1px solid #ffe3ea;
+}
+.progressIndex{
+  font-weight:900;
+  font-size:var(--text-sm);
+  color:var(--accent);
+  text-align:center;
+}
+.progressRow img{
+  width:50px;
+  height:50px;
+  border-radius:8px;
+  object-fit:cover;
+}
+.progressInfo{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+.progressTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:var(--text-xs);
+  gap:6px;
+}
+.progressName{
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.progressVotes{
+  color:var(--muted);
+  font-size:var(--text-xs);
+  white-space:nowrap;
+}
+.progressBarWrap{
+  height:8px;
+  background:#ffe3ea;
+  border-radius:999px;
+  overflow:hidden;
+}
+.progressBar{
+  height:100%;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+}
+.progressPercent{
+  font-size:var(--text-xs);
+  font-weight:700;
+  color:var(--accent);
+  text-align:right;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.modalContent{
+  background:white;
+  width:92%;
+  max-width:420px;
+  border-radius:16px;
+  padding:16px;
+  text-align:center;
+  position:relative;
+}
+.modalContent img{
+  width:100%;
+  border-radius:12px;
+}
+.modalBtns{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.modalBtns a{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  font-weight:800;
+  text-decoration:none;
+  text-align:center;
+  font-size:var(--text-sm);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.voteLink{background:#999;color:white;cursor:not-allowed;}
+.resultLink{background:var(--accent);color:white}
+.closeBtn{
+  position:absolute;
+  top:14px;
+  right:14px;
+  background:var(--accent);
+  color:white;
+  border:none;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+  font-weight:900;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.facebookBtn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:24px 0;
+  padding:14px;
+  background:#1877f2;
+  color:white;
+  font-weight:800;
+  text-align:center;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:var(--text-md);
+  box-sizing:border-box;
+}
+footer{
+  text-align:center;
+  font-size:var(--text-xs);
+  color:var(--muted);
+  padding-bottom:30px;
+}
+.heroActions{
+  margin-top:12px;
+}
+.viewResultBtn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:14px 18px;
+  text-align:center;
+  background:linear-gradient(90deg,var(--accent),var(--accent-700));
+  color:#fff;
+  font-weight:800;
+  border-radius:10px;
+  text-decoration:none;
+  font-size:var(--text-md);
+  box-shadow:var(--shadow);
+  box-sizing:border-box;
+}
+.contactBlock{
+  margin-top:14px;
+  text-align:center;
+}
+.contactLabel{
+  font-size:var(--text-xs);
+  color:var(--muted);
+}
+.contactPhone{
+  margin-top:6px;
+  font-weight:800;
+  font-size:var(--text-sm);
+}
+.contactEmail{
+  display:inline-block;
+  margin-top:8px;
+  font-size:var(--text-xs);
+  color:var(--accent);
+  text-decoration:none;
+  word-break:break-word;
+}
+</style>
+</head>
+
+<body>
+  <nav class="mainNav">
+    <div class="navBrand">
+      <img src="../assets/images/logo.jpg" alt="Arewa Tribes & Culture">
+      <span>Arewa Tribes & Culture</span>
+    </div>
+  
+    <button class="navToggle" onclick="toggleMenu()" aria-label="Toggle Menu">☰</button>
+  
+    <ul class="navLinks" id="navLinks">
+      <li class="navSection">Active Event</li>
+      <li><a href="../index.html">Vote Now</a></li>
+      <li><a href="../result.html">Live Results</a></li>
+      <li><a href="../contestants_result.html">Contestants Breakdown</a></li>
+  
+      <li class="navDivider"></li>
+  
+      <li class="navSection">Past Editions</li>
+      <li><a href="adamawa_edition1_results.html">Adamawa 1st Edition</a></li>
+      <li><a href="valentine_results.html">Valentine 2026</a></li>
+    </ul>
+  </nav>
+
+<div class="wrap">
+
+<header>
+  <div class="logo"><img src="../assets/images/logo.jpg" alt="logo"></div>
+  <div class="titleBlock">
+    <h1>Adamawa Mr & Miss Valentine 2026 (Archive)</h1>
+    <p>Past Event Voting Record — Archived for Transparency</p>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <span class="kicker">Archived Event</span>
+    <h2>Adamawa Mr & Miss Valentine 2026</h2>
+    <p>This event has concluded. View final voting scores below.</p>
+    <img class="poster" src="../assets/images/val/val.jpg" alt="Valentine Event Poster">
+  </div>
+
+  <div class="hero-right">
+    <div class="prize"><i data-lucide="trophy"></i> Final Winner & Contestant Records</div>
+    
+    <div class="infoRow">
+      <span>Voting Status</span>
+      <b style="color:var(--accent)">ENDED</b>
+    </div>
+
+    <div class="countdown">
+      <span>Final Countdown:</span>
+      <div class="countBox">0d</div>
+      <div class="countBox">0h</div>
+      <div class="countBox">0m</div>
+      <div class="countBox">0s</div>
+    </div>
+
+    <div class="heroActions">
+      <a href="valentine_results.html" class="viewResultBtn"><i data-lucide="trophy"></i> View Final Results Leaderboard</a>
+    </div>
+
+    <div class="contactBlock">
+      <div class="contactLabel">Event Support Contact</div>
+      <div class="contactPhone">07088947385 • 09031399102</div>
+      <a href="mailto:arewaculturalcarnival@gmail.com" class="contactEmail">arewaculturalcarnival@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h3 style="text-align: center;">Contestants Gallery (Archived)</h3>
+  <div id="voteGallery"></div>
+</section>
+
+<!-- VOTES SUMMARY PROGRESS LIST (No Canvas Chart for Fast Mobile Loading) -->
+<section class="panel">
+  <h3>Final Votes Summary & Distribution</h3>
+  <div id="progressList"></div>
+</section>
+
+<a href="https://www.facebook.com/share/17eKcrqs3x/" target="_blank" class="facebookBtn">
+  <i data-lucide="facebook"></i> Follow Us on Facebook
+</a>
+
+<footer>© Arewa Tribes & Culture — Valentine Edition 2026 (Archived)</footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modalContent">
+    <button class="closeBtn" onclick="closeModal()"><i data-lucide="x"></i></button>
+    <img id="modalImg">
+    <h3 id="modalName"></h3>
+    <p id="modalInfo"></p>
+    <div class="modalBtns">
+      <a id="voteLink" class="voteLink"><i data-lucide="lock"></i> Voting Concluded</a>
+      <a href="valentine_results.html" class="resultLink"><i data-lucide="trophy"></i> View Result</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function resolveImgPath(imgPath) {
+  if (!imgPath) return '../assets/images/logo.jpg';
+  if (imgPath.startsWith('http://') || imgPath.startsWith('https://') || imgPath.startsWith('data:')) return imgPath;
+  let clean = imgPath.replace(/^(\.\.\/)+/, '').replace(/^\//, '');
+  if (clean.startsWith('assets/images/')) return '../' + clean;
+  if (clean.startsWith('images/')) return '../assets/' + clean;
+  if (clean.startsWith('val/')) return '../assets/images/' + clean;
+  return '../assets/images/val/' + clean;
+}
+
+let contestants = [
+ {id:1,name:"Posh Paul",nick:"Posh",number:1,votes:968,image:resolveImgPath("val/v1.jpg")},
+ {id:2,name:"Mark Kullini Clement",nick:"MK",number:2,votes:26,image:resolveImgPath("val/v2.jpg")},
+ {id:3,name:"Patience Tarhye",nick:"Pesh",number:3,votes:0,image:resolveImgPath("val/v3.jpg")},
+ {id:4,name:"Joseph A'aron",nick:"JPrince of Yola",number:4,votes:615,image:resolveImgPath("val/v4.jpg")},
+ {id:5,name:"Patience Yuguda",nick:"Peshmee",number:5,votes:788,image:resolveImgPath("val/v5.jpg")},
+ {id:6,name:"Fedelia Friday",nick:"Madam",number:6,votes:23,image:resolveImgPath("val/v6.jpg")},
+ {id:7,name:"Kanatapwa Johnson",nick:"Kanzy Jay",number:7,votes:0,image:resolveImgPath("val/v7.jpg")},
+ {id:8,name:"Zephaniah Augustine",nick:"Werey Pikin",number:8,votes:0,image:resolveImgPath("val/v8.jpg")},
+ {id:9,name:"Phenicie Pascal",nick:"Itz Phency",number:9,votes:51,image:resolveImgPath("val/v9.jpg")},
+ {id:10,name:"Yaudan Haniel",nick:"Love",number:10,votes:1025,image:resolveImgPath("val/v10.jpg")}
+];
+
+function parseCSVLine(str){
+  let result = [];
+  let entry = '';
+  let inQuotes = false;
+  for(let i=0; i<str.length; i++){
+    let c = str[i];
+    if(c === '"'){
+      inQuotes = !inQuotes;
+    } else if(c === ',' && !inQuotes){
+      result.push(entry.trim());
+      entry = '';
+    } else {
+      entry += c;
+    }
+  }
+  result.push(entry.trim());
+  return result;
+}
+
+fetch('../assets/val_editions/results_valentine_2026.csv')
+  .then(res => res.text())
+  .then(text => {
+    const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+    if(lines.length > 1){
+      const parsed = [];
+      for(let i=1; i<lines.length; i++){
+        const row = parseCSVLine(lines[i]);
+        if(row.length >= 5){
+          let rawImg = row[5]?.replace(/^"|"$/g, '') || '';
+          parsed.push({
+            id: parseInt(row[0]) || i,
+            name: row[1]?.replace(/^"|"$/g, '') || 'Contestant',
+            nick: row[2]?.replace(/^"|"$/g, '') || '',
+            number: parseInt(row[3]) || i,
+            votes: parseInt(row[4]) || 0,
+            image: resolveImgPath(rawImg)
+          });
+        }
+      }
+      if(parsed.length > 0) contestants = parsed;
+    }
+    initPage();
+  })
+  .catch(err => {
+    console.warn('Using default archived array:', err);
+    initPage();
+  });
+
+function initPage(){
+  const total = contestants.reduce((s,c)=>s+c.votes,0) || 1;
+  const voteGallery = document.getElementById("voteGallery");
+  const progressList = document.getElementById("progressList");
+
+  voteGallery.innerHTML = "";
+  contestants.forEach(c => {
+    voteGallery.innerHTML += `
+      <div class="voteCard">
+        <img src="${c.image}" onclick="openModal(${c.id})" alt="${c.name}">
+        <h4>${c.name}</h4>
+        <small>${c.nick ? c.nick + ' • ' : ''}No ${c.number}</small>
+        <button class="voteBtn" disabled><i data-lucide="lock"></i> Voting Ended</button>
+      </div>
+    `;
+  });
+
+  progressList.innerHTML = "";
+  contestants.forEach((c, index) => {
+    const pct = Math.round((c.votes / total) * 100);
+    progressList.innerHTML += `
+      <div class="progressRow">
+        <div class="progressIndex">${index + 1}</div>
+        <img src="${c.image}" alt="${c.name}">
+        <div class="progressInfo">
+          <div class="progressTop">
+            <span class="progressName">${c.name}</span>
+            <span class="progressVotes">${c.votes} votes</span>
+          </div>
+          <div class="progressBarWrap">
+            <div class="progressBar" style="width:${pct}%"></div>
+          </div>
+          <div class="progressPercent">${pct}%</div>
+        </div>
+      </div>
+    `;
+  });
+
+  if (window.lucide) lucide.createIcons();
+}
+
+const modal = document.getElementById("modal");
+function openModal(id){
+  const c = contestants.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById("modalImg").src = c.image;
+  document.getElementById("modalName").textContent = c.name;
+  document.getElementById("modalInfo").textContent = `${c.nick} • Contestant No ${c.number}`;
+  modal.style.display = "flex";
+  if (window.lucide) lucide.createIcons();
+}
+function closeModal(){
+  modal.style.display = "none";
+}
+modal.addEventListener("click", closeModal);
+document.querySelector(".modalContent").addEventListener("click", e => e.stopPropagation());
+
+initPage();
+if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>
