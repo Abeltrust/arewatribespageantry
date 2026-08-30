@@ -217,6 +217,63 @@
       text-align: center;
     }
 
+    .contestantSearch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff8f0;
+      border: 1.5px solid #ffe0b2;
+      border-radius: 50px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .contestantSearch:focus-within {
+      border-color: var(--accent-700);
+      box-shadow: 0 0 0 3px rgba(239,108,0,0.12);
+    }
+
+    .searchIcon {
+      color: var(--accent-700);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .contestantSearch input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      min-width: 0;
+    }
+
+    .contestantSearch input::placeholder {
+      color: #b08060;
+    }
+
+    .searchCount {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-700);
+      background: #fff3e0;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .noResults {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
     .panel {
       margin-top: 18px;
       background: var(--card);
@@ -613,6 +670,11 @@
 
     <section class="panel">
       <h3 style="text-align: center;">Official Contestants</h3>
+      <div class="contestantSearch">
+        <span class="searchIcon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="search" id="contestantSearchInput" placeholder="Search by name, tribe or number…" oninput="filterContestants(this.value)" autocomplete="off">
+        <span id="searchCount" class="searchCount"></span>
+      </div>
       <div id="voteGallery">Loading contestants...</div>
     </section>
 
@@ -730,16 +792,7 @@
     }
 
     function loadContestantsFromCSV() {
-      renderGalleryAndChart();
-      const cached = localStorage.getItem('cached_adamawa_csv');
-      if (cached) {
-        const cachedData = parseCSVTextToContestants(cached);
-        if (cachedData.length > 0) {
-          contestants = cachedData;
-          renderGalleryAndChart();
-        }
-      }
-
+      // Always fetch live CSV first — never serve stale cache as primary data
       fetchCSVData().then(text => {
         if (text) {
           const fresh = parseCSVTextToContestants(text);
@@ -747,10 +800,26 @@
             contestants = fresh;
             localStorage.setItem('cached_adamawa_csv', text);
             renderGalleryAndChart();
+            return;
           }
         }
+        // Fallback: use cache only if live fetch returned nothing (e.g. offline/file://)
+        const cached = localStorage.getItem('cached_adamawa_csv');
+        if (cached) {
+          const cachedData = parseCSVTextToContestants(cached);
+          if (cachedData.length > 0) {
+            contestants = cachedData;
+          }
+        }
+        renderGalleryAndChart();
       }).catch(err => {
         console.warn('Notice loading CSV:', err);
+        // Fallback to cache on error
+        const cached = localStorage.getItem('cached_adamawa_csv');
+        if (cached) {
+          const cachedData = parseCSVTextToContestants(cached);
+          if (cachedData.length > 0) contestants = cachedData;
+        }
         renderGalleryAndChart();
       });
     }
@@ -767,8 +836,9 @@
         return;
       }
       contestants.forEach(c => {
+        const searchKey = `${c.name} ${c.tribe} ${c.number}`.toLowerCase();
         voteGallery.innerHTML += `
-      <div class="voteCard">
+      <div class="voteCard" data-search="${searchKey}">
         <img src="${c.image}" onclick="openModal(${c.id})" alt="${c.name}">
         <h4>${c.name}</h4>
         <small>${c.tribe ? c.tribe + ' • ' : ''}Contestant No: ${c.number}</small>
@@ -776,6 +846,14 @@
       </div>
     `;
       });
+
+      // Re-apply search filter if input has text
+      const q = document.getElementById('contestantSearchInput')?.value || '';
+      if (q.trim()) filterContestants(q);
+      else {
+        const countEl = document.getElementById('searchCount');
+        if (countEl) countEl.textContent = contestants.length + ' contestants';
+      }
 
       progressList.innerHTML = "";
       const sorted = [...contestants].sort((a, b) => b.votes - a.votes);
@@ -865,6 +943,36 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
     */
+
+    function filterContestants(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll('#voteGallery .voteCard');
+      let visible = 0;
+      cards.forEach(card => {
+        const match = !q || card.dataset.search.includes(q);
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      const countEl = document.getElementById('searchCount');
+      if (countEl) {
+        countEl.textContent = q
+          ? visible + ' of ' + cards.length + ' found'
+          : cards.length + ' contestants';
+      }
+      // Show no-results message
+      const gallery = document.getElementById('voteGallery');
+      let noRes = gallery.querySelector('.noResults');
+      if (visible === 0 && q) {
+        if (!noRes) {
+          noRes = document.createElement('p');
+          noRes.className = 'noResults';
+          gallery.appendChild(noRes);
+        }
+        noRes.textContent = 'No contestants match "' + query + '"';
+      } else if (noRes) {
+        noRes.remove();
+      }
+    }
 
     loadContestantsFromCSV();
     setInterval(loadContestantsFromCSV, 10000);
