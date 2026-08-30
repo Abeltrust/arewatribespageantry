@@ -201,6 +201,11 @@
       font-size: var(--text-xs);
     }
 
+    @keyframes votingPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.4); }
+    }
+
     .countBox {
       background: #fff3e0;
       color: var(--accent-700);
@@ -575,12 +580,11 @@
           <b style="color:var(--good, #16a34a)">ACTIVE</b>
         </div>
 
-        <div class="countdown">
-          <span>Voting Time Left:</span>
-          <div class="countBox" id="cdDays">0</div>d
-          <div class="countBox" id="cdHours">0</div>h
-          <div class="countBox" id="cdMins">0</div>m
-          <div class="countBox" id="cdSecs">0</div>s
+        <div style="margin-top:6px">
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#2e7d32;background:#e8f5e9;padding:6px 14px;border-radius:20px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#43a047;display:inline-block;animation:votingPulse 1.5s infinite"></span>
+            Voting Ongoing
+          </span>
         </div>
 
         <div class="heroActions">
@@ -843,12 +847,9 @@
     modal.addEventListener("click", closeModal);
     document.querySelector(".modalContent").addEventListener("click", e => e.stopPropagation());
 
-    let targetDate = localStorage.getItem('targetDate') || null;
-    if (!targetDate) {
-      targetDate = Date.now() + (10 * 24 * 60 * 60 * 1000);
-      localStorage.setItem('targetDate', targetDate);
-    }
-
+    /* Voting end date not yet set — using "Voting Ongoing" badge instead of countdown */
+    /* Uncomment and set a real date below when ready:
+    let targetDate = new Date("September 30, 2026 23:59:00").getTime();
     function updateCountdown() {
       const now = Date.now();
       const diff = Math.max(0, targetDate - now);
@@ -856,15 +857,14 @@
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const m = Math.floor((diff / (1000 * 60)) % 60);
       const s = Math.floor((diff / 1000) % 60);
-
       document.getElementById("cdDays").textContent = d;
       document.getElementById("cdHours").textContent = h;
       document.getElementById("cdMins").textContent = m;
       document.getElementById("cdSecs").textContent = s;
     }
-
     setInterval(updateCountdown, 1000);
     updateCountdown();
+    */
 
     loadContestantsFromCSV();
     setInterval(loadContestantsFromCSV, 10000);

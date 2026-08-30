@@ -551,6 +551,11 @@
       color: #6b5543;
       margin-top: 6px
     }
+
+    @keyframes votingPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.4); }
+    }
   </style>
 </head>
 
@@ -588,8 +593,13 @@
       <!-- <div class="small muted">Auto-refresh from server • Admin-protected</div> -->
     </header>
 
-    <!-- COUNTDOWN -->
-    <div id="countdown" class="small muted" style="margin-bottom:12px"></div>
+    <!-- VOTING STATUS -->
+    <div style="margin-bottom:12px">
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#2e7d32;background:#e8f5e9;padding:6px 14px;border-radius:20px">
+        <span style="width:8px;height:8px;border-radius:50%;background:#43a047;display:inline-block;animation:votingPulse 1.5s infinite"></span>
+        Voting Ongoing
+      </span>
+    </div>
     <a href="index.html" class="amber-btn"><i data-lucide="arrow-left"></i> Back to Home</a>
 
     <!-- HERO TOP-5 -->
@@ -980,34 +990,7 @@
       renderTable();
     });
 
-    /* =============== COUNTDOWN =============== */
-    function updateCountdown() {
-      const el = document.getElementById('countdown');
-      const countdownAt = new Date("December 7, 2025 16:30:00").getTime();
-
-      if (!countdownAt) {
-        el.innerText = 'No active countdown';
-        return;
-      }
-
-      const end = countdownAt;
-      const now = Date.now();
-      const diff = end - now;
-
-      if (diff <= 0) {
-        el.innerText = 'Voting ended';
-        return;
-      }
-
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-
-      el.innerText = `Ends in: ${d}d ${h}h ${m}m ${s}s`;
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    /* Voting end date not yet set — countdown disabled, showing "Voting Ongoing" badge instead */
 
     /* =============== AUTO REFRESH =============== */
     setInterval(loadCSVFromServer, refreshSeconds * 1000);

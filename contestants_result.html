@@ -317,6 +317,11 @@
       font-weight: 700;
       color: var(--muted);
     }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.4); }
+    }
   </style>
 </head>
 
@@ -353,13 +358,10 @@
         </div>
       </div>
       <div class="headerCountdown" style="text-align:right">
-        <span id="resultCountdownLabel" style="font-size:12px;font-weight:800;color:var(--accent-700)">Live Voting Active</span>
-        <div class="countdown">
-          <div><b id="rDays">0</b><small>Days</small></div>
-          <div><b id="rHours">0</b><small>Hrs</small></div>
-          <div><b id="rMins">0</b><small>Mins</small></div>
-          <div><b id="rSecs">0</b><small>Secs</small></div>
-        </div>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#2e7d32;background:#e8f5e9;padding:6px 12px;border-radius:20px">
+          <span style="width:8px;height:8px;border-radius:50%;background:#43a047;display:inline-block;animation:pulse 1.5s infinite"></span>
+          Voting Ongoing
+        </span>
       </div>
     </header>
 
@@ -650,23 +652,7 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    const votingEndsAt = new Date("December 31, 2026 23:59:00").getTime();
-    function updateResultCountdown() {
-      const diff = votingEndsAt - Date.now();
-      if (diff <= 0) {
-        document.getElementById("rDays").textContent = "0";
-        document.getElementById("rHours").textContent = "0";
-        document.getElementById("rMins").textContent = "0";
-        document.getElementById("rSecs").textContent = "0";
-        return;
-      }
-      document.getElementById("rDays").textContent = Math.floor(diff / 86400000);
-      document.getElementById("rHours").textContent = Math.floor(diff / 3600000) % 24;
-      document.getElementById("rMins").textContent = Math.floor(diff / 60000) % 60;
-      document.getElementById("rSecs").textContent = Math.floor(diff / 1000) % 60;
-    }
-    updateResultCountdown();
-    setInterval(updateResultCountdown, 1000);
+    // Voting end date not yet set — countdown disabled, showing "Voting Ongoing" badge instead
 
     loadResultsFromCSV();
     setInterval(loadResultsFromCSV, 10000);
