@@ -495,20 +495,13 @@
     }
 
     async function fetchCSVData() {
-      const paths = [
-        'results_adamawa_edition2.csv',
-        'assets/adamawa_editions/results_adamawa_edition2.csv',
-        'assets/adamawa_editions/edition2_result.csv'
-      ];
-      for (const path of paths) {
-        try {
-          const res = await fetch(path + '?v=' + Date.now());
-          if (res.ok) {
-            const text = await res.text();
-            if (text && text.trim().length > 0) return text;
-          }
-        } catch (e) {}
-      }
+      try {
+        const res = await fetch('results_adamawa_edition2.csv?v=' + Date.now());
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.trim().length > 0) return text;
+        }
+      } catch (e) {}
       return null;
     }
 

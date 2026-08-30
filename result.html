@@ -734,11 +734,7 @@
     /* ==================================================
        CONFIG & STATE
        ================================================== */
-    const CSV_PATHS = [
-      'results_adamawa_edition2.csv',
-      'assets/adamawa_editions/results_adamawa_edition2.csv',
-      'assets/adamawa_editions/edition2_result.csv'
-    ];
+    const CSV_PATH = 'results_adamawa_edition2.csv';
     const ADMIN_PIN_DEFAULT = '4321';
     let ADMIN_PIN = ADMIN_PIN_DEFAULT;
     let isAuthed = false;
@@ -775,15 +771,13 @@
     }
 
     async function fetchServerCSV() {
-      for (const path of CSV_PATHS) {
-        try {
-          const res = await fetch(path + '?t=' + Date.now());
-          if (res.ok) {
-            const txt = await res.text();
-            if (txt && txt.trim().length > 0) return txt;
-          }
-        } catch (e) { }
-      }
+      try {
+        const res = await fetch(CSV_PATH + '?t=' + Date.now());
+        if (res.ok) {
+          const txt = await res.text();
+          if (txt && txt.trim().length > 0) return txt;
+        }
+      } catch (e) { }
       throw new Error('Failed to fetch CSV');
     }
 
