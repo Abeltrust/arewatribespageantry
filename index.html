@@ -1071,7 +1071,7 @@
     let contestants = [...defaultContestants];
 
     // Contestants with fewer votes than this are shown as EVICTED and cannot be voted for
-    const EVICTION_THRESHOLD = 500;
+    const EVICTION_THRESHOLD = 1000;
     const isEvicted = c => c.votes < EVICTION_THRESHOLD;
 
     function parseCSVTextToContestants(text) {
@@ -1236,8 +1236,8 @@
     document.querySelector(".modalContent").addEventListener("click", e => e.stopPropagation());
 
     /* Voting end date not yet set — using "Voting Ongoing" badge instead of countdown */
-    /* Uncomment and set a real date below when ready:
-    let targetDate = new Date("September 30, 2026 23:59:00").getTime();
+    //Uncomment and set a real date below when ready:
+    let targetDate = new Date("November 07, 2026 16:00:00").getTime();
     function updateCountdown() {
       const now = Date.now();
       const diff = Math.max(0, targetDate - now);
@@ -1252,7 +1252,7 @@
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
-    */
+    
 
     function filterContestants(query) {
       const q = query.toLowerCase().trim();
