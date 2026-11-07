@@ -884,7 +884,7 @@
 
     <ul class="navLinks" id="navLinks">
       <li class="navSection">Active Event</li>
-      <li><a href="index.html">Vote Now</a></li>
+      <li><a href="index.html">Contestants</a></li>
       <li><a href="result.html">Live Results</a></li>
       <li><a href="contestants_result.html">Contestants Breakdown</a></li>
 
@@ -908,9 +908,9 @@
 
     <section class="hero">
       <div>
-        <span class="kicker">Live Voting Open</span>
+        <span class="kicker" style="background:#b71c1c">Voting Closed</span>
         <h2>Mr & Miss Adamawa Tribes and Culture</h2>
-        <p>Cast your vote for your favorite contestant celebrating culture, elegance, and heritage!</p>
+        <p>Voting has officially ended. Explore the final standings and results below!</p>
         <img class="poster" src="assets/images/adamawa_edition2/edition2.jpg" alt="Mr & Miss Adamawa Poster"
           onerror="this.src='assets/images/logo.jpg'">
       </div>
@@ -920,20 +920,17 @@
 
         <div class="infoRow">
           <span>Voting Status</span>
-          <b style="color:var(--good, #16a34a)">ACTIVE</b>
+          <b style="color:#d90429">CLOSED</b>
         </div>
 
-        <div class="countdown">
-          <span>Voting Time Left:</span>
-          <div class="countBox" id="cdDays">0</div>d
-          <div class="countBox" id="cdHours">0</div>h
-          <div class="countBox" id="cdMins">0</div>m
-          <div class="countBox" id="cdSecs">0</div>s
+        <div style="margin-top:8px">
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#c62828;background:#ffebee;padding:6px 14px;border-radius:20px">
+            <i data-lucide="lock" style="width:14px;height:14px"></i> Voting Concluded (Ended 07 Nov, 4:00 PM WAT)
+          </span>
         </div>
 
         <div class="heroActions">
-          <a href="result.html" class="amber-btn viewResultBtn"><i data-lucide="trophy"></i> View Live Leaderboard
-            Results</a>
+          <a href="result.html" class="amber-btn viewResultBtn"><i data-lucide="trophy"></i> View Final Leaderboard Results</a>
         </div>
 
         <div class="contactBlock">
@@ -944,15 +941,16 @@
       </div>
     </section>
 
-    <section class="panel">
-      <h3 style="text-align: center;">How to Vote</h3>
-      <div class="voteStep">Each vote costs <b>₦100</b></div>
-      <div class="voteStep">
-        Account Name: <b>Arewa Tribes & Culture Pageantry Concept</b><br>
-        Bank: <b>UBA</b><br>
-        Account Number: <b>1029439206</b>
-      </div>
-      <div class="voteStep">Click on any contestant below, then submit your payment proof via WhatsApp.</div>
+    <section class="panel" style="text-align: center;">
+      <h3 style="color:#d90429; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:0;">
+        <i data-lucide="lock"></i> Voting Has Officially Closed
+      </h3>
+      <p style="color:var(--muted); margin: 8px 0 16px; font-size:14px;">
+        The election ended on <b>Saturday, 07 November 2026 at 4:00 PM WAT</b>. Voting is now disabled and no further votes are accepted.
+      </p>
+      <a href="result.html" class="amber-btn" style="display:inline-flex; align-items:center; gap:6px; padding:10px 22px;">
+        <i data-lucide="trophy"></i> View Official Election Results
+      </a>
     </section>
 
     <section class="panel">
@@ -966,7 +964,7 @@
     </section>
 
     <section class="panel">
-      <h3>Live Voting Progress</h3>
+      <h3>Official Voting Standings</h3>
       <div class="chart-wrapper">
         <canvas id="resultsChart"></canvas>
       </div>
@@ -1014,8 +1012,7 @@
       <h3 id="modalName"></h3>
       <p id="modalInfo"></p>
       <div class="modalBtns">
-        <a id="voteLink" class="voteLink" target="_blank"><i data-lucide="message-circle"></i> Vote Now on WhatsApp</a>
-        <a href="result.html" class="resultLink"><i data-lucide="trophy"></i> View Result</a>
+        <a href="result.html" class="resultLink" style="width:100%; text-align:center;"><i data-lucide="trophy"></i> View Results Leaderboard</a>
       </div>
     </div>
   </div>
@@ -1146,14 +1143,14 @@
         <img src="${c.image}" alt="${c.name} (Evicted)">
         <h4>${c.name}</h4>
         <small>${c.tribe ? c.tribe + ' • ' : ''}Contestant No: ${c.number}</small>
-        <button class="voteBtn evictedBtn" disabled aria-disabled="true" title="This contestant has been evicted"><i data-lucide="ban"></i> Evicted</button>
+        <a href="result.html" class="voteBtn evictedBtn" style="text-decoration:none;"><i data-lucide="trophy"></i> View Result</a>
       </div>
     ` : `
       <div class="voteCard" data-search="${searchKey}">
         <img src="${c.image}" onclick="openModal(${c.id})" alt="${c.name}">
         <h4>${c.name}</h4>
         <small>${c.tribe ? c.tribe + ' • ' : ''}Contestant No: ${c.number}</small>
-        <button class="voteBtn" onclick="openModal(${c.id})"><i data-lucide="heart"></i> Vote Now</button>
+        <a href="result.html" class="voteBtn" style="text-decoration:none;"><i data-lucide="trophy"></i> View Result</a>
       </div>
     `;
       });
@@ -1218,13 +1215,10 @@
     const modal = document.getElementById("modal");
     function openModal(id) {
       const c = contestants.find(x => x.id === id);
-      if (!c || isEvicted(c)) return;
+      if (!c) return;
       document.getElementById("modalImg").src = c.image;
       document.getElementById("modalName").textContent = c.name;
-      document.getElementById("modalInfo").textContent = `${c.tribe ? c.tribe + ' • ' : ''}Contestant No: ${c.number}`;
-
-      const text = encodeURIComponent(`Hello, I want to vote for ${c.name} (Contestant No: ${c.number}). I have attached my payment receipt.`);
-      document.getElementById("voteLink").href = `https://wa.me/2349031399102?text=${text}`;
+      document.getElementById("modalInfo").textContent = `${c.tribe ? c.tribe + ' • ' : ''}Contestant No: ${c.number} • Votes: ${c.votes}`;
 
       modal.style.display = "flex";
       if (window.lucide) lucide.createIcons();
@@ -1245,10 +1239,14 @@
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const m = Math.floor((diff / (1000 * 60)) % 60);
       const s = Math.floor((diff / 1000) % 60);
-      document.getElementById("cdDays").textContent = d;
-      document.getElementById("cdHours").textContent = h;
-      document.getElementById("cdMins").textContent = m;
-      document.getElementById("cdSecs").textContent = s;
+      const cdDays = document.getElementById("cdDays");
+      if (cdDays) cdDays.textContent = d;
+      const cdHours = document.getElementById("cdHours");
+      if (cdHours) cdHours.textContent = h;
+      const cdMins = document.getElementById("cdMins");
+      if (cdMins) cdMins.textContent = m;
+      const cdSecs = document.getElementById("cdSecs");
+      if (cdSecs) cdSecs.textContent = s;
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
