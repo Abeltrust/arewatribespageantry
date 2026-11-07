@@ -816,6 +816,7 @@
 
     /* ================= AUTO-POPUP ================= */
     .autoPopup {
+      display: none !important;
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.72);
@@ -1017,13 +1018,15 @@
     </div>
   </div>
 
-  <!-- AUTO-POPUP -->
+    <!-- AUTO-POPUP (DISABLED) -->
+  <!--
   <div class="autoPopup" id="autoPopup">
     <div class="autoPopupContent">
       <button class="autoPopupClose" onclick="closeAutoPopup()" aria-label="Close">&#x2715;</button>
       <img src="assets/images/adamawa_edition2/popup.jpg" alt="Arewa Tribes & Culture — Special Announcement" onerror="this.style.display='none'">
     </div>
   </div>
+  -->
 
   <script>
     function parseCSVLine(str) {
@@ -1335,7 +1338,7 @@
       if (e.target === this) closeAutoPopup();
     });
     // Auto-close after 8 seconds
-    setTimeout(closeAutoPopup, 8000);
+    // setTimeout(closeAutoPopup, 8000); // Popup disabled
   </script>
 </body>
 
